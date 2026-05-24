@@ -1,0 +1,27 @@
+{
+  "name": "china-official-dashboard",
+  "version": "1.0.0",
+  "description": "Chinese official career trajectory analysis with real API and web scraping",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_EXTRA_CA_CERTS=/etc/ssl/cert.pem node server.js",
+    "dev": "NODE_EXTRA_CA_CERTS=/etc/ssl/cert.pem nodemon server.js",
+    "scrape": "node scripts/scraper.js",
+    "predict": "node scripts/predictor.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "puppeteer-core": "^22.0.0",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.3.1",
+    "natural": "^6.8.0",
+    "sentiment": "^5.0.2",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

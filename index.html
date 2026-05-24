@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>公开履历信号分析台</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="筛选">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">政</div>
+          <div>
+            <h1>仕途情报评估台</h1>
+            <p>Public Career Review System</p>
+          </div>
+        </div>
+
+        <nav class="nav-stack" aria-label="主导航">
+          <a class="nav-item active" href="#overview"><span aria-hidden="true">▦</span>总览面板</a>
+          <a class="nav-item" href="#profiles"><span aria-hidden="true">◎</span>领导档案</a>
+           <a class="nav-item" href="#events"><span aria-hidden="true">!</span>事件雷达</a>
+           <a class="nav-item" href="#opinion"><span aria-hidden="true">◉</span>舆论监测</a>
+           <a class="nav-item" href="#sources"><span aria-hidden="true">✓</span>来源校验</a>
+        </nav>
+
+        <label class="search-box">
+          <span>搜索</span>
+          <input id="searchInput" type="search" placeholder="姓名、地区、岗位" autocomplete="off" />
+        </label>
+
+        <div class="filter-group">
+          <span class="filter-label">地区</span>
+          <div class="chip-row" id="regionFilters"></div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">系统</span>
+          <div class="chip-row" id="systemFilters"></div>
+        </div>
+
+        <div class="filter-group">
+          <span class="filter-label">关注度</span>
+          <div class="chip-row" id="attentionFilters"></div>
+        </div>
+
+        <div class="method-note">
+          <strong>边界</strong>
+          <p>页面只表达公开报道和履历结构中的信号强弱，不对任何真实个人作违法违纪结论。</p>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="workspace-bar">
+          <div>
+            <strong>研判工作台</strong>
+            <span>本地原型 · 仅使用公开来源字段</span>
+          </div>
+          <div class="operator-chip">
+            <span class="status-dot"></span>
+            Analyst Mode
+          </div>
+        </header>
+
+        <section class="top-strip" id="overview" aria-label="概览">
+          <div>
+            <span class="eyebrow">Signal Desk</span>
+            <h2>领导班子履历、事件与公开关注评估</h2>
+          </div>
+          <div class="summary-grid" id="summaryGrid"></div>
+        </section>
+
+        <section class="pipeline-grid" aria-label="数据流程">
+          <div class="pipeline-card">
+            <span>01</span>
+            <strong>采集公开名单</strong>
+            <p>政府官网、部门领导页、人大任免公告。</p>
+          </div>
+          <div class="pipeline-card">
+            <span>02</span>
+            <strong>抽取履历字段</strong>
+            <p>姓名、职务、分工、任职时间、来源链接。</p>
+          </div>
+          <div class="pipeline-card">
+            <span>03</span>
+            <strong>关联公共事件</strong>
+            <p>事故、通报、企业风险、媒体线索分层记录。</p>
+          </div>
+          <div class="pipeline-card">
+            <span>04</span>
+            <strong>生成评估状态</strong>
+            <p>待核验、持续观察、重点复核、低关注。</p>
+          </div>
+        </section>
+
+        <section class="event-radar-section" id="events" aria-label="事件雷达">
+          <div class="event-radar-head">
+            <div>
+              <span class="eyebrow">Event Radar</span>
+              <h3>事件雷达 · 官员变迁新闻</h3>
+              <p class="section-desc">从 Google 新闻、NewsAPI、海外媒体抓取与官员姓名相关的任免、调任、辞职等公开报道。本列表显示<strong>全部官员</strong>的事件，不受左侧地区筛选影响。</p>
+            </div>
+            <div class="event-radar-stats" id="eventRadarStats">
+              <div class="radar-stat"><small>事件总数</small><strong id="eventTotalCount">—</strong></div>
+              <div class="radar-stat"><small>任免动向</small><strong id="eventTransitionCount">—</strong></div>
+              <div class="radar-stat"><small>上次扫描</small><strong id="eventLastScan">未扫描</strong></div>
+            </div>
+          </div>
+
+          <div class="event-radar-toolbar">
+            <button type="button" class="btn-primary" id="scanCurrentProfileBtn">扫描当前官员</button>
+            <button type="button" class="btn-ghost" id="scanBatchBtn">批量扫描（前 15 人）</button>
+            <label class="radar-filter">
+              <span>筛选</span>
+              <select id="eventRadarFilter">
+                <option value="all">全部事件</option>
+                <option value="任免动向">任免动向</option>
+                <option value="媒体报道">媒体报道</option>
+                <option value="反腐通报">反腐通报</option>
+                <option value="外事活动">外事活动</option>
+              </select>
+            </label>
+          </div>
+
+          <p class="event-radar-status" id="eventRadarStatus" aria-live="polite"></p>
+          <div class="event-radar-feed" id="eventRadarFeed">
+            <div class="empty-state">点击「扫描」抓取最新变迁新闻</div>
+          </div>
+        </section>
+
+        <section class="opinion-overview" id="opinion" aria-label="舆论监测">
+          <div class="opinion-overview-head">
+            <div>
+              <span class="eyebrow">Opinion Monitor</span>
+              <h3>舆论风向与事件影响评估</h3>
+            </div>
+            <span class="result-count" id="opinionCount"></span>
+          </div>
+          <div class="opinion-overview-grid" id="opinionOverviewGrid">
+            <div class="empty-state">请选择档案后查看舆论分析</div>
+          </div>
+        </section>
+
+        <section class="content-grid" id="profiles">
+          <div class="list-pane">
+            <div class="pane-head">
+              <div>
+                <span class="eyebrow">Profiles</span>
+                <h3>官员档案</h3>
+              </div>
+              <div class="pane-head-actions">
+                <button type="button" class="btn-primary" id="openAddProfileBtn">＋ 添加官员</button>
+                <span class="result-count" id="resultCount"></span>
+              </div>
+            </div>
+            <div class="profile-list" id="profileList"></div>
+          </div>
+
+          <article class="detail-pane" id="detailPane" aria-live="polite"></article>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="add-profile-dialog" id="addProfileDialog" aria-labelledby="addProfileTitle">
+      <form id="addProfileForm" class="add-profile-form">
+        <header class="dialog-header">
+          <div>
+            <span class="eyebrow">Manual Entry</span>
+            <h3 id="addProfileTitle">手动添加官员档案</h3>
+            <p class="dialog-subtitle">填写公开履历信息后保存，系统将自动调用 AI 进行升迁分析。</p>
+          </div>
+          <button type="button" class="dialog-close" id="closeAddProfileBtn" aria-label="关闭">×</button>
+        </header>
+
+        <div class="form-section">
+          <span class="form-section-label">基本信息</span>
+          <div class="form-grid">
+            <label class="form-field">
+              <span>姓名 <em>*</em></span>
+              <input name="name" type="text" required placeholder="例如：张某某" autocomplete="off" />
+            </label>
+            <label class="form-field">
+              <span>年龄 <em>*</em></span>
+              <input name="age" type="number" min="18" max="100" required placeholder="58" />
+            </label>
+            <label class="form-field form-field-wide">
+              <span>现任职务 <em>*</em></span>
+              <input name="title" type="text" required placeholder="例如：某省委书记、省长" />
+            </label>
+            <label class="form-field">
+              <span>职级</span>
+              <select name="rank">
+                <option value="正国级">正国级</option>
+                <option value="副国级">副国级</option>
+                <option value="正部级" selected>正部级</option>
+                <option value="副部级">副部级</option>
+                <option value="正厅级">正厅级</option>
+                <option value="副厅级">副厅级</option>
+                <option value="职级待核验">职级待核验</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span>地区</span>
+              <input name="region" type="text" list="regionOptions" placeholder="华东" value="未分类" />
+            </label>
+            <label class="form-field">
+              <span>系统</span>
+              <input name="system" type="text" list="systemOptions" placeholder="地方党政" value="地方党政" />
+            </label>
+            <label class="form-field">
+              <span>关注度</span>
+              <select name="attention">
+                <option value="低">低</option>
+                <option value="中" selected>中</option>
+                <option value="高">高</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <datalist id="regionOptions">
+          <option value="中央"></option>
+          <option value="华北"></option>
+          <option value="东北"></option>
+          <option value="华东"></option>
+          <option value="华南"></option>
+          <option value="华中"></option>
+          <option value="西南"></option>
+          <option value="西北"></option>
+        </datalist>
+        <datalist id="systemOptions">
+          <option value="中共中央"></option>
+          <option value="全国人大"></option>
+          <option value="国务院"></option>
+          <option value="全国政协"></option>
+          <option value="地方党政"></option>
+          <option value="军队"></option>
+          <option value="司法机关"></option>
+        </datalist>
+
+        <div class="form-section">
+          <span class="form-section-label">履历与信号</span>
+          <label class="form-field">
+            <span>仕途轨迹</span>
+            <textarea name="path" rows="3" placeholder="例如：某大学 → 部委司长 → 副省长 → 省委书记"></textarea>
+          </label>
+          <label class="form-field">
+            <span>履历时间线</span>
+            <textarea name="timeline" rows="4" placeholder="每行一条，格式：年份|事件&#10;2015|任某部副部长&#10;2020|任某省省长"></textarea>
+          </label>
+          <label class="form-field">
+            <span>补充说明 / 公开信号</span>
+            <textarea name="notes" rows="2" placeholder="可选：近期公开活动、任免背景、需关注事项等"></textarea>
+          </label>
+        </div>
+
+        <details class="form-advanced">
+          <summary>高级：初始评分（可选，默认由规则引擎估算）</summary>
+          <div class="form-grid form-grid-4">
+            <label class="form-field">
+              <span>升迁窗口 <output id="promotionOut">50</output></span>
+              <input name="promotion" type="range" min="0" max="100" value="50" data-output="promotionOut" />
+            </label>
+            <label class="form-field">
+              <span>岗位变动 <output id="mobilityOut">50</output></span>
+              <input name="mobility" type="range" min="0" max="100" value="50" data-output="mobilityOut" />
+            </label>
+            <label class="form-field">
+              <span>事件风险 <output id="eventRiskOut">0</output></span>
+              <input name="eventRisk" type="range" min="0" max="100" value="0" data-output="eventRiskOut" />
+            </label>
+            <label class="form-field">
+              <span>舆论信号 <output id="publicSignalOut">30</output></span>
+              <input name="publicSignal" type="range" min="0" max="100" value="30" data-output="publicSignalOut" />
+            </label>
+          </div>
+        </details>
+
+        <p class="form-error" id="addProfileError" hidden></p>
+
+        <footer class="dialog-footer">
+          <button type="button" class="btn-ghost" id="cancelAddProfileBtn">取消</button>
+          <button type="submit" class="btn-primary" id="submitAddProfileBtn">保存并 AI 分析</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
