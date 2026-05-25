@@ -147,6 +147,15 @@ class DataManager {
           events: scan.events,
           eventRisk: scan.eventRisk,
         });
+        // 新事件入链上存证队列
+        if (scan.newEvents && scan.newEvents.length > 0) {
+          try {
+            const queueManager = require('../blockchain/queueManager');
+            await queueManager.enqueue(scan.newEvents);
+          } catch (err) {
+            console.warn('[DataManager] 入队失败:', err.message);
+          }
+        }
       }
       results.push({
         profileId: scan.profileId,
@@ -174,6 +183,15 @@ class DataManager {
       events: scan.events,
       eventRisk: scan.eventRisk,
     });
+
+    if (scan.newEvents && scan.newEvents.length > 0) {
+      try {
+        const queueManager = require('../blockchain/queueManager');
+        await queueManager.enqueue(scan.newEvents);
+      } catch (err) {
+        console.warn('[DataManager] 入队失败:', err.message);
+      }
+    }
 
     return scan;
   }

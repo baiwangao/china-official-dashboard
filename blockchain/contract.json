@@ -1,0 +1,12 @@
+{
+  "address": "0xd373Eb9114F87F759b3F114120069A30165154c7",
+  "network": "sepolia",
+  "abi": [
+    {"inputs":[],"stateMutability":"nonpayable","type":"constructor"},
+    {"anonymous":false,"inputs":[{"indexed":true,"internalType":"bytes32","name":"contentHash","type":"bytes32"},{"indexed":false,"internalType":"uint256","name":"timestamp","type":"uint256"},{"indexed":false,"internalType":"string","name":"metadataUri","type":"string"}],"name":"EventStored","type":"event"},
+    {"inputs":[{"internalType":"bytes32","name":"contentHash","type":"bytes32"},{"internalType":"string","name":"metadataUri","type":"string"}],"name":"storeEventHash","outputs":[],"stateMutability":"nonpayable","type":"function"},
+    {"inputs":[{"internalType":"bytes32","name":"contentHash","type":"bytes32"}],"name":"getEvent","outputs":[{"internalType":"uint256","name":"timestamp","type":"uint256"},{"internalType":"string","name":"metadataUri","type":"string"},{"internalType":"bool","name":"exists","type":"bool"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"totalStored","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
+    {"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
+  ]
+}

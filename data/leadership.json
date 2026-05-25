@@ -55,6 +55,22 @@
     ],
     "events": [
       {
+        "type": "重大事故",
+        "title": "对山西煤矿瓦斯爆炸作出重要指示",
+        "date": "2026-05-23",
+        "impact": "中",
+        "confidence": "新华社",
+        "relation": "批示用'较真碰硬'标志性口语，被群内解读为信号升级。"
+      },
+      {
+        "type": "外事活动",
+        "title": "与普京人民大会堂会谈并签署联合声明",
+        "date": "2026-05-20",
+        "impact": "中",
+        "confidence": "新华社",
+        "relation": "签署战略协作+多极化两份联合声明，见证40项合作文件。两人呈现'老熟人'氛围。"
+      },
+      {
         "type": "媒体报道",
         "title": "习近平系列重要讲话数据库 - 习近平系列重要讲话数据库",
         "date": "2026-05-01",
@@ -111,6 +127,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - capetown.china-consulate.gov.cn",
+        "date": "2026-04-21",
+        "impact": "中",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE1TcUdKdnllZ0pkSGw5X21yZHBLbHpncDYtMzB5UXZ0bHNyY3pRTHhEeXVlSXllRUc5RnNHaVlBQmNHWmNDNWJCY3lMdW9MVkw1VlFFbXN2OFMzaDRETUgtUmh0TlRRWDVlNnJ6cHVKbENFZ21tN3E2TG41am03bjg?oc=5",
+        "source": "capetown.china-consulate.gov.cn",
+        "fetchedAt": "2026-05-25T10:57:52.073Z"
+      },
+      {
+        "type": "任免动向",
         "title": "国家主席习近平任免驻外大使 - 人民日报",
         "date": "2026-03-18",
         "impact": "中",
@@ -130,6 +157,17 @@
         "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPdDNCMEdZUE5hNnNiaWVSS2xDNDkzM3VtSkFieWxSZ3pyWUVGaXJqc2VGR3VYNjU2Qm1OSzh2TDdmTmIwWWJYdnlrR1RpN0pIXzN6enNuclBBek1GbEIydWRPeEVGY21td2R6NXI4aGd5alF5OFpzVVFGRFhJcGFqNTNn?oc=5",
         "source": "天津日报",
         "fetchedAt": "2026-05-24T11:54:08.314Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "习近平接受外国新任驻华大使递交国书 - fmprc.gov.cn",
+        "date": "2026-01-16",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1Jc29NM2FaNTgxZFlqSkQ5YWlLVnpudEJ6dE5KeHY0T0JEcFl2QVd1X0ItcDNFbzJEd0VMRGNSa1ZPdl90eWNmZjdFenQ5QUxTQUJlOXpLYlFKUTFwTWgzT2Nsc2hzUHVwcVBFNV93?oc=5",
+        "source": "fmprc.gov.cn",
+        "fetchedAt": "2026-05-25T00:20:33.404Z"
       },
       {
         "type": "任免动向",
@@ -177,6 +215,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 人民日报",
+        "date": "2025-07-12",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxObGlxUV90M2M5OHRMNlN5ZGZaY196dlBKdzFFUzhKZURYWGhRQWNndENKSktDZVRxcUZxNkhmY0pld2p1cTF4XzUxVzlrZks1aGMwSzJKbmR1VVZBQ25IVXZ1cHVSLXc5MkttUUoxVzRXaG5pdFNEVHQxZnlPSFhUXw?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-05-25T10:57:52.073Z"
+      },
+      {
+        "type": "任免动向",
         "title": "国家主席习近平任免驻外大使 - mfa.gov.cn",
         "date": "2025-07-11",
         "impact": "中",
@@ -185,6 +234,17 @@
         "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNOV8wenBvcDhxNjN4ODBuV21WVVQtZ0loS0JHXzFuc1RGZkpTZHItYWhjZTkyaVdDSW8zdDNWT3VUZEI4M0FySmlHR3FReWwzbUYwaDhncmVCVVBNZU84X01FTW5vYWFtMFU0WUVYWGhsX212em9JR3dfT1BUVnJPNUFKRlNkZ1FpTlE?oc=5",
         "source": "mfa.gov.cn",
         "fetchedAt": "2026-05-24T11:52:54.621Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 人民日报",
+        "date": "2025-05-20",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5WdlFlTmN6Nmh6Vk5ydWxtamQwVFg5ZEdQNmJkMkZTeFdrRUQ1NHVhOEQtUUVoVjJuMU1xSnBHYW5kWm9aU1dHSDRuVUs1TXZZd3l2Smx1YS11ejdXRURtelMzTmRrRm1QWkwwWXJIeGhnMXdMaTNZUDJsYTlrWnc?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-05-25T10:57:52.073Z"
       },
       {
         "type": "任免动向",
@@ -289,6 +349,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "李强主持召开国务院常务会议 - 人民日报",
+        "date": "2026-01-01",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5MWkhCRXBKTHk0alhyUjRlTUdURkZJbWxLU3dQSlZYcTNXem1sNVM5TVFHNTlqNXBqZ2dNS1BhQUM4WjIzemFRd2hyR2s2alFQd3BoRF9RTXFmQm13NDdUYzVXTnE1VlVZZlFKNk1nc0p2TnByd2tLZ19TZ0tPMmM?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-05-25T00:20:39.971Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "李强任大连市代市长 - 中国经济网",
         "date": "2025-12-28",
         "impact": "低",
@@ -343,6 +414,17 @@
         "fetchedAt": "2026-05-24T11:54:23.852Z"
       },
       {
+        "type": "媒体报道",
+        "title": "李强任大连市委副书记、市政府党组书记 - 新浪财经",
+        "date": "2025-12-24",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBvZm9NVS1IbjRaRUY0aUlSQ295UDNCMHRPa1FNUVRzcTl5MkVnNEpOaXQyZ2Q2UF80OUtoOWVTLUJhQTZRdzdhNWpCRXlxZmt6VHUzdmYyemZ2eEZIU0E1SGtvVnJicG4tdV9ES2NnUFRiQWduSnhOQg?oc=5",
+        "source": "新浪财经",
+        "fetchedAt": "2026-05-24T15:43:12.809Z"
+      },
+      {
         "type": "外事活动",
         "title": "李强将访问新加坡并赴马来西亚出席东亚合作领导人系列会议 - 人民日报",
         "date": "2025-10-25",
@@ -363,6 +445,17 @@
         "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFBFa2ZaZjg4bzFNSE55VVZwazI4Tl9BWlZETllNaENJZUNDcTBlQjZOaTB1dDVvdmhvNWpjTUgyMFcxbnMzQjlzQnJGZU5yN0VydVJZUTk0NU5uMmd0V3QwRnZ1WDRTTHIyNzAzNVRPUWFIS0JkTnhz?oc=5",
         "source": "云南省卫健委",
         "fetchedAt": "2026-05-24T11:54:23.852Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "李强任教育部教育考试院党委书记、院长 - 教育在线",
+        "date": "2024-05-17",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE02YWQyMWZGYU9LbFNHSlNVRVl1U0dkRWxGQ1U3OGVWTlRmWHJ1aGdweVozSHpMeXdZUWlHLVJLTngwMi03d2FEY3JxMGZkWmdlVUlETkROTWZ6Qk1Qb3Zqdy1pVW1aQjJh?oc=5",
+        "source": "教育在线",
+        "fetchedAt": "2026-05-25T00:20:39.970Z"
       },
       {
         "type": "媒体报道",
@@ -396,6 +489,17 @@
         "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE82V25hcnpyNmVpOE5kVHc3WXJHOFRMVWhaaDRVcXoxVnItaGdXMmJZTmUyUE96WlpTN1p0N3dCOFVPcDFrUWdJcWZxc25jaTV0NGVpVlQxOWdFQQ?oc=5",
         "source": "jfdaily.com",
         "fetchedAt": "2026-05-24T11:54:23.852Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "十四届全国人大一次会议举行第四次全体会议根据国家主席习近平的提名决定李强为国务院总理国家主席习近平签署主席令任命 - 中国共产党员网",
+        "date": "2023-03-12",
+        "impact": "中",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1HZkdrNkx1akZuODhkR05YQzF3QlRaZllDRmM5X1R1OG01Y1hOa3ZYSVBfNzRmU1NYNWJ5eDE5Q2s3bVpxaUJkU0k0bWFFWHYzVk84Rmg1c29EeGt4MUVubHNHUXg3SEg2bVE?oc=5",
+        "source": "中国共产党员网",
+        "fetchedAt": "2026-05-25T00:20:39.970Z"
       },
       {
         "type": "任免动向",
@@ -440,6 +544,14 @@
         "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5EN3laS0NWdUtPQkFiMVBKVWYzeGgtQ3JoYXQwVkhrZmVrekpMQWwtMVJQQnBEWlVKNWdxZFFaR1h4QVI3S3lCYTBCNV96NWVyQl9VRks5MzR2Z0Fxdm9mV2RJamxqdw?oc=5",
         "source": "中国网",
         "fetchedAt": "2026-05-24T11:54:23.852Z"
+      },
+      {
+        "type": "重大事故",
+        "title": "对山西煤矿瓦斯爆炸作出批示",
+        "date": "2026-05-23",
+        "impact": "中",
+        "confidence": "新华社",
+        "relation": "要求'及时准确发布信息，尽快查明事故原因并依法依规严肃问责'。"
       }
     ],
     "sources": [
@@ -506,6 +618,17 @@
         "fetchedAt": "2026-05-24T11:54:30.555Z"
       },
       {
+        "type": "媒体报道",
+        "title": "全国人大常委会下午举行会议 委员长赵乐际主持 - 香港電台",
+        "date": "2026-04-27",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQQ0lNMlBQS3BUQU5qMGt3eFE2QmFrQk5WblZIU1dvVVE5X0hfWWJZZHZxLTZEOGtTM3dhaTItYUNwSUlOdWYyem1fdlFFQTRPTldtLUQybWpWMVZMbkF3MUwwTzRQa054R1BISGdpVWJucWV1Vk93VnlDcVlNekVfSzQwcXJEbTdJNlRN?oc=5",
+        "source": "香港電台",
+        "fetchedAt": "2026-05-24T15:43:21.971Z"
+      },
+      {
         "type": "外事活动",
         "title": "赵乐际分别会见莫桑比克总统查波、欧洲议会副议长奥马吉 - 人民日报",
         "date": "2026-04-22",
@@ -540,6 +663,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "赵乐际：厉行勤俭节约 人大年会须务实高效 - 国际 - 即时国际 - Sin Chew Daily",
+        "date": "2026-02-27",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1fNURYQkhPVWllN1BUNFNIRnRQNEs2dHN3cnJ3eTJVNFhiSGw1a1NPb3c0TUpKc1lIOFQ0QWtjUjU1eUZiSUxuODBSMDR0c0d5c1FDalRLVGdGLVJjQ0w1VnMtMVRhaTA2WXRIUXBzNA?oc=5",
+        "source": "Sin Chew Daily",
+        "fetchedAt": "2026-05-25T00:20:46.770Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "十四届全国人大常委会第二十一次会议在京闭幕 习近平签署主席令 赵乐际主持会议 - 新华网",
         "date": "2026-02-26",
         "impact": "低",
@@ -570,6 +704,17 @@
         "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5hMjhvdGdmZjNxdjRabGdvRFBWR1RVMm40VDRQXzNjVmtrQ1NhbDFRTmxJQ2dtdkpieFc1aVMzTjM1UWJDS256eTUzZ0lRZw?oc=5",
         "source": "kanzhongguo.eu",
         "fetchedAt": "2026-05-24T11:54:30.555Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "赵乐际主持召开十四届全国人大常委会第四十五次委员长会议决定十四届全国人大常委会第十六次会议6月24日至27日在京举行 - 求是",
+        "date": "2025-06-16",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE91cnNEYld3cDBRcVZzdDhpdm1sNTA5STVUaU00blV6QURqMGxzTmtaeDM1TC1YNFJOX3NpOFhaOW94WE1GcFVRU0xaTUpmckRsTFRLbUwtT0lSVlNVWi1qNWkyanVMWEhJMFNOYkRuUUFCT1RlYnc?oc=5",
+        "source": "求是",
+        "fetchedAt": "2026-05-24T15:43:21.971Z"
       },
       {
         "type": "任免动向",
@@ -636,12 +781,20 @@
         "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1obE02c3Q3OTV4Tzc0Q3ZxY09pdGhEY1FWWDJCV3NzUUE1TnJmMkVubUlKbU9nNlItZUNNY3hZd1hsTExaT005U1dMNGpMS3FWZ3VqRDNsQ3pueHEwUXB2UEtMeGZFRW9hTU5lVkZUeUNDUTA?oc=5",
         "source": "gwytb.gov.cn",
         "fetchedAt": "2026-05-24T11:54:30.555Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "乘A330专机出访哈萨克斯坦、俄罗斯",
+        "date": "2026-05-25",
+        "impact": "低",
+        "confidence": "人民日报",
+        "relation": "在俄出席中俄议会合作委员会第十一次会议。路程较近故坐A330而非747。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 64
+    "eventRisk": 76
   },
   {
     "id": "wang-huning",
@@ -883,6 +1036,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "【佳音時刻】舊部重掌特勤局 蔡奇再擴權？ - 大纪元",
+        "date": "2025-07-24",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBVUGNCSDlTbmIzQ1FRcUo1TG8wWG8wUUF2YzBtXzB1YUhSdk50ekhvT1AydDJrSEFKYlNtcVF2V1RsRHZTeFd0Z25fcWh3OXE0U2JKdzFLbEhFNndXQU5MZdIBZkFVX3lxTFBBamU2U0I3cTFnTDU3bEJwR1ZBc0dzS29ydW4xMXJRbXJyVFNsZUlWRFNLUFpBOUprUTJ3bHhwVFRHeG1qZDgyYW1UVjZUck1VSWNwaFJDLVNSejcwVHFBaG1zdEotUQ?oc=5",
+        "source": "大纪元",
+        "fetchedAt": "2026-05-24T15:43:39.251Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "特勤局突换帅 蔡奇疑已 “ 跳船 ” (组图) - kanzhongguo.eu",
         "date": "2025-07-22",
         "impact": "低",
@@ -924,6 +1088,17 @@
         "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE9FazVpQlJxV2x4QWR6MXdzNDU0X3VLbWlhREtTTDVoazZHajRvay13Q1piNl9hNDVWTGxqaXlMc2VZd1lXSFJUU0xnQ2hQVDIyT0NtU0dDS2k1VllxUlV2aQ?oc=5",
         "source": "大纪元",
         "fetchedAt": "2026-05-24T11:54:48.401Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "北京市委书记蔡奇凭借对习忠诚而非才干与政绩意外入常 - 美国之音",
+        "date": "2022-10-23",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbl9TbkhfVms0dllDN1pseFp2dXBKcXZwY1h6d1lzdWhmbHBpNW5iRmZoOUxkSWYtcEdTeEQwc1hTZHVGb3E3RFVPZ2R6TWNPclBJd1B0dTdJaGpQTG41c2R4M25QNHJ0X21ESjZIYmJiWkFORU1vU2VNWDZwZFJ2dGpkRkcwU3Mta01NNHdoM0p5M00ySC11amZnUkNlNnNJTktlZnpPVlfSAasBQVVfeXFMUFAyaUpFOGJFS2FpQUp4RmZOSFMtdURqZXhiaXp4WWl2NzNsVU1tcTNmNG5xSnJTOG1IV0RiRDk3RmhLVFdKeTFHalptS0lra1RKSUN3X28takJLX0hxUUxXeHZMc1I5b09VU0FEYW5ZTjhyeDFwX0lQV210WkE5NVFYMjhURVpxLVBJblFFLUdTbVBzUEdkZjR5Q082UjZ5ajVGaXZMR0xJTGxF?oc=5",
+        "source": "美国之音",
+        "fetchedAt": "2026-05-24T15:43:39.251Z"
       },
       {
         "type": "任免动向",
@@ -1012,6 +1187,14 @@
         "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE82R010UGtmSEZKOVNDOWNTaFdzeURuc28zQmNBZHlUTWhNUXFaLURGOElOZWhVMnFCNElINDJLWWRYOHlDSnRIV3EtN2cxTUtHSThtdE1yR1RtTm9KZG50bEVfZ0NjRlBqcDA3TEE5YmpoRWNEN21R?oc=5",
         "source": "中国经济网",
         "fetchedAt": "2026-05-24T11:54:48.401Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "全程陪同普京访华行程",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "群内认为这是中办主任职责惯例，非特别升迁信号。"
       }
     ],
     "sources": [
@@ -1148,6 +1331,17 @@
       },
       {
         "type": "外事活动",
+        "title": "丁薛祥会见挪威外交大臣艾德 - mfa.gov.cn",
+        "date": "2025-11-11",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1DUko5TFNFajZIczhvNW50NU5wVFFoT1dWaTBlR2VCQ1Y0OWZuei02dzVHRTJ0MXF1aU5NQ1ExUGQ2NE45VnFEVjNXYmIwS0xPNWxiZUVTT2xhRFQwaGhMdHZJYmEzRlFnU1dB?oc=5",
+        "source": "mfa.gov.cn",
+        "fetchedAt": "2026-05-25T00:21:11.641Z"
+      },
+      {
+        "type": "外事活动",
         "title": "丁薛祥访问巴西 - 中国共产党新闻网",
         "date": "2025-11-07",
         "impact": "低",
@@ -1178,6 +1372,39 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBYY0pqbm1Hd2VVYzFBQ1pMZnlFX3J6UE9WN2xYanc3NlZFMDNjTC04VXFoY1FMNEFyYjJGQk9nQlJCSmdFaUhtZ2FrNnJ6ZTk2RnNBd2toVGk3aGlua2lKNVBjTDlXYjlFcUZrQ2tiZDF6cnNC?oc=5",
         "source": "cppcc.gov.cn",
         "fetchedAt": "2026-05-24T11:54:55.190Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "丁薛祥出席2025上合组织数字经济论坛开幕式并发表主旨讲话 - 人民日报",
+        "date": "2025-07-12",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxPVXQ2Sy1hQi1yNE5tMExZRTZjSGk1LXV2Mm9pZDhKRVpIWUdxTkZsZy1SNFZ0WWdZQVJRQVNGNUlyUmd6bzBfUTlKLTdJZ0llNEdfVm1zZF9sMVRyeGdULVFBSmtOV3VVcDlGZjdNT01oLWpVdDZnZjFFNm9fdVk4eA?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-05-24T15:43:47.967Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "丁薛祥出席中国科学院学部成立70周年座谈会时强调坚守初心使命勇攀科技高峰更好肩负起科技强国建设重任 - 中国科学院",
+        "date": "2025-05-30",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1fVWR5Ni1qSExiOWxpZk9oMW5ZZFRCcHBwR3pGVUE0aUhvNFZNWnM2ZUYzXzN4TFZfbGNMd2tKVzU2VHRtbl9fb1VGWlZJa3RYVzUybWZmaEZOUVRlWm8zS3ZR?oc=5",
+        "source": "中国科学院",
+        "fetchedAt": "2026-05-24T15:43:47.967Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "丁薛祥出席2024 年全国科技活动周暨北京科技周主场活动时强调大力弘扬科学家精神为建设科技强国汇聚智慧和力量 - 中国科学院",
+        "date": "2024-05-26",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE12YzlaSFh6WnJjTXFPU2ZlN2RDM2JnTGlxak1zQ1NGbjh6dVdFUldkd2Z6QlE4TGRUMmFmLTBtVmNpZHowZERzY19KZVJBMmZrRHl6VV9qYTE0UURDRkwyQ0NB?oc=5",
+        "source": "中国科学院",
+        "fetchedAt": "2026-05-25T00:21:11.641Z"
       },
       {
         "type": "媒体报道",
@@ -1222,12 +1449,31 @@
         "url": "https://news.google.com/rss/articles/CBMi3gJBVV95cUxQVjVmWTloLUNqNWF4enUyUExDYjktOWl0QlhBNUY5a0k1QmlTQ1d0V0RuX012Q0hNcG42c2dXVlJQb0w5ZVJna0tfYUFNeDlGbEh2WEtwOG1FVmI5Si1TVlA0WV9xZ3FQaC0xRWZhNzAwS0VLUjczXzM5bGl0ajVYUmhJaHhkc0R1ODJ6ZGNwUXE3TFBfVzItZGxxaXVOX3J6N3MzMFpZdGFVVDF3OFVGOWVETTFlMUdaQXFZN0xfRFlOOGRSUmlGRmdZdWxfUmZJQkRNUEFCOFNSOS1LVnFHVTI1NFQxUjJPZEF5RHdhdUc2Wng1aGV3aE5hTnJ0X0pXU01oUTh0VkZDLW5HRmpobmFsek9HbWVFVmVrakF1TlZvSVhSUk8yYTgxVlFwSXQxMnNwOWVtUlNOdTl6QnlHeGk3VHVjdXJDUm5udTFYQWVDWmdJSVRUZk8wN3h5dw?oc=5",
         "source": "RFI",
         "fetchedAt": "2026-05-24T11:54:55.191Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "丁薛祥：习近平培植亲信搭建政治局常委班子又一例证 - 美国之音",
+        "date": "2022-10-23",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWXVZM2ljUnVfZHM4eFNZd3RXblAxOXhQRGtMRHhTbHVnSDNxYzUyUzhaYUZjcTJkUWo5MHBiQTFvc3dTUWhVMl92TE9rdi03VTA4RnhBMl9WRTV1SlJDcGx5aVlqakJlY1R4ZmVRNnB5V2RURTNyQW80dmc5ZTJ6bS1kdmVUREFVOWpKcGh3bXc4RTF3Y1ZySzZzQzJJTUNZaGfSAaQBQVVfeXFMUDBaU1JDZlBrV1E3WkVLWE1iQmxONkp1alVUX2l2SnBKV1JEMW1mVEFadi1aQlI4RzVxWTZNZGRwaVBXeVo3VXMyOTdLTDlCeWVrUVZfSjNRNlhNdTFScEpHVUcwb3lDci1EcVpwcmVfbVZIOU5SQWVzV0dZVFh1MnlQWTF5cGFsM3ZKRVVZQjEydjhGRDFCYVRVSHVDNTNjaGdSN0o?oc=5",
+        "source": "美国之音",
+        "fetchedAt": "2026-05-24T15:43:47.967Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "参加中俄元首小范围及大范围会谈",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "中方出席阵容：蔡奇、丁薛祥、王毅、何立峰、张国清、谌贻琴等。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 66
+    "eventRisk": 86
   },
   {
     "id": "li-xi",
@@ -1379,6 +1625,17 @@
         "fetchedAt": "2026-05-24T11:55:02.236Z"
       },
       {
+        "type": "外事活动",
+        "title": "李希会见柬埔寨副首相兼公务员部大臣洪玛尼 - fmprc.gov.cn",
+        "date": "2024-08-29",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFA0V3Q0dEJCQWJmVlV3NGV2eDFyYzFRZWwwT3NldGJQTlczb2JTSzBCZXdrS2tVY1JnaWh0djJGLUV0eXpqQmR5ZzRFMVFtdVlmZmlEbXM4ejIyZDBGV0xPUXZfaG5XdVFsdEplUHF3?oc=5",
+        "source": "fmprc.gov.cn",
+        "fetchedAt": "2026-05-24T15:43:57.576Z"
+      },
+      {
         "type": "任免动向",
         "title": "李希当选中共广东省委书记 - 中国共产党员网",
         "date": "2022-05-27",
@@ -1432,12 +1689,23 @@
         "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1EaUczMzB4cm1HME5jbGhGMTJ2WmRMZDVla3ZqUDlsZlJISWhtWm5nUFZ1YzdjdDJBY0RkYWdtQ3BIMjFUNFEydHJHYkxqU3o2YVNfTGx1OTZYQ3Q0UnNnUklYWTJvbGw4Vi1pVExsMF9qcHZpaDJUNg?oc=5",
         "source": "新浪新闻_手机新浪网",
         "fetchedAt": "2026-05-24T11:55:02.236Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "李希被任命为陕西省延安市委书记(图) - 新浪新闻_手机新浪网",
+        "date": "2006-05-26",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5FMF9ib1htVjdqTXkxSXMwYVdXNHdpd0l1ZDRlbmdsOVFsOW5VZ0Q2QUtER3VLZXlCeHJvNzJIZnFsdGdRYWh3aXk0TkxFc3lLSkZLOTJaN2drMGtDdlF1Q1ZnNlBRYnM5NGNWUG9XUFFyUQ?oc=5",
+        "source": "新浪新闻_手机新浪网",
+        "fetchedAt": "2026-05-24T15:43:57.575Z"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 90
+    "eventRisk": 100
   },
   {
     "id": "wang-yi",
@@ -1628,6 +1896,17 @@
       },
       {
         "type": "任免动向",
+        "title": "秦刚“消失”30天后被免职，王毅接任中国外交部长 - 纽约时报中文网",
+        "date": "2023-07-25",
+        "impact": "高",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王毅 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE83U2NzTjI3ZDFMXzRJbXN4Zm1MNkhyQXBHNUJyUzdxVFVHU2kzNFZxWHBObmhfLUlBcHNJTU11QlN5M1FyaTNIOUJwOWFOYUFSUlhtbjBMRUdGUTBpT002RnF1aVpUMDVPeV9KbEN5TUxCajMwQ3k0Qlln?oc=5",
+        "source": "纽约时报中文网",
+        "fetchedAt": "2026-05-25T00:21:25.327Z"
+      },
+      {
+        "type": "任免动向",
         "title": "秦刚接替王毅出任中国外长 - dw.com",
         "date": "2022-12-30",
         "impact": "中",
@@ -1658,13 +1937,29 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9JajBvZDBVMl9JRHUxRDFyaFZFTk5NYnRUY0x3X1NiVlZuVHp1TWFvTXp2NTZvTUIyMDUyOUpkZVYxYTFUS3NpZDlrOWZZUWZqVnpweFdjU21IdDZIWnJRd0luek8xYVJnNmV4ZjJQV3VMZUpX?oc=5",
         "source": "中国经济网",
         "fetchedAt": "2026-05-24T11:55:09.065Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "普京访华接机、小范围/大范围会谈参加",
+        "date": "2026-05-19",
+        "impact": "中",
+        "confidence": "新华社/央视",
+        "relation": "5月19日晚首都机场迎接普京。20日参加福建厅小范围会谈、东大厅大范围会谈及签字仪式。"
+      },
+      {
+        "type": "外事活动",
+        "title": "颁发首届'杰出外交使者奖章'给8国驻华使节",
+        "date": "2026-05-18",
+        "impact": "低",
+        "confidence": "外交部",
+        "relation": "正向外交信号。"
       }
     ],
     "sources": [
       "https://www.fmprc.gov.cn/",
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 90
+    "eventRisk": 100
   },
   {
     "id": "yin-li",
@@ -1941,6 +2236,17 @@
     "events": [
       {
         "type": "媒体报道",
+        "title": "被夺实权 习已成摆设？ 传石泰峰寻找 “ 新政治局 ” 人选 (图) - kanzhongguo.eu",
+        "date": "2025-05-07",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5nSlBjeXZxemZEeDBqYWszaU14bXFWeUl6N051c3RZUVFsc2E4NXR3cjc3ZERyYUEtenEzQ3pGREx3ZFRma2dJRmxGNVlSdw?oc=5",
+        "source": "kanzhongguo.eu",
+        "fetchedAt": "2026-05-25T00:21:39.191Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "周曉輝：李干傑與石泰峰職務對調 誰掌人事權？ - 大纪元",
         "date": "2025-04-03",
         "impact": "低",
@@ -2075,7 +2381,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 66
+    "eventRisk": 70
   },
   {
     "id": "liu-guozhong",
@@ -2521,6 +2827,17 @@
         "fetchedAt": "2026-05-24T11:55:44.197Z"
       },
       {
+        "type": "媒体报道",
+        "title": "原中央党校副校长李书磊任福建省委宣传部长 - 搜狐网",
+        "date": "2014-02-07",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4xRnRjN2dXWUpYMzRvV2Jha2d0UW0yVkZFMWkxRHlwTWo1VDhRR2t3WUlYclFmakdiUVA1ZzZaekd0Rl9Yd0ZFLUNTSFY5MGwzYU9ZM3JTaC1SUUU?oc=5",
+        "source": "搜狐网",
+        "fetchedAt": "2026-05-24T15:44:48.277Z"
+      },
+      {
         "type": "外事活动",
         "title": "李书磊会见美国民主、共和两党代表团--中共中央直属机构 - 中国共产党新闻网",
         "date": "2013-12-05",
@@ -2535,7 +2852,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 48
+    "eventRisk": 52
   },
   {
     "id": "he-weidong",
@@ -2652,6 +2969,14 @@
         "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQTVNCaVJOT245SFFYY3RCZDN3NWpEVkt2cXlzYkVZbDFBUXQxNjUtbkg4Tk5fV2wwMlRRWkFPSjB1WFJfWXcyM3pfYzhiOFZxU1Q2MWgxYU1ValA3bGx4VHBsbmZjS1N6V2RVRktta1Jkb2xiM25FcGx3S3g1ak1IelAzeGV4Zw?oc=5",
         "source": "端傳媒Initium Media",
         "fetchedAt": "2026-05-24T11:55:51.236Z"
+      },
+      {
+        "type": "舆论风波",
+        "title": "被传出事→公开露面证伪传闻",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "群内讨论/公开报道",
+        "relation": "鲁姓大V此前坚称何自杀后被其女儿辟谣。军纪委内部视频有出镜但'无法确认拍摄时间'。猫猫头评'某些人很尴尬'。"
       }
     ],
     "sources": [
@@ -2724,6 +3049,28 @@
       },
       {
         "type": "任免动向",
+        "title": "习近平亲信何立峰出任位高权重的中共中央财办主任 - 美国之音",
+        "date": "2023-10-31",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOdWM0c3VjNy1JQjY0TzUycDF4al9lVjJJM2t2aXQ1OVU0aWI3RnVYc1pFT3FrSkNzaGVUNS1HYkpWMng2TTN1ak1NUk94eG85WVBBSHNtaERObDRMRjFvbU1pdkhMV05CajRoTGVSSFd3eGJ1ak5YUUtaczFkbFVpM1I5bS1FOEVETHp1Tzl5VGlMdl93WXJibkVyR1ZoZnBvYjFnVktrYXdWT2t2TV95VmpNQmpHbmp1dldn0gG-AUFVX3lxTFBDUE9mYUMtVmtCWXBNX040N1VUQU9MU0kxaWZ2aWEwQURCQnBPM0YtWFJJeU1OTHFpYXBhbXpoRnNSbzh2My1qTHN2V01DOVpUbGJwRWUxeGRHWGRuUkp2cWlVTXJ1VnhWYnVEemRuakM1OGlMMjc5LU1HWVAySVVIaHRDNTJSTktiVXB5VHk4dEtyWlBZTE1wajVQa3pqbktaSEVfWi11cDVNU215Mk9WLU9scEhQX1JfT2ZLQ1E?oc=5",
+        "source": "美国之音",
+        "fetchedAt": "2026-05-24T15:45:08.039Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "接替刘鹤 副总理何立峰任中央财办主任 - dw.com",
+        "date": "2023-10-30",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMilgJBVV95cUxQNTVfMEt0SWlyUFJRTVhlS1N5WGRIbUVsQkNzRFhmYWJIMVlqWUxUOEZZOTRMVzhYZ1NfRC1pbWIxT1FxVDFyMFZlSEI0cUo4VXR6dlpTUzRvQnNveE16Q3d5c0JKT2FlM3F6akpFUlhSeEowTW1BR29jX0hrUXdGU24yQTBWQy1LbHhkMEJxT2NlN3VxVkszMVVZWTcwQ21OMGZUcFJIcTBOTVFlYmoyZGEzUnhFVTExbnhoMUZnZUZoYThrdjNSSzBFdzg1QmhLRllzTkZwbnpUeUtYcU1lYWxha2hQU01BVXhuU0tBR1BEVnRfdy1lRHByRG5Rc3RMa3pJYThOTmJvZkJCMzBteUxFcGoyZ9IBlgJBVV95cUxPcnNnQTFza0FPUHIxTmlVZzNYQWlSYnZNWE1uNGhiWnh3RDZsVWVyV0JfVkJWUGVQSk5CNmJzdnl1Qk1xaFV5dlV0WXN6bjZsM0UyeWh0RXNCWk9EZU9xbzY2OGtwZlRRcHRHZjlXNk5tYmg5Qm1mQmJxaXY2NUp3Y1p6Z0pZbk9ZVWRkdTFrbVlUSzFtMXFRRFBHaU8yc3hBeWxCT09ZV2RRM1FfYTFnVjI0VmR0Y1VGZVQzM1ZzdjhIVC04eWFOUDV4azVJU1F0LUlXZDFwVV9VcXdKZXhhMl96RDB0bDJMRG5oUWN4ZlNEc0xQdkNyczhkaElpTWo1cHFiQnF1NkJId1ZhSnZGVGN5dlIzZw?oc=5",
+        "source": "dw.com",
+        "fetchedAt": "2026-05-25T00:22:13.030Z"
+      },
+      {
+        "type": "任免动向",
         "title": "石穿云：中共国务院陷内乱 蔡奇插足 何立峰提拔老乡 - 希望之声",
         "date": "2023-09-28",
         "impact": "中",
@@ -2790,6 +3137,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "国家发改委主任何立峰等就“创新和完善宏观调控，推动高质量发展”答记者问【3】--2018全国两会--人民网 - 人民网-图片频道",
+        "date": "2018-03-06",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9SZEFYR201ckNPXzNCNnFiYXZmcjdmT01OUU1BNjFsT1BkRHhiQUt1aEo2SmJxelNpREx1TlZnNWRBSnZ5LXdsSFZhYTVfaVluQVN1d3ZDbk1nVFpJazJDRHNPWWMxdFJ4d0dj?oc=5",
+        "source": "人民网-图片频道",
+        "fetchedAt": "2026-05-24T15:45:08.040Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "何立峰任国家发展和改革委员会主任（图/简历） - 人民网",
         "date": "2017-02-24",
         "impact": "低",
@@ -2842,12 +3200,20 @@
         "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFByY0NRRXhnX3R2aXhOSGxJdlBHOGptWFJtLVFjVXc0MXhJVmJaWDJuRjQyRjdXQ0pqZVpJZDdUZFdLaWpCbG5QV2Mtdy1yZkpPZXZzWGJaaC10QQ?oc=5",
         "source": "搜狐网",
         "fetchedAt": "2026-05-24T11:56:03.096Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "参加中俄元首会谈（小范围+大范围）",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "文森特逐帧分析会谈座位图，完成中方出席人员全列表。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 60
+    "eventRisk": 84
   },
   {
     "id": "zhang-guoqing",
@@ -2895,7 +3261,16 @@
         "任国务院副总理。"
       ]
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "事故处置",
+        "title": "代表党中央国务院赶赴山西煤矿事故现场",
+        "date": "2026-05-23",
+        "impact": "中",
+        "confidence": "新华社",
+        "relation": "穿黑色衬衫传递哀悼之意，表情'严肃带愤怒'。媒体拍到现场视频。"
+      }
+    ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ]
@@ -3040,6 +3415,14 @@
         "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1Vbkg0T2Q4Vkx0eE9feWptV2NuYTZFMzJZTlBFV3ZKaGJsakpzb280RWpuVTFHNUo1a0NrZVVNdXFhVXYzbGpuNkNrX2lyMFVCU2c4ZkRCYmNHbU0?oc=5",
         "source": "央视网",
         "fetchedAt": "2026-05-24T11:48:21.269Z"
+      },
+      {
+        "type": "公务活动",
+        "title": "主持长三角地区主要领导座谈会",
+        "date": "2026-05-21",
+        "impact": "低",
+        "confidence": "上海发布",
+        "relation": "上海、江苏(信长星)、浙江(王浩)、安徽(梁言顺)三省一市书记省长全员出席。群内讨论上海市委常委'强总人马'过多。"
       }
     ],
     "sources": [
@@ -3353,6 +3736,14 @@
         "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNc0R3ekQzUXc0bEVOb0Y2MExMdlJIb2QtdmRDeUdjOEtXdGUta01teGZzdkdXNVVlMTJwR09nTnhJUWJJLWFFc3huVjd2WU44ZDVHeFF1WjBPeWtoMGIwcnZCcFRMMUZheUw1c2wtWEJiR1VwSkxmY05IamFEVkxVSWJMaHdjN0k1YUE?oc=5",
         "source": "杭州网",
         "fetchedAt": "2026-05-24T12:01:48.192Z"
+      },
+      {
+        "type": "人事评价",
+        "title": "群内评价中宣部时期'讨好过度、矫枉过正'延误入常",
+        "date": "2026-05-21",
+        "impact": "低",
+        "confidence": "群内讨论",
+        "relation": "赴广东后被称'黄鼠狼'，被认为'彻底摆烂'。相比蔡奇'从容不迫'被视为更高段位政治智慧。"
       }
     ],
     "sources": [
@@ -3462,6 +3853,14 @@
         "impact": "高",
         "confidence": "中央纪委官网",
         "relation": "来源: 新华社"
+      },
+      {
+        "type": "案件延伸",
+        "title": "许学强(原空军上将/载人航天指挥长)出事",
+        "date": "2026-05-23",
+        "impact": "中",
+        "confidence": "群内讨论",
+        "relation": "军队系统人事震动持续，许学强继张又侠之后出事，文森特指出'这个也出事了'。"
       }
     ],
     "sources": [
@@ -3530,6 +3929,14 @@
         "impact": "高",
         "confidence": "新华社官方通报",
         "relation": "来源: 新华社"
+      },
+      {
+        "type": "案件延伸",
+        "title": "深圳市政协原主席戴北方落马涉马兴瑞案",
+        "date": "2025-12-15",
+        "impact": "中",
+        "confidence": "中央纪委国家监委",
+        "relation": "戴北方2025年底因涉马案被查。"
       }
     ],
     "sources": [
@@ -3810,6 +4217,22 @@
         "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE95R0VfbHpvVkNyenkxdm9QWThXNnJNbndPbmhmZDRLWGMtZ2dDUW5xUEw2eFJHcHJQcTVKcGE0YTJ3WUNYakhSaTRWTkpDYmVRbG9DTHVVUFJwVVM1aTF0QTdGaHV4VXlpc3c?oc=5",
         "source": "人民网山西",
         "fetchedAt": "2026-05-24T12:04:57.014Z"
+      },
+      {
+        "type": "重大事故",
+        "title": "山西沁源留神峪煤矿瓦斯爆炸，90人遇难、128人受伤",
+        "date": "2026-05-22",
+        "impact": "高",
+        "confidence": "新华社/国务院调查组",
+        "relation": "曾任山西常务副省长分管安全生产。涉事矿2024年4月已被列入全国灾害严重煤矿名单，挂牌一年多后爆炸。国务院调查组介入，张国清亲赴现场，习近平批示'较真碰硬'。"
+      },
+      {
+        "type": "问责风险",
+        "title": "事故发布会翻车，死亡人数90→82引发舆论风波",
+        "date": "2026-05-23",
+        "impact": "高",
+        "confidence": "多源公开报道",
+        "relation": "长治发布会解释'企业统计不清'，卢东亮现场表情被批'不得体'。群内判断政治前途受重创，至少党内警告处分。"
       }
     ],
     "sources": [
@@ -3863,6 +4286,14 @@
         "impact": "中",
         "confidence": "路边情报，未核实",
         "relation": "来源: 怀仁堂群内"
+      },
+      {
+        "type": "重大事故",
+        "title": "山西煤矿爆炸事故连带问责压力",
+        "date": "2026-05-23",
+        "impact": "高",
+        "confidence": "新华社",
+        "relation": "作为省委书记对全省安全生产负总责，事故处置表现遭群内批评'看戏不作为'。"
       }
     ],
     "sources": [
@@ -3923,6 +4354,14 @@
         "impact": "中",
         "confidence": "新加坡总理公署文告",
         "relation": "来源: 联合早报"
+      },
+      {
+        "type": "外事活动",
+        "title": "与自治区主席韦韬会见新加坡国务资政李显龙",
+        "date": "2026-05-19",
+        "impact": "中",
+        "confidence": "广西日报/联合早报",
+        "relation": "新加坡视陈刚为中国新生代领导人之一。需同期应对柳州5.2级地震灾情。"
       }
     ],
     "sources": [
@@ -3975,6 +4414,14 @@
         "impact": "中",
         "confidence": "新加坡总理公署文告",
         "relation": "来源: 联合早报"
+      },
+      {
+        "type": "外事活动",
+        "title": "会见新加坡国务资政李显龙",
+        "date": "2026-05-22",
+        "impact": "中",
+        "confidence": "上海发布",
+        "relation": "陈吉宁未出席（李显龙此前'希望与下一代领导人建立联系'发言引发敏感），群内认为陈'不敢见'。龚正超期运转已逾一年。"
       }
     ],
     "sources": [
@@ -4200,9 +4647,251 @@
         "山东省人民政府党组成员、副省长"
       ]
     ],
-    "events": [],
+    "events": [
+      {
+        "type": "人事动向",
+        "title": "传调任长沙市委书记途中被叫停",
+        "date": "2026-05-25",
+        "impact": "中",
+        "confidence": "怀仁堂群内情报（待核实）",
+        "relation": "据传5月24日已在湖南省委报到，但中组部领导未签批同意。群内分析副省长→省委常委需政治局常委会通过。同期中宣部副部长王纲调网信办主任也被叫停。"
+      }
+    ],
     "sources": [
       "用户手动录入"
+    ]
+  },
+  {
+    "id": "xu-liuping",
+    "name": "徐留平",
+    "age": 61,
+    "region": "中央",
+    "system": "群团组织",
+    "title": "原中华全国总工会党组书记、副主席、书记处第一书记（已被立案审查）",
+    "attention": "高",
+    "rank": "正部级",
+    "path": "中国兵器工业集团 → 中国一汽董事长 → 全国总工会党组书记",
+    "signals": [
+      [
+        "落马通报",
+        "2026年5月23日中央纪委国家监委官宣立案审查调查。"
+      ],
+      [
+        "被查细节",
+        "据经济观察报，3月19日左右被带走，因兵器工业涉密内容拖到5月下旬才官宣。"
+      ],
+      [
+        "正面评价",
+        "在汽车行业以'霸道总裁'著称，推动一汽红旗复兴。"
+      ]
+    ],
+    "timeline": [
+      [
+        "2017",
+        "任中国第一汽车集团有限公司董事长、党委书记。"
+      ],
+      [
+        "2023",
+        "任中华全国总工会党组书记、副主席、书记处第一书记。"
+      ],
+      [
+        "2026-03-19",
+        "据报被带走调查。"
+      ],
+      [
+        "2026-05-23",
+        "中央纪委国家监委官宣立案审查调查。"
+      ]
+    ],
+    "events": [
+      {
+        "type": "反腐通报",
+        "title": "徐留平涉嫌严重违纪违法被立案审查调查",
+        "date": "2026-05-23",
+        "impact": "高",
+        "confidence": "中央纪委国家监委官网",
+        "relation": "来源: ccdi.gov.cn。全总党组召开会议'坚决拥护党中央决定'。"
+      }
+    ],
+    "sources": [
+      "https://www.ccdi.gov.cn/",
+      "经济观察报"
+    ]
+  },
+  {
+    "id": "cui-yonghui",
+    "name": "崔永辉",
+    "age": 56,
+    "region": "华东",
+    "system": "地方党政",
+    "title": "原福建省委常委、厦门市委书记（被约谈中）",
+    "attention": "高",
+    "rank": "副部级",
+    "path": "湖北荆州市长 → 福建省委常委、秘书长 → 厦门市委书记",
+    "signals": [
+      [
+        "异常信号",
+        "卸任厦门市委书记后空挂省委常委，未安排新职，被怀疑涉问题。"
+      ],
+      [
+        "约谈状态",
+        "据传处于中纪委'走读式约谈'中，可正常工作但被限制。"
+      ],
+      [
+        "涉及问题",
+        "据传在厦门期间问题很大，涉国有资产/收购。"
+      ]
+    ],
+    "timeline": [
+      [
+        "2021",
+        "任福建省委常委、厦门市委书记。"
+      ],
+      [
+        "2026-04",
+        "卸任厦门市委书记。空挂省委常委，未安排新职。"
+      ],
+      [
+        "2026-05-21",
+        "群内消息称被约谈中。最近一次公开露面为5月15日省委理论学习中心组学习会。"
+      ]
+    ],
+    "events": [
+      {
+        "type": "异常信号",
+        "title": "卸任厦门书记后空挂无新职，被传中纪委约谈",
+        "date": "2026-05-21",
+        "impact": "高",
+        "confidence": "怀仁堂群内情报（待核实）",
+        "relation": "来源: 怀仁堂群内。与黄文辉（厦门原市长，已被带走）构成'两辉案'。"
+      }
+    ],
+    "sources": [
+      "怀仁堂群内情报"
+    ]
+  },
+  {
+    "id": "peng-jiaxue",
+    "name": "彭佳学",
+    "age": 61,
+    "region": "华东",
+    "system": "地方党政",
+    "title": "原浙江省人大常委会副主任（被留置南京）",
+    "attention": "高",
+    "rank": "副部级",
+    "path": "浙江省水利厅 → 宁波市委书记 → 浙江省人大副主任",
+    "signals": [
+      [
+        "留置通报",
+        "据怀仁堂群内情报，2026年5月21日前后被带走，留置在南京。"
+      ],
+      [
+        "涉宁波案",
+        "与陈伟俊时期的宁波问题相关，涉及海关、公安、机场、金融、能源、东海舰队等多个系统。"
+      ],
+      [
+        "袁家军关联",
+        "彭佳学曾任袁家军任浙江省委书记时期的省委常委。"
+      ]
+    ],
+    "timeline": [
+      [
+        "2015",
+        "任浙江省水利厅厅长。"
+      ],
+      [
+        "2018",
+        "任浙江省副省长。"
+      ],
+      [
+        "2021",
+        "任浙江省委常委、宁波市委书记。"
+      ],
+      [
+        "2023",
+        "任浙江省人大常委会副主任。"
+      ],
+      [
+        "2026-05-21",
+        "据群内消息：被带走，留置在南京。"
+      ]
+    ],
+    "events": [
+      {
+        "type": "反腐通报",
+        "title": "彭佳学被带走留置南京，涉浙江塌方式腐败",
+        "date": "2026-05-21",
+        "impact": "高",
+        "confidence": "怀仁堂群内情报（待官方证实）",
+        "relation": "来源: 怀仁堂群内。宁波问题由陈伟俊串起，线索扩散至金华、台州。浙江省国资委主任同期被带走。"
+      }
+    ],
+    "sources": [
+      "怀仁堂群内情报"
+    ]
+  },
+  {
+    "id": "wen-nuan",
+    "name": "温暖",
+    "age": 55,
+    "region": "华中",
+    "system": "地方党政",
+    "title": "原山东省副省长（传闻调长沙市委书记遇阻）",
+    "attention": "中",
+    "rank": "副部级",
+    "path": "温州团系统 → 舟山市长(6年) → 舟山书记 → 浙江纪委副书记 → 山东副省长 → 传闻调长沙书记",
+    "signals": [
+      [
+        "人事异常",
+        "据传5月24日已在湖南省委报到准备接任长沙书记，后被叫停。"
+      ],
+      [
+        "传言分析",
+        "副省长→省委常委需政治局常委会通过，可能被否决或另有安排。"
+      ],
+      [
+        "仕途曲折",
+        "舟山市长做了6年才升书记，早年未入'法眼'，后得易炼红赏识。"
+      ],
+      [
+        "最新消息",
+        "据传26日才正式有结论。当前状态：已赴湖南但任命未下。"
+      ]
+    ],
+    "timeline": [
+      [
+        "2015",
+        "任舟山市委副书记、市长(任职6年)。"
+      ],
+      [
+        "2021",
+        "任舟山市委书记。"
+      ],
+      [
+        "2023",
+        "任浙江省纪委副书记。"
+      ],
+      [
+        "2024",
+        "任山东省副省长。"
+      ],
+      [
+        "2026-05-24",
+        "据传已在湖南省委报到，长沙书记任命被叫停。"
+      ]
+    ],
+    "events": [
+      {
+        "type": "人事动向",
+        "title": "传调任长沙市委书记途中被叫停",
+        "date": "2026-05-25",
+        "impact": "中",
+        "confidence": "怀仁堂群内情报（待核实）",
+        "relation": "来源: 怀仁堂群内。群内分析可能被中组部领导否决。同时中宣部副部长王纲调网信办主任也被叫停。"
+      }
+    ],
+    "sources": [
+      "怀仁堂群内情报"
     ]
   }
 ]

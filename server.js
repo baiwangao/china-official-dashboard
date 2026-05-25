@@ -12,8 +12,13 @@ const newsApiService = require('./services/newsApiService');
 const scraperService = require('./services/scraperService');
 const predictorService = require('./services/predictorService');
 const dataManager = require('./services/dataManager');
+const queueManager = require('./blockchain/queueManager');
+const chainWriter = require('./blockchain/chainWriter');
+const huairentangCrawler = require('./huairentang/crawler');
+const { parseExport } = require('./telegram/parseExport');
 
 const app = express();
+app.use(express.json({ limit: "200mb" }));
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -196,6 +201,91 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// Blockchain / Chain Routes
+app.get('/api/chain/stats', async (req, res) => {
+  try {
+    const stats = await queueManager.getStats();
+    res.json({ ...stats, configured: chainWriter.isConfigured() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/chain/status/:hash', async (req, res) => {
+  try {
+    const item = await queueManager.getByHash(req.params.hash);
+    if (!item) return res.status(404).json({ error: 'Hash not found in queue' });
+    res.json(item);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/chain/submit-now', async (req, res) => {
+  try {
+    const pending = await queueManager.getPending();
+    if (pending.length === 0) return res.json({ message: 'No pending items', submitted: 0 });
+    const result = await chainWriter.submitBatch(pending);
+    res.json({ success: true, ...result });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Chain Stats Routes
+app.get('/api/chain/rating/:name', async (req, res) => {
+  res.json({ message: 'EventProof 合约，使用 total-stored' });
+});
+
+app.get('/api/chain/total-reviews', async (req, res) => {
+  try {
+    const total = await chainWriter.getTotalStored();
+    res.json({ total, configured: chainWriter.isConfigured() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Huairentang Routes
+app.get('/api/huairentang/events', async (req, res) => {
+  try {
+    const events = await huairentangCrawler.getQueuedEvents();
+    res.json({ total: events.length, events, timestamp: new Date().toISOString() });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/huairentang/crawl', async (req, res) => {
+  try {
+    const result = await huairentangCrawler.crawl();
+    res.json({ success: true, ...result });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Telegram 聊天记录导入（POST body 为 result.json 的内容）
+app.post('/api/telegram/import', express.json({ limit: "200mb" }), async (req, res) => {
+  try {
+    const exportData = req.body;
+    if (!exportData || !Array.isArray(exportData.messages)) {
+      return res.status(400).json({ error: '请上传 Telegram 导出的 result.json 内容（需包含 messages 字段）' });
+    }
+    const messages = parseExport(exportData);
+    const queued   = await queueManager.enqueue(messages);
+    const stats    = await queueManager.getStats();
+    res.json({
+      success:  true,
+      parsed:   messages.length,
+      queued,
+      stats,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Scheduled tasks
 // Run news update every 6 hours
 cron.schedule('0 */6 * * *', async () => {
@@ -214,6 +304,32 @@ cron.schedule('0 */12 * * *', async () => {
     await dataManager.updateFromScraping();
   } catch (error) {
     console.error('Scheduled scraping failed:', error);
+  }
+});
+
+// 怀仁堂专项爬虫 — 每4小时
+cron.schedule('0 */4 * * *', async () => {
+  console.log('[Cron] 怀仁堂专项爬取...');
+  try {
+    await huairentangCrawler.crawl();
+  } catch (error) {
+    console.error('[Cron] 怀仁堂爬取失败:', error);
+  }
+});
+
+// 每日凌晨2点批量上链
+cron.schedule('0 2 * * *', async () => {
+  console.log('[Cron] 开始批量上链...');
+  try {
+    const pending = await queueManager.getPending();
+    if (pending.length > 0) {
+      const result = await chainWriter.submitBatch(pending);
+      console.log(`[Cron] 上链完成: 成功 ${result.submitted}, 失败 ${result.failed}`);
+    } else {
+      console.log('[Cron] 无待上链事件');
+    }
+  } catch (error) {
+    console.error('[Cron] 上链失败:', error);
   }
 });
 

@@ -18,11 +18,11 @@
         </div>
 
         <nav class="nav-stack" aria-label="主导航">
-          <a class="nav-item active" href="#overview"><span aria-hidden="true">▦</span>总览面板</a>
-          <a class="nav-item" href="#profiles"><span aria-hidden="true">◎</span>领导档案</a>
-           <a class="nav-item" href="#events"><span aria-hidden="true">!</span>事件雷达</a>
-           <a class="nav-item" href="#opinion"><span aria-hidden="true">◉</span>舆论监测</a>
-           <a class="nav-item" href="#sources"><span aria-hidden="true">✓</span>来源校验</a>
+          <a class="nav-item active" href="#overview"><span aria-hidden="true">⊞</span>总览面板</a>
+          <a class="nav-item" href="#profiles"><span aria-hidden="true">◈</span>领导档案</a>
+          <a class="nav-item" href="#events"><span aria-hidden="true">⚑</span>事件雷达</a>
+          <a class="nav-item" href="#opinion"><span aria-hidden="true">◎</span>舆论监测</a>
+          <a class="nav-item" href="#sources"><span aria-hidden="true">⊛</span>来源校验</a>
         </nav>
 
         <label class="search-box">
@@ -59,7 +59,7 @@
           </div>
           <div class="operator-chip">
             <span class="status-dot"></span>
-            Analyst Mode
+            Analyst Online
           </div>
         </header>
 
@@ -111,6 +111,10 @@
           <div class="event-radar-toolbar">
             <button type="button" class="btn-primary" id="scanCurrentProfileBtn">扫描当前官员</button>
             <button type="button" class="btn-ghost" id="scanBatchBtn">批量扫描（前 15 人）</button>
+            <label class="btn-ghost" style="cursor:pointer;">
+              ⊞ 导入群聊记录
+              <input type="file" id="telegramImportFile" accept=".json" style="display:none;">
+            </label>
             <label class="radar-filter">
               <span>筛选</span>
               <select id="eventRadarFilter">
@@ -123,7 +127,46 @@
             </label>
           </div>
 
+          <div class="chain-status-bar" id="chainStatusBar">
+            <div class="chain-stat"><span>⛓ 待上链</span><strong id="chainPendingCount">—</strong></div>
+            <div class="chain-stat"><span>✓ 已上链</span><strong id="chainSubmittedCount">—</strong></div>
+            <div class="chain-stat"><span>怀仁堂事件</span><strong id="huairentangCount">—</strong></div>
+            <button type="button" class="btn-chain" id="submitChainBtn">立即上链</button>
+          </div>
+
           <p class="event-radar-status" id="eventRadarStatus" aria-live="polite"></p>
+
+          <div class="chain-pipeline" id="chainPipeline" aria-hidden="true">
+            <div class="pipeline-label">链上存证流水线</div>
+            <div class="pipeline-track">
+              <div class="pipeline-stage" id="stageQueue">
+                <span class="stage-icon">📋</span>
+                <span class="stage-name">队列</span>
+              </div>
+              <div class="pipeline-arrow" id="arrow1"><span class="flow-hash"></span></div>
+              <div class="pipeline-stage" id="stageHash">
+                <span class="stage-icon">🔐</span>
+                <span class="stage-name">哈希</span>
+              </div>
+              <div class="pipeline-arrow" id="arrow2"><span class="flow-hash"></span></div>
+              <div class="pipeline-stage" id="stageSign">
+                <span class="stage-icon">✍️</span>
+                <span class="stage-name">签名</span>
+              </div>
+              <div class="pipeline-arrow" id="arrow3"><span class="flow-hash"></span></div>
+              <div class="pipeline-stage" id="stageChain">
+                <span class="stage-icon">⛓️</span>
+                <span class="stage-name">上链</span>
+              </div>
+              <div class="pipeline-arrow" id="arrow4"><span class="flow-hash"></span></div>
+              <div class="pipeline-stage" id="stageDone">
+                <span class="stage-icon">✅</span>
+                <span class="stage-name">确认</span>
+              </div>
+            </div>
+            <div class="pipeline-tx" id="pipelineTxHash"></div>
+          </div>
+
           <div class="event-radar-feed" id="eventRadarFeed">
             <div class="empty-state">点击「扫描」抓取最新变迁新闻</div>
           </div>

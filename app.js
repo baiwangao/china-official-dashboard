@@ -540,6 +540,24 @@ function renderInsightHero(predictionData) {
 
 function generateOpinionSignals(profile) {
   const sigs = [];
+
+  // 检测中纪委通报 —— 最高优先级
+  const ccdiKeywords = ['反腐通报', '落马通报', '立案审查', '被立案', '官宣落马', '已被带走', '被留置', '涉嫌严重违纪'];
+  const isCCDITarget = (profile.events || []).some(function (e) {
+    return ccdiKeywords.some(function (k) {
+      return (e.type || '').indexOf(k) !== -1 || (e.title || '').indexOf(k) !== -1;
+    });
+  }) || /已被立案审查|已被带走|被留置/.test(profile.title || '');
+
+  if (isCCDITarget) {
+    sigs.push(["中纪委通报", "该官员已被中央纪委国家监委立案审查调查，政治生涯已实质性终结。"]);
+    sigs.push(["风险拉满", "事件风险系数 100/100，升迁窗口关闭。重点关注案件进展和连带追责范围。"]);
+    if ((profile.events || []).filter(function (e) { return e.impact === '高'; }).length >= 2) {
+      sigs.push(["连环调查", "多起高影响事件叠加，反腐扩线风险极高。"]);
+    }
+    return sigs;
+  }
+
   if (profile.eventRisk >= 70) {
     sigs.push(["舆论风险", "事件风险处于高位，相关报道和讨论频率可能显著上升。"]);
   }
@@ -566,11 +584,24 @@ function generateOpinionSignals(profile) {
 }
 
 function generateOpinionData(profile) {
-  var rawScore = Math.round((profile.publicSignal || 0) * 0.5 + (profile.eventRisk || 0) * 0.5);
-  var trend;
-  if (profile.eventRisk >= 65) trend = "上升";
-  else if (profile.eventRisk >= 35) trend = "平稳";
-  else trend = "下降";
+  // 中纪委通报直接拉满
+  const ccdiKeywords = ['反腐通报', '落马通报', '立案审查', '被立案', '官宣落马', '已被带走', '被留置', '涉嫌严重违纪'];
+  const isCCDITarget = (profile.events || []).some(function (e) {
+    return ccdiKeywords.some(function (k) {
+      return (e.type || '').indexOf(k) !== -1 || (e.title || '').indexOf(k) !== -1;
+    });
+  }) || /已被立案审查|已被带走|被留置/.test(profile.title || '');
+
+  var rawScore, trend;
+  if (isCCDITarget) {
+    rawScore = 100;
+    trend = "危险";
+  } else {
+    rawScore = Math.round((profile.publicSignal || 0) * 0.5 + (profile.eventRisk || 0) * 0.5);
+    if (profile.eventRisk >= 65) trend = "上升";
+    else if (profile.eventRisk >= 35) trend = "平稳";
+    else trend = "下降";
+  }
 
   var affected = (profile.events || []).slice().sort(function (a, b) {
     var scoreA = (a.impact === "高" ? 3 : a.impact === "中" ? 2 : 1);
@@ -735,9 +766,9 @@ function renderList(filtered) {
             <i style="--value: ${(generateOpinionData(profile)).score}%; --bar-color: ${scoreColor((generateOpinionData(profile)).score)}"></i>
           </div>
           <div class="tag-row">
-            <span class="tag jade">${profile.region}</span>
-            <span class="tag">${profile.system}</span>
-            <span class="tag ${attentionClass(profile.attention)}">${profile.attention}关注</span>
+            <span class="tag jade">${escapeHtml(profile.region)}</span>
+            <span class="tag">${escapeHtml(profile.system)}</span>
+            <span class="tag ${attentionClass(profile.attention)}">${escapeHtml(profile.attention)}关注</span>
           </div>
         </button>
       `;
@@ -772,25 +803,25 @@ function renderOpinionOverview(filtered) {
       const op = p._opinion;
       const trendCls = op.trend === "上升" ? "rose" : op.trend === "下降" ? "jade" : "amber";
       const trendIcon = op.trend === "上升" ? "↑" : op.trend === "下降" ? "↓" : "→";
-      return '<div class="opinion-rank-card" data-profile-id="' + p.id + '">' +
+      return '<div class="opinion-rank-card" data-profile-id="' + escapeHtml(p.id) + '">' +
         '<div class="or-rank">#' + (idx + 1) + '</div>' +
         '<div class="or-body">' +
           '<div class="or-name-row">' +
-            '<strong>' + p.name + '</strong>' +
-            '<span class="tag ' + attentionClass(p.attention) + '">' + p.attention + '关注</span>' +
+            '<strong>' + escapeHtml(p.name) + '</strong>' +
+            '<span class="tag ' + attentionClass(p.attention) + '">' + escapeHtml(p.attention) + '关注</span>' +
           '</div>' +
-          '<p class="or-title">' + p.title + '</p>' +
+          '<p class="or-title">' + escapeHtml(p.title) + '</p>' +
           '<div class="or-scores">' +
             '<span>舆论风险 <b style="color:' + scoreColor(op.score) + '">' + op.score + '</b></span>' +
-            '<span class="tag ' + trendCls + '">' + trendIcon + ' ' + op.trend + '</span>' +
+            '<span class="tag ' + trendCls + '">' + trendIcon + ' ' + escapeHtml(op.trend) + '</span>' +
             '<span>事件 ' + p.events.length + ' 条</span>' +
           '</div>' +
           (op.affectedEvents.length ? '<div class="or-affected">' +
             '<span class="eyebrow">可能受影响事件</span>' +
             op.affectedEvents.slice(0, 2).map(function (ev) {
               return '<div class="or-aff-item">' +
-                '<span class="tag ' + (ev.impact === "高" ? "rose" : ev.impact === "中" ? "amber" : "jade") + '">' + ev.type + '</span>' +
-                '<span>' + ev.title + '</span>' +
+                '<span class="tag ' + (ev.impact === "高" ? "rose" : ev.impact === "中" ? "amber" : "jade") + '">' + escapeHtml(ev.type) + '</span>' +
+                '<span>' + escapeHtml(ev.title) + '</span>' +
               '</div>';
             }).join("") +
           '</div>' : '') +
@@ -1071,8 +1102,8 @@ async function renderDetail(profile) {
           .map(
             ([title, copy]) => `
             <div class="signal-item">
-              <strong>${title}</strong>
-              <p class="signal-copy">${copy}</p>
+              <strong>${escapeHtml(title)}</strong>
+              <p class="signal-copy">${escapeHtml(copy)}</p>
             </div>
           `,
           )
@@ -1089,14 +1120,14 @@ async function renderDetail(profile) {
                     (event) => `
               <div class="event-item">
                 <div class="event-head">
-                  <span class="tag ${event.impact === "高" ? "rose" : event.impact === "中" ? "amber" : "jade"}">${event.type}</span>
-                  <time>${event.date}</time>
+                  <span class="tag ${event.impact === "高" ? "rose" : event.impact === "中" ? "amber" : "jade"}">${escapeHtml(event.type)}</span>
+                  <time>${escapeHtml(event.date)}</time>
                 </div>
-                <strong>${event.title}</strong>
-                <p>${event.relation}</p>
+                <strong>${escapeHtml(event.title)}</strong>
+                <p>${escapeHtml(event.relation)}</p>
                 <div class="event-foot">
-                  <span>影响：${event.impact}</span>
-                  <span>可信度：${event.confidence}</span>
+                  <span>影响：${escapeHtml(event.impact)}</span>
+                  <span>可信度：${escapeHtml(event.confidence)}</span>
                 </div>
               </div>
             `,
@@ -1116,8 +1147,8 @@ async function renderDetail(profile) {
             .map(
               ([year, event]) => `
               <div class="timeline-item">
-                <time>${year}</time>
-                <p>${event}</p>
+                <time>${escapeHtml(year)}</time>
+                <p>${escapeHtml(event)}</p>
               </div>
             `,
             )
@@ -1156,7 +1187,7 @@ async function renderDetail(profile) {
         <div class="opinion-metrics">
           <div class="opinion-score-tag ${trendCls}">
             <span>舆论风险 ${op.score}</span>
-            <span class="trend-arrow">${trendIcon} ${op.trend}</span>
+            <span class="trend-arrow">${trendIcon} ${escapeHtml(op.trend)}</span>
           </div>
         </div>
       </div>
@@ -1166,8 +1197,8 @@ async function renderDetail(profile) {
           <span class="eyebrow">舆论信号</span>
           ${op.signals.map(([t, d]) => `
             <div class="opinion-signal-item ${t.includes("风险") || t.includes("敏感") || t.includes("聚焦") ? "alert" : ""}">
-              <strong>${t}</strong>
-              <p>${d}</p>
+              <strong>${escapeHtml(t)}</strong>
+              <p>${escapeHtml(d)}</p>
             </div>
           `).join("")}
         </div>
@@ -1183,7 +1214,7 @@ async function renderDetail(profile) {
               <div class="opinion-event-card ${i === 0 ? "top-risk" : ""}">
                 <div class="oe-header">
                   <div>
-                    <span class="tag ${ev.impact === "高" ? "rose" : ev.impact === "中" ? "amber" : "jade"}">${ev.type}</span>
+                    <span class="tag ${ev.impact === "高" ? "rose" : ev.impact === "中" ? "amber" : "jade"}">${escapeHtml(ev.type)}</span>
                     ${unverified ? '<span class="tag rose unverified-tag">待核验</span>' : ""}
                   </div>
                   <div class="oe-sensitivity">
@@ -1191,12 +1222,12 @@ async function renderDetail(profile) {
                     <strong style="color: ${sensScore >= 70 ? 'var(--rose)' : sensScore >= 40 ? 'var(--amber)' : 'var(--jade)'}">${sensScore}/100</strong>
                   </div>
                 </div>
-                <strong>${ev.title}</strong>
-                <time>${ev.date}</time>
-                <p>${ev.relation}</p>
+                <strong>${escapeHtml(ev.title)}</strong>
+                <time>${escapeHtml(ev.date)}</time>
+                <p>${escapeHtml(ev.relation)}</p>
                 <div class="oe-foot">
-                  <span>事件影响：${ev.impact}</span>
-                  <span>可信度：${ev.confidence}</span>
+                  <span>事件影响：${escapeHtml(ev.impact)}</span>
+                  <span>可信度：${escapeHtml(ev.confidence)}</span>
                 </div>
               </div>
             `;
@@ -1211,7 +1242,7 @@ async function renderDetail(profile) {
 
     <div class="source-row">
       <span class="tag">数据源占位</span>
-      ${profile.sources.map((source) => `<a href="#" aria-label="${source}">${source}</a>`).join("")}
+      ${profile.sources.map((source) => `<a href="#" aria-label="${escapeHtml(source)}">${escapeHtml(source)}</a>`).join("")}
     </div>
 
     ${predictionData && predictionData.recommendations?.length ? `
@@ -1294,6 +1325,154 @@ document.querySelector("#eventRadarFilter")?.addEventListener("change", (e) => {
   renderEventRadar(getFilteredProfiles());
 });
 
+// Chain status bar
+async function refreshChainStatus() {
+  try {
+    const [statsRes, htRes] = await Promise.all([
+      fetch("/api/chain/stats"),
+      fetch("/api/huairentang/events"),
+    ]);
+    if (statsRes.ok) {
+      const stats = await statsRes.json();
+      const pendingEl = document.querySelector("#chainPendingCount");
+      const submittedEl = document.querySelector("#chainSubmittedCount");
+      if (pendingEl) pendingEl.textContent = String(stats.pending ?? "—");
+      if (submittedEl) submittedEl.textContent = String(stats.submitted ?? "—");
+      updatePipelineState();
+    }
+    if (htRes.ok) {
+      const ht = await htRes.json();
+      const htEl = document.querySelector("#huairentangCount");
+      if (htEl) htEl.textContent = String(ht.total ?? "—");
+    }
+  } catch (_) {}
+}
+
+// Telegram 聊天记录导入
+document.querySelector("#telegramImportFile")?.addEventListener("change", async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const statusEl = document.querySelector("#eventRadarStatus");
+  if (statusEl) statusEl.textContent = "正在读取聊天记录…";
+  try {
+    const text = await file.text();
+    const exportData = JSON.parse(text);
+    if (statusEl) statusEl.textContent = "正在解析并入队…";
+    const res = await fetch("/api/telegram/import", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(exportData),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "导入失败");
+    if (statusEl) statusEl.textContent = `导入完成：解析 ${data.parsed} 条，新入队 ${data.queued} 条（已去重）`;
+    await refreshChainStatus();
+  } catch (err) {
+    if (statusEl) statusEl.textContent = "导入失败：" + err.message;
+  }
+  e.target.value = "";
+});
+
+// ===== 链上存证流水线动画 =====
+function updatePipelineState() {
+  var pipe = document.querySelector("#chainPipeline");
+  if (!pipe) return;
+  var pending = document.querySelector("#chainPendingCount");
+  var count = pending ? parseInt(pending.textContent) || 0 : 0;
+  pipe.className = "chain-pipeline" + (count > 0 ? " ready" : "");
+}
+
+function animatePipeline(txHashes) {
+  var pipeline = document.querySelector("#chainPipeline");
+  if (!pipeline) return;
+  pipeline.className = "chain-pipeline active";
+  pipeline.style.display = "block";
+
+  const stages = [
+    document.querySelector("#stageQueue"),
+    document.querySelector("#stageHash"),
+    document.querySelector("#stageSign"),
+    document.querySelector("#stageChain"),
+    document.querySelector("#stageDone"),
+  ];
+  const arrows = [
+    document.querySelector("#arrow1"),
+    document.querySelector("#arrow2"),
+    document.querySelector("#arrow3"),
+    document.querySelector("#arrow4"),
+  ];
+  const hashChars = "0123456789abcdef";
+  function randomHash(len) {
+    let h = "";
+    for (let i = 0; i < len; i++) h += hashChars[Math.floor(Math.random() * 16)];
+    return "0x" + h + "…";
+  }
+
+  // Reset
+  stages.forEach(function (s) { s.className = "pipeline-stage"; });
+  arrows.forEach(function (a) { a.className = "pipeline-arrow"; });
+  document.querySelector("#pipelineTxHash").textContent = "";
+
+  // Animate stages one by one
+  const delay = 600;
+  [0, 1, 2, 3, 4].forEach(function (i) {
+    setTimeout(function () {
+      if (i > 0) {
+        stages[i - 1].className = "pipeline-stage done";
+        if (arrows[i - 1]) arrows[i - 1].className = "pipeline-arrow flowing";
+      }
+      stages[i].className = "pipeline-stage processing";
+      // pop a random hash on the arrow
+      if (arrows[i]) {
+        var hashEl = arrows[i].querySelector(".flow-hash");
+        if (hashEl) {
+          hashEl.textContent = randomHash(8);
+          hashEl.className = "flow-hash animate";
+          setTimeout(function () { hashEl.className = "flow-hash"; }, 1500);
+        }
+      }
+    }, delay * i);
+  });
+
+  // Final: show tx hash
+  setTimeout(function () {
+    stages[4].className = "pipeline-stage done";
+    arrows.forEach(function (a) { a.className = "pipeline-arrow flowing"; });
+    var tx = document.querySelector("#pipelineTxHash");
+    if (tx && txHashes.length > 0) {
+      tx.innerHTML = "TX: <a href=\"https://sepolia.etherscan.io/tx/" + txHashes[0] + "\" target=\"_blank\">" + txHashes[0] + "</a>";
+      tx.className = "pipeline-tx visible";
+    }
+  }, delay * 5 + 300);
+
+  // 保持结果展示，30 秒后恢复
+  setTimeout(function () {
+    arrows.forEach(function (a) { a.className = "pipeline-arrow"; });
+    pipeline.style.display = "";
+    pipeline.className = pipeline.classList.contains("ready") ? "chain-pipeline ready" : "chain-pipeline";
+  }, 30000);
+}
+
+document.querySelector("#submitChainBtn")?.addEventListener("click", async () => {
+  const btn = document.querySelector("#submitChainBtn");
+  const statusEl = document.querySelector("#eventRadarStatus");
+  if (btn) btn.disabled = true;
+  if (statusEl) statusEl.textContent = "⛓ 正在将事件哈希写入 Sepolia 链…";
+
+  try {
+    const res = await fetch("/api/chain/submit-now", { method: "POST" });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "上链失败");
+    if (statusEl) statusEl.textContent = "上链完成：成功 " + (data.submitted ?? 0) + " 条，失败 " + (data.failed ?? 0) + " 条";
+    animatePipeline(data.txHashes || []);
+    await refreshChainStatus();
+  } catch (err) {
+    if (statusEl) statusEl.textContent = "上链错误：" + err.message;
+  } finally {
+    if (btn) btn.disabled = false;
+  }
+});
+
 searchInput.addEventListener("input", (event) => {
   filterState.query = event.target.value;
   render();
@@ -1316,4 +1495,5 @@ loadExternalProfiles()
   .finally(async () => {
     await refreshEventFeedCache();
     render();
+    refreshChainStatus().catch(() => {});
   });

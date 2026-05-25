@@ -4,3 +4,7 @@ node_modules/
 *.log
 server.log
 data/news-cache.json
+data/chain-queue.json
+data/predictions.json
+huairentang/chat-export.json
+blockchain/probeNullifier.js

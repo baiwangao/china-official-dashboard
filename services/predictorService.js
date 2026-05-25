@@ -136,9 +136,38 @@ class PredictorService {
     }
   }
 
-  // ======= 规则打分（保留作为基础分） =======
+  // ======= 检测中纪委关联事件 =======
+  ccdiFlags(profile) {
+    const events = profile.events || [];
+    const signals = (profile.title || '') + ' ' + (profile.signals || []).flat().join(' ');
+    const ccdiKeywords = ['反腐通报', '落马通报', '立案审查', '被立案', '官宣落马', '已被带走', '被留置'];
+
+    // 事件中的中纪委通报
+    const ccdiEvents = events.filter(e =>
+      ccdiKeywords.some(k => (e.type || '').includes(k) || (e.title || '').includes(k))
+    );
+
+    // 职务/信号中明确标注被审查
+    const titleFlag = /已被立案审查|已被带走|被留置/.test(profile.title || '');
+    const signalFlag = ccdiKeywords.some(k => signals.includes(k));
+
+    return {
+      isCCDITarget: ccdiEvents.length > 0 || titleFlag || signalFlag,
+      ccdiEvents,
+      isOfficial: ccdiEvents.some(e =>
+        (e.confidence || '').includes('中央纪委') || (e.confidence || '').includes('新华社')
+      ),
+      count: ccdiEvents.length
+    };
+  }
+
+  // ======= 规则打分 =======
   calcRuleScore(profile) {
     let score = 50;
+    const ccdi = this.ccdiFlags(profile);
+
+    // 中纪委通报：升迁分直接清零
+    if (ccdi.isCCDITarget) return 0;
 
     const age = profile.age || 60;
     const yearsToNext = 2027 - new Date().getFullYear();
@@ -151,15 +180,15 @@ class PredictorService {
     const diplomacy = events.filter(e => e.type === '外事活动').length;
     score += diplomacy * 8;
 
-    const negative = events.some(e =>
-      ['反腐通报', '异常信号'].includes(e.type)
+    const hasNegative = events.some(e =>
+      ['异常信号', '问责风险', '人事异常'].includes(e.type)
     );
-    if (negative) score -= 60;
+    if (hasNegative) score -= 60;
 
     const accident = events.some(e => e.type === '重大事故');
     if (accident) score -= 20;
 
-    if (profile.attention === '高' && !negative) score += 10;
+    if (profile.attention === '高' && !hasNegative) score += 10;
 
     return Math.max(0, Math.min(100, Math.round(score)));
   }
@@ -262,6 +291,12 @@ class PredictorService {
   }
 
   calculateRiskScore(profile) {
+    const ccdi = this.ccdiFlags(profile);
+
+    // 中纪委通报：风险系数直接拉满
+    if (ccdi.isOfficial) return 100;
+    if (ccdi.isCCDITarget) return Math.max(95, ccdi.count * 5 + 70);
+
     let riskScore = 0;
     if (profile.eventRisk) riskScore += profile.eventRisk * 0.5;
     if (profile.attention === '高') riskScore += 20;
@@ -270,7 +305,7 @@ class PredictorService {
       const high = profile.events.filter(e => e.impact === '高').length;
       riskScore += high * 15;
       const unverified = profile.events.filter(e =>
-        ['未交叉验证', '未核验'].includes(e.confidence)
+        ['未交叉验证', '未核验', '路边情报，未核实'].includes(e.confidence)
       ).length;
       riskScore += unverified * 10;
     }
@@ -285,7 +320,8 @@ class PredictorService {
       (100 - riskScore) * 0.25
     );
     let prediction, category;
-    if (weighted >= 75) { prediction = '升迁前景积极'; category = 'positive'; }
+    if (riskScore >= 95) { prediction = '政治生命已终结'; category = 'risk'; }
+    else if (weighted >= 75) { prediction = '升迁前景积极'; category = 'positive'; }
     else if (weighted >= 60) { prediction = '发展态势平稳'; category = 'neutral'; }
     else if (weighted >= 45) { prediction = '需持续观察'; category = 'caution'; }
     else { prediction = '存在风险因素'; category = 'risk'; }
@@ -306,8 +342,14 @@ class PredictorService {
   }
 
   generateRecommendations(profile, baseScore, sentimentScore, riskScore) {
+    const ccdi = this.ccdiFlags(profile);
     const recs = [];
-    if (riskScore >= 60) recs.push({ type: 'risk', priority: 'high', message: '建议重点关注近期事件发展，密切监控官方通报' });
+
+    if (ccdi.isCCDITarget) {
+      recs.push({ type: 'risk', priority: 'high', message: '中纪委已通报立案审查，政治生涯已终结，建议转入历史档案' });
+    }
+    if (riskScore >= 90) recs.push({ type: 'risk', priority: 'high', message: '风险系数接近上限，存在致命性政治风险' });
+    if (riskScore >= 60 && riskScore < 90) recs.push({ type: 'risk', priority: 'high', message: '建议重点关注近期事件发展，密切监控官方通报' });
     if (riskScore >= 40 && riskScore < 60) recs.push({ type: 'risk', priority: 'medium', message: '建议定期更新事件信息，核实未验证来源' });
     if (baseScore >= 70 && sentimentScore >= 60) recs.push({ type: 'opportunity', priority: 'medium', message: '当前指标显示升迁窗口期，建议关注相关岗位变动' });
     if (!profile.sources || profile.sources.length < 2) recs.push({ type: 'data', priority: 'low', message: '建议补充更多官方来源信息以提高分析准确性' });
