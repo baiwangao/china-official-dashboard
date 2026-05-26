@@ -73,6 +73,15 @@ app.put('/api/profiles/:id', async (req, res) => {
   }
 });
 
+app.delete('/api/profiles/:id', async (req, res) => {
+  try {
+    await dataManager.deleteProfile(req.params.id);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // News API Routes
 app.get('/api/news/search', async (req, res) => {
   try {

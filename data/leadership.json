@@ -337,6 +337,14 @@
     ],
     "events": [
       {
+        "type": "重大事故",
+        "title": "对山西煤矿瓦斯爆炸作出批示",
+        "date": "2026-05-23",
+        "impact": "中",
+        "confidence": "新华社",
+        "relation": "要求'及时准确发布信息，尽快查明事故原因并依法依规严肃问责'。"
+      },
+      {
         "type": "外事活动",
         "title": "李强会见莫桑比克总统查波 - 人民日报",
         "date": "2026-04-22",
@@ -434,6 +442,17 @@
         "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBuaEdhbm5femRHZFkxdFdJOGxXTUdKOWRmcnVhbmtkVlY3REZ3M2lISld6TjJvbkVKdTY3dFhOVXp6WGtlNEpYUTQ5cDI0N2pkMFJoZm0wOVlCMlk5QXc0OXc1X2ZqdmdxWHo5aDItWi0xd2x3N202NjVjcW5QU3c?oc=5",
         "source": "人民日报",
         "fetchedAt": "2026-05-24T11:54:23.852Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "国务院举行宪法宣誓仪式 李强总理监誓 - 云南省卫健委",
+        "date": "2025-06-12",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE5KSVR5ZDMwSDgwRi1IdXJ2Nm50UzFWMDRSSmlVanRidGRjQmxEd0RSM1VOemE2WldSTjhEdm9fU3ctMDNDc0JnaG5SVHRlWmoyRklNaW1VRnFxWGkxbjlhdThrTmZqTGU4OEIyNEtYX3B6SkRjbW44?oc=5",
+        "source": "云南省卫健委",
+        "fetchedAt": "2026-05-25T13:39:14.148Z"
       },
       {
         "type": "媒体报道",
@@ -544,14 +563,6 @@
         "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5EN3laS0NWdUtPQkFiMVBKVWYzeGgtQ3JoYXQwVkhrZmVrekpMQWwtMVJQQnBEWlVKNWdxZFFaR1h4QVI3S3lCYTBCNV96NWVyQl9VRks5MzR2Z0Fxdm9mV2RJamxqdw?oc=5",
         "source": "中国网",
         "fetchedAt": "2026-05-24T11:54:23.852Z"
-      },
-      {
-        "type": "重大事故",
-        "title": "对山西煤矿瓦斯爆炸作出批示",
-        "date": "2026-05-23",
-        "impact": "中",
-        "confidence": "新华社",
-        "relation": "要求'及时准确发布信息，尽快查明事故原因并依法依规严肃问责'。"
       }
     ],
     "sources": [
@@ -606,6 +617,14 @@
       ]
     ],
     "events": [
+      {
+        "type": "外事活动",
+        "title": "乘A330专机出访哈萨克斯坦、俄罗斯",
+        "date": "2026-05-25",
+        "impact": "低",
+        "confidence": "人民日报",
+        "relation": "在俄出席中俄议会合作委员会第十一次会议。路程较近故坐A330而非747。"
+      },
       {
         "type": "媒体报道",
         "title": "十四届全国人大常委会举行第六十六次委员长会议听取有关草案和议案审议情况汇报赵乐际主持 - thepaper.cn",
@@ -762,6 +781,28 @@
       },
       {
         "type": "媒体报道",
+        "title": "赵乐际主持召开十四届全国人大常委会第一次委员长会议 - thepaper.cn",
+        "date": "2023-03-15",
+        "impact": "低",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBjWnN3QWdCOVJNYU55dTU2d1BieFF1bHhBMmRDXzNuMklfTkJGb0liTHdiNHBjVndZTDNWV1pKTEVyd3pnS0VmeDdPWVFKSk55ak9qVVlNZmJZVjlRNTMxVQ?oc=5",
+        "source": "thepaper.cn",
+        "fetchedAt": "2026-05-25T13:39:35.485Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "十四届全国人大常委会第一次会议在京举行 赵乐际主持 - 新华网",
+        "date": "2023-03-15",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1EVzlBZExIR3BaN205WXktenh1YUdiQUJuSVRXUzZJaGhkWGJTbVF1M0hZZ1Axb2dxOGFVV2Ftd0tMUzRfMVQxMVNpOVUyd0NzRndicXJLM1pRQQ?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-05-25T13:39:35.485Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "赵乐际：在第十四届全国人民代表大会第一次会议上的讲话 - spp.gov.cn",
         "date": "2023-03-14",
         "impact": "低",
@@ -781,20 +822,12 @@
         "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE1obE02c3Q3OTV4Tzc0Q3ZxY09pdGhEY1FWWDJCV3NzUUE1TnJmMkVubUlKbU9nNlItZUNNY3hZd1hsTExaT005U1dMNGpMS3FWZ3VqRDNsQ3pueHEwUXB2UEtMeGZFRW9hTU5lVkZUeUNDUTA?oc=5",
         "source": "gwytb.gov.cn",
         "fetchedAt": "2026-05-24T11:54:30.555Z"
-      },
-      {
-        "type": "外事活动",
-        "title": "乘A330专机出访哈萨克斯坦、俄罗斯",
-        "date": "2026-05-25",
-        "impact": "低",
-        "confidence": "人民日报",
-        "relation": "在俄出席中俄议会合作委员会第十一次会议。路程较近故坐A330而非747。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 76
+    "eventRisk": 88
   },
   {
     "id": "wang-huning",
@@ -913,6 +946,17 @@
         "fetchedAt": "2026-05-24T11:54:37.744Z"
       },
       {
+        "type": "外事活动",
+        "title": "“准全国政协主席”王沪宁会见夏立言 - dw.com",
+        "date": "2023-02-10",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMi_AFBVV95cUxNMUVmZFVtUlhOT0ZGeFM1RWFsckVPcmdZNVMtUVYycmJqV2owQ1lpcWcybG5aQk9vUFFKcFduZ2hjTGc1c0YzU3VkUnlEczBhNW10SHpHaF9GNkJBQ29fYzd2Q2Jvclo4RGFUQnk4Q3M5Zlh3eURqXzVSY3RlR2lyY2xCdHN4NlZFWEY4NGpwY2hfbmpFUDhLZHRMQVJBalJQbTdHZmZ2RjdYak1sMWptaVVBNVJXZWxKRnNyTk9YV1JxSlNvdnEtVnE2RDk1cDBMRmhRUXNsbGFBTXExdkRiQS1UQXlnTkl5TlQydVJmdDc1QWNkRXh0bEYwMHTSAfwBQVVfeXFMT1dwRjltTk5RcGN2Mi1xeHJBcmFvZ2lYZUNoaGJFQVo2WHF0UkVzSE10YlppbE14elZMSWRWV3lPYkVMOHhTREliSklRbEhTd1lQa1RJQms2Zkl0S251ZkxPa200VVFXMlpGN0Ywc3pNSlptQkIxV01EQ3ZOTkVBQXNvaThRU1VBdGhST2FrbTVTeDV6YXFWdngteTVZaENveW9yRmJoNUFidkFzY1VPbEVYdWRuR1I2TmhESWpWME5sazcyN0dKdXZLQ0tqemJTODZfb19tZ1NDcmljTEQwSVNmVEZmY0dRazE2VG1nMmFGdGtVcWVHaXdSR0U4?oc=5",
+        "source": "dw.com",
+        "fetchedAt": "2026-05-25T13:39:49.309Z"
+      },
+      {
         "type": "媒体报道",
         "title": "周日路透复看胡被架离事 “闲说”王沪宁 - RFI",
         "date": "2022-12-11",
@@ -960,7 +1004,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 44
+    "eventRisk": 48
   },
   {
     "id": "cai-qi",
@@ -1001,6 +1045,14 @@
       ]
     ],
     "events": [
+      {
+        "type": "外事活动",
+        "title": "全程陪同普京访华行程",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "群内认为这是中办主任职责惯例，非特别升迁信号。"
+      },
       {
         "type": "任免动向",
         "title": "传蔡奇接受审查 其两位保密局下属突被免职 (图) - kanzhongguo.eu",
@@ -1187,14 +1239,6 @@
         "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE82R010UGtmSEZKOVNDOWNTaFdzeURuc28zQmNBZHlUTWhNUXFaLURGOElOZWhVMnFCNElINDJLWWRYOHlDSnRIV3EtN2cxTUtHSThtdE1yR1RtTm9KZG50bEVfZ0NjRlBqcDA3TEE5YmpoRWNEN21R?oc=5",
         "source": "中国经济网",
         "fetchedAt": "2026-05-24T11:54:48.401Z"
-      },
-      {
-        "type": "外事活动",
-        "title": "全程陪同普京访华行程",
-        "date": "2026-05-20",
-        "impact": "低",
-        "confidence": "新华社",
-        "relation": "群内认为这是中办主任职责惯例，非特别升迁信号。"
       }
     ],
     "sources": [
@@ -1241,6 +1285,14 @@
       ]
     ],
     "events": [
+      {
+        "type": "外事活动",
+        "title": "参加中俄元首小范围及大范围会谈",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "中方出席阵容：蔡奇、丁薛祥、王毅、何立峰、张国清、谌贻琴等。"
+      },
       {
         "type": "媒体报道",
         "title": "丁薛祥出席世界数据组织成立大会 宣读习近平主席贺信并发表主旨讲话 - mfa.gov.cn",
@@ -1460,20 +1512,12 @@
         "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNWXVZM2ljUnVfZHM4eFNZd3RXblAxOXhQRGtMRHhTbHVnSDNxYzUyUzhaYUZjcTJkUWo5MHBiQTFvc3dTUWhVMl92TE9rdi03VTA4RnhBMl9WRTV1SlJDcGx5aVlqakJlY1R4ZmVRNnB5V2RURTNyQW80dmc5ZTJ6bS1kdmVUREFVOWpKcGh3bXc4RTF3Y1ZySzZzQzJJTUNZaGfSAaQBQVVfeXFMUDBaU1JDZlBrV1E3WkVLWE1iQmxONkp1alVUX2l2SnBKV1JEMW1mVEFadi1aQlI4RzVxWTZNZGRwaVBXeVo3VXMyOTdLTDlCeWVrUVZfSjNRNlhNdTFScEpHVUcwb3lDci1EcVpwcmVfbVZIOU5SQWVzV0dZVFh1MnlQWTF5cGFsM3ZKRVVZQjEydjhGRDFCYVRVSHVDNTNjaGdSN0o?oc=5",
         "source": "美国之音",
         "fetchedAt": "2026-05-24T15:43:47.967Z"
-      },
-      {
-        "type": "外事活动",
-        "title": "参加中俄元首小范围及大范围会谈",
-        "date": "2026-05-20",
-        "impact": "低",
-        "confidence": "新华社",
-        "relation": "中方出席阵容：蔡奇、丁薛祥、王毅、何立峰、张国清、谌贻琴等。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 86
+    "eventRisk": 90
   },
   {
     "id": "li-xi",
@@ -1579,6 +1623,17 @@
         "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBOSUpiNDBEd2gwT1JxRWtxT0tKalhlX3ZFVmp4cVlIRXZUMjBWQWRIWmNVazBPamw3RU56UUF6YVlmYUdvQnNDOExqVFNMRXFNbGJJZlJCOXdPSHpnY1ViX0pRVDFWZDVzN1JQbmJB?oc=5",
         "source": "fmprc.gov.cn",
         "fetchedAt": "2026-05-24T11:55:02.236Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "上海市委原副书记李希被任命为辽宁省副省长、代省长 - thepaper.cn",
+        "date": "2025-08-24",
+        "impact": "中",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9UY0x2TE94YzRYTHlFRl9uYUU2N3dVZW9yYlJqcEFrN2g3Tm1WbjJweS1DNUJ5Z0gyQWM2RzVBME84TVJqV0JtSTV5NkQ2M1JHa25hOVprV2ItYURVSWJjTE40eE96UQ?oc=5",
+        "source": "thepaper.cn",
+        "fetchedAt": "2026-05-25T13:40:30.511Z"
       },
       {
         "type": "媒体报道",
@@ -1764,6 +1819,22 @@
     "events": [
       {
         "type": "外事活动",
+        "title": "普京访华接机、小范围/大范围会谈参加",
+        "date": "2026-05-19",
+        "impact": "中",
+        "confidence": "新华社/央视",
+        "relation": "5月19日晚首都机场迎接普京。20日参加福建厅小范围会谈、东大厅大范围会谈及签字仪式。"
+      },
+      {
+        "type": "外事活动",
+        "title": "颁发首届'杰出外交使者奖章'给8国驻华使节",
+        "date": "2026-05-18",
+        "impact": "低",
+        "confidence": "外交部",
+        "relation": "正向外交信号。"
+      },
+      {
+        "type": "外事活动",
         "title": "朝鲜最高领导人金正恩会见王毅 - fmprc.gov.cn",
         "date": "2026-04-10",
         "impact": "低",
@@ -1937,22 +2008,6 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9JajBvZDBVMl9JRHUxRDFyaFZFTk5NYnRUY0x3X1NiVlZuVHp1TWFvTXp2NTZvTUIyMDUyOUpkZVYxYTFUS3NpZDlrOWZZUWZqVnpweFdjU21IdDZIWnJRd0luek8xYVJnNmV4ZjJQV3VMZUpX?oc=5",
         "source": "中国经济网",
         "fetchedAt": "2026-05-24T11:55:09.065Z"
-      },
-      {
-        "type": "外事活动",
-        "title": "普京访华接机、小范围/大范围会谈参加",
-        "date": "2026-05-19",
-        "impact": "中",
-        "confidence": "新华社/央视",
-        "relation": "5月19日晚首都机场迎接普京。20日参加福建厅小范围会谈、东大厅大范围会谈及签字仪式。"
-      },
-      {
-        "type": "外事活动",
-        "title": "颁发首届'杰出外交使者奖章'给8国驻华使节",
-        "date": "2026-05-18",
-        "impact": "低",
-        "confidence": "外交部",
-        "relation": "正向外交信号。"
       }
     ],
     "sources": [
@@ -2033,6 +2088,17 @@
         "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE43Ni0yUTNvdEJtUTdqUkxxN3dCd2ItNnBGSEc5MWVLeUNzV05tbWNzOVFJdktleThRX3RaNWR0SkRRa2hCWFNXVm5TT29TTk9qU1p3dDVVWDdvR2VLNVNPN1lHc2dibXZ4NkFueXJ4RDUxTWZCbVdzMHFB?oc=5",
         "source": "beijing.gov.cn",
         "fetchedAt": "2026-05-24T11:55:15.949Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "北京市十六届人大一次会议胜利闭幕，尹力讲话 - 京报网",
+        "date": "2023-01-20",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 尹力 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBsZ2lUTHllRHRkUjVXeDdmYTQzaWs3RXhfMmxJYmlVQlF3cTd0SjNoT3NqbkZwNGFMelJOVmU2cXpESDlUTldMZUNoYTVhSFBMOW8tMGx3RXVpME5oTUtYZTlKWFdCMWRrTVJLSXB6WUdXQQ?oc=5",
+        "source": "京报网",
+        "fetchedAt": "2026-05-25T13:40:45.253Z"
       },
       {
         "type": "媒体报道",
@@ -2181,7 +2247,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 90
+    "eventRisk": 94
   },
   {
     "id": "shi-taifeng",
@@ -2613,6 +2679,17 @@
         "fetchedAt": "2026-05-24T11:55:37.491Z"
       },
       {
+        "type": "媒体报道",
+        "title": "周晓辉：李干杰与石泰峰职务对调 谁掌人事权？ - aboluowang.com",
+        "date": "2025-04-03",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李干杰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE1DQ29oTmtnalJXdGh2TkFCQ0RzQ0VsZDk0cnNpTHdnZllwQ1BtTWtqSlhZWXBZYTdPWFp4b01XTEQyZUt2RV9fcy05UFBqQjFXSU1YdVFMaTNENExKdmfSAWNBVV95cUxNWWpac1FOYkYyZHgyRVlVOXI0QnBnZzVFUTNRZUh5MkQ0YkI2Z0NpaVYtZDRFdHBPbmVtU3M2Vk1FZnVDYlgycll6eFVmZkF3R1RZcXBSS2g0R3M3SVFRUWM0bFE?oc=5",
+        "source": "aboluowang.com",
+        "fetchedAt": "2026-05-25T13:41:08.478Z"
+      },
+      {
         "type": "任免动向",
         "title": "李干杰任中组部部长！30年环保“老兵”再履新 - 中国水网",
         "date": "2023-04-27",
@@ -2644,6 +2721,17 @@
         "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBEcDYzSF96U0dFWXMxR2owZXZjMkFBREhyNTVtYjUwTm02RFdTUHNtS0F4eGdqajRFbWVieHBJTzVjUXVpV2tJREpHSDlHdUo3QWZCdEw5azd2SjlPV3pkUktzOWFhbndzOFE?oc=5",
         "source": "中国共产党员网",
         "fetchedAt": "2026-05-24T11:55:37.491Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "周乃翔任山东省代省长 李干杰辞去省长职务 - 中国经济网",
+        "date": "2021-09-30",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李干杰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBnRy10NmJfRGVPMlRLbl9WNC1NUFNLNlduUnRFejRKQWE1UUI1X1l1T0dkTzZPS2Zsc2kzNkVjV1NaS0dlNGZueDhkbFNWMnd4U0N6dnlsWWNWWEpLWWJuWnprZTBmcWUyYklzRW5DeWQwRW1pdDlpSw?oc=5",
+        "source": "中国经济网",
+        "fetchedAt": "2026-05-25T13:41:08.478Z"
       },
       {
         "type": "媒体报道",
@@ -2693,7 +2781,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 68
+    "eventRisk": 76
   },
   {
     "id": "li-shulei",
@@ -2738,6 +2826,17 @@
       ]
     ],
     "events": [
+      {
+        "type": "媒体报道",
+        "title": "2026年中国网络文明大会在南宁举行 李书磊出席并发表主旨演讲 - 紫荆网",
+        "date": "2026-05-19",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPM1dPSDhKX3Z2Zzl0RDRfTU9jUVFiOUJXeXE1SHpqSjdCamwwWnFDMmVWZG9ZYkt5NTM5OWJVbmk3NmRaTFNCbElmd0ktZUxJWE8zTWdYTm54Tm12aFpNSzZueGdJWmJ2dEVXTnlqYUVfa1hsblV4VXowMnJENFl2MVBPeW5fSDZ1YzQxTWpjenRadGNF?oc=5",
+        "source": "紫荆网",
+        "fetchedAt": "2026-05-25T13:41:15.614Z"
+      },
       {
         "type": "媒体报道",
         "title": "李书磊是黔驴技穷了？ 党媒把小粉红带沟里 - aboluowang.com",
@@ -2852,7 +2951,7 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 52
+    "eventRisk": 56
   },
   {
     "id": "he-weidong",
@@ -2893,6 +2992,14 @@
       ]
     ],
     "events": [
+      {
+        "type": "舆论风波",
+        "title": "被传出事→公开露面证伪传闻",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "群内讨论/公开报道",
+        "relation": "鲁姓大V此前坚称何自杀后被其女儿辟谣。军纪委内部视频有出镜但'无法确认拍摄时间'。猫猫头评'某些人很尴尬'。"
+      },
       {
         "type": "媒体报道",
         "title": "何卫东等8人被罢免全国人大代表职务 - 香港01",
@@ -2969,21 +3076,13 @@
         "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQTVNCaVJOT245SFFYY3RCZDN3NWpEVkt2cXlzYkVZbDFBUXQxNjUtbkg4Tk5fV2wwMlRRWkFPSjB1WFJfWXcyM3pfYzhiOFZxU1Q2MWgxYU1ValA3bGx4VHBsbmZjS1N6V2RVRktta1Jkb2xiM25FcGx3S3g1ak1IelAzeGV4Zw?oc=5",
         "source": "端傳媒Initium Media",
         "fetchedAt": "2026-05-24T11:55:51.236Z"
-      },
-      {
-        "type": "舆论风波",
-        "title": "被传出事→公开露面证伪传闻",
-        "date": "2026-05-20",
-        "impact": "低",
-        "confidence": "群内讨论/公开报道",
-        "relation": "鲁姓大V此前坚称何自杀后被其女儿辟谣。军纪委内部视频有出镜但'无法确认拍摄时间'。猫猫头评'某些人很尴尬'。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html",
       "http://www.mod.gov.cn/"
     ],
-    "eventRisk": 70
+    "eventRisk": 74
   },
   {
     "id": "he-lifeng",
@@ -3036,6 +3135,14 @@
       ]
     ],
     "events": [
+      {
+        "type": "外事活动",
+        "title": "参加中俄元首会谈（小范围+大范围）",
+        "date": "2026-05-20",
+        "impact": "低",
+        "confidence": "新华社",
+        "relation": "文森特逐帧分析会谈座位图，完成中方出席人员全列表。"
+      },
       {
         "type": "媒体报道",
         "title": "何立峰任中央金融办主任 本周访美会耶伦 - dw.com",
@@ -3200,20 +3307,12 @@
         "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFByY0NRRXhnX3R2aXhOSGxJdlBHOGptWFJtLVFjVXc0MXhJVmJaWDJuRjQyRjdXQ0pqZVpJZDdUZFdLaWpCbG5QV2Mtdy1yZkpPZXZzWGJaaC10QQ?oc=5",
         "source": "搜狐网",
         "fetchedAt": "2026-05-24T11:56:03.096Z"
-      },
-      {
-        "type": "外事活动",
-        "title": "参加中俄元首会谈（小范围+大范围）",
-        "date": "2026-05-20",
-        "impact": "低",
-        "confidence": "新华社",
-        "relation": "文森特逐帧分析会谈座位图，完成中方出席人员全列表。"
       }
     ],
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 84
+    "eventRisk": 88
   },
   {
     "id": "zhang-guoqing",
