@@ -867,6 +867,19 @@ async function refreshEventFeedCache() {
   }
 }
 
+// 自动刷新事件雷达
+let eventRadarTimer = null;
+function startEventRadarAutoRefresh() {
+  if (eventRadarTimer) return;
+  eventRadarTimer = setInterval(async () => {
+    const feed = await refreshEventFeedCache();
+    if (feed) {
+      renderEventRadar({ preserveStatus: true });
+    }
+  }, 30000); // 每30秒自动刷新
+}
+startEventRadarAutoRefresh();
+
 function buildEventFeedFromProfiles(profileList) {
   const items = [];
   for (const profile of profileList) {
