@@ -289,16 +289,12 @@ function buildProfileFromForm(formData) {
 }
 
 function openAddProfileDialog() {
-  addProfileError.hidden = true;
-  addProfileError.textContent = "";
-  addProfileForm.reset();
-  addProfileForm.querySelector('[name="region"]').value = "未分类";
-  addProfileForm.querySelector('[name="system"]').value = "地方党政";
-  addProfileForm.querySelectorAll('input[type="range"]').forEach((input) => {
-    const out = document.getElementById(input.dataset.output);
-    if (out) out.textContent = input.value;
-  });
-  addProfileDialog.showModal();
+  document.querySelector("#addProfileDialog").showModal();
+}
+
+function setAddProfileName(name) {
+  const input = document.querySelector('#addProfileForm input[name="name"]');
+  if (input) input.value = name;
 }
 
 function closeAddProfileDialog() {
@@ -733,8 +729,25 @@ function renderSummary(filtered) {
 function renderList(filtered) {
   resultCount.textContent = `${filtered.length} 条`;
   if (!filtered.length) {
-    profileList.innerHTML = `<div class="empty-state">没有匹配的档案</div>`;
-    detailPane.innerHTML = `<div class="empty-state">调整筛选条件后查看详情</div>`;
+    const query = (filterState.query || "").trim();
+    if (query) {
+      profileList.innerHTML = `
+        <div class="empty-state">
+          <p>未找到 "${escapeHtml(query)}" 的相关档案</p>
+          <button class="btn-primary" id="addFromSearchBtn" style="margin-top:10px">＋ 添加 "${escapeHtml(query)}" 到档案库</button>
+        </div>`;
+      detailPane.innerHTML = `<div class="empty-state">可在左侧添加新官员</div>`;
+      // 绑定点击
+      setTimeout(() => {
+        document.querySelector("#addFromSearchBtn")?.addEventListener("click", () => {
+          setAddProfileName(query);
+          openAddProfileDialog();
+        });
+      }, 0);
+    } else {
+      profileList.innerHTML = `<div class="empty-state">没有匹配的档案</div>`;
+      detailPane.innerHTML = `<div class="empty-state">调整筛选条件后查看详情</div>`;
+    }
     return;
   }
 

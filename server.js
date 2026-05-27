@@ -253,19 +253,37 @@ app.get('/api/chain/total-reviews', async (req, res) => {
   } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// Database Tables (from TablePlus)
+// Database Tables (from TablePlus, DB不可用时兜底JSON)
 app.get('/api/personnel-changes', async (req, res) => {
   try {
     const [rows] = await dataManager.getPool().query('SELECT * FROM personnel_changes ORDER BY date DESC');
+    if (rows.length) {
+      const fs = require('fs').promises;
+      fs.writeFile(path.join(__dirname, 'data/personnel-changes.json'), JSON.stringify(rows, null, 2)).catch(()=>{});
+    }
     res.json(rows);
-  } catch (error) { res.status(500).json({ error: error.message }); }
+  } catch (error) {
+    try {
+      const cache = JSON.parse(await require('fs').promises.readFile(path.join(__dirname, 'data/personnel-changes.json'), 'utf8'));
+      return res.json(cache);
+    } catch { res.status(500).json({ error: error.message }); }
+  }
 });
 
 app.get('/api/daily-summary', async (req, res) => {
   try {
     const [rows] = await dataManager.getPool().query('SELECT * FROM daily_summary ORDER BY date DESC');
+    if (rows.length) {
+      const fs = require('fs').promises;
+      fs.writeFile(path.join(__dirname, 'data/daily-summary.json'), JSON.stringify(rows, null, 2)).catch(()=>{});
+    }
     res.json(rows);
-  } catch (error) { res.status(500).json({ error: error.message }); }
+  } catch (error) {
+    try {
+      const cache = JSON.parse(await require('fs').promises.readFile(path.join(__dirname, 'data/daily-summary.json'), 'utf8'));
+      return res.json(cache);
+    } catch { res.status(500).json({ error: error.message }); }
+  }
 });
 
 // Huairentang Routes
