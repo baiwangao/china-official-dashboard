@@ -1,4 +1,6 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs').promises;
+const path = require('path');
 const newsApiService = require('./newsApiService');
 const scraperService = require('./scraperService');
 const predictorService = require('./predictorService');
@@ -7,6 +9,23 @@ const eventRadarService = require('./eventRadarService');
 class DataManager {
   constructor() {
     this.pool = null;
+    this.dataDir = path.join(__dirname, '../data');
+    this.profilesFile = path.join(this.dataDir, 'leadership.json');
+    this.dbAvailable = null;
+  }
+
+  async tryDB(fn) {
+    try {
+      if (this.dbAvailable === false) throw new Error('db-offline');
+      this.getPool(); // ensure pool exists
+      const result = await fn();
+      this.dbAvailable = true;
+      return result;
+    } catch (e) {
+      this.dbAvailable = false;
+      console.warn('[DataManager] DB异常，使用本地JSON:', e.message.substring(0, 50));
+      return null;
+    }
   }
 
   getPool() {
@@ -18,17 +37,27 @@ class DataManager {
         password: process.env.DB_PASSWORD || '',
         database: process.env.DB_NAME || 'china-official',
         waitForConnections: true,
-        connectionLimit: 10,
+        connectionLimit: 5,
+        connectTimeout: 3000,
         charset: 'utf8mb4'
       });
     }
     return this.pool;
   }
 
-  // ===== Officials =====
+  // ===== Officials (DB优先，JSON兜底) =====
   async getProfiles() {
-    const [rows] = await this.getPool().query('SELECT * FROM officials ORDER BY created_at DESC');
-    return rows.map(r => this.rowToProfile(r));
+    const dbResult = await this.tryDB(async () => {
+      const [rows] = await this.getPool().query('SELECT * FROM officials ORDER BY created_at DESC');
+      return rows.map(r => this.rowToProfile(r));
+    });
+    if (dbResult) return dbResult;
+
+    // 回退 JSON
+    try {
+      const data = await fs.readFile(this.profilesFile, 'utf8');
+      return JSON.parse(data);
+    } catch { return []; }
   }
 
   async getProfileById(id) {

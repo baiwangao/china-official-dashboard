@@ -224,7 +224,9 @@ app.get('/api/chain/status/:hash', async (req, res) => {
   try {
     const item = await queueManager.getByHash(req.params.hash);
     if (!item) return res.status(404).json({ error: 'Hash not found in queue' });
-    res.json(item);
+    const { hash, status, tx_hash, block_number, event, enqueued_at, submitted_at } = item;
+    res.json({ hash, status, txHash: tx_hash, blockNumber: block_number,
+      event, enqueuedAt: enqueued_at, submittedAt: submitted_at });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

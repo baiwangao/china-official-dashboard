@@ -1,176 +1,139 @@
-const fs   = require('fs').promises;
+const mysql = require('mysql2/promise');
+const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
 const { hashEvent, sourceKey, titleKey } = require('./hashService');
 
 const QUEUE_FILE = path.join(__dirname, '../data/chain-queue.json');
-
 const EMPTY_QUEUE = { pending: [], committed: [], submitted: [], failed: [] };
 
-async function load() {
-  try {
-    const raw = await fs.readFile(QUEUE_FILE, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return { ...EMPTY_QUEUE };
+let pool = null, dbOk = null;
+
+function getPool() {
+  if (!pool) {
+    pool = mysql.createPool({
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT) || 3306,
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || '',
+      database: process.env.DB_NAME || 'china-official',
+      waitForConnections: true,
+      connectionLimit: 5,
+      connectTimeout: 3000,
+      charset: 'utf8mb4'
+    });
   }
+  return pool;
 }
 
-async function save(queue) {
-  await fs.mkdir(path.dirname(QUEUE_FILE), { recursive: true });
-  await fs.writeFile(QUEUE_FILE, JSON.stringify(queue, null, 2));
+async function tryDB(fn) {
+  try {
+    if (dbOk === false) throw new Error('offline');
+    return await fn();
+  } catch { dbOk = false; return null; }
 }
 
-/**
- * 将新事件数组入队。三层去重：
- * 1. 哈希去重（pending + committed + submitted + failed 四池）
- * 2. 源 URL 去重（同一篇文章不重复）
- * 3. 标题+日期去重（无 URL 时）
- * @returns {number} 实际新入队条数
- */
+// ===== enqueue (DB优先，JSON兜底) =====
 async function enqueue(events) {
   if (!events || !events.length) return 0;
-  const queue = await load();
 
-  // 收集所有已知哈希
-  const knownHashes = new Set([
-    ...queue.pending.map(i => i.hash),
-    ...queue.committed.map(i => i.hash),
-    ...queue.submitted.map(i => i.hash),
-    ...queue.failed.map(i => i.hash),
+  const dbResult = await tryDB(async () => await enqueueDB(events));
+  if (dbResult !== null) return dbResult;
+  return await enqueueJSON(events);
+}
+
+async function enqueueDB(events) {
+  const [knownHashes, knownRows] = await Promise.all([
+    getPool().query('SELECT hash FROM chain_events'),
+    getPool().query('SELECT event FROM chain_events WHERE event IS NOT NULL')
   ]);
-
-  // 收集所有已知源去重键
-  const knownSourceKeys = new Set();
-  const knownTitleKeys  = new Set();
-  const allItems = [...queue.pending, ...queue.committed, ...queue.submitted, ...queue.failed];
-  for (const item of allItems) {
-    const ev = item.event || item;
-    const sk = sourceKey(ev);
-    const tk = titleKey(ev);
-    if (sk) knownSourceKeys.add(sk);
-    if (tk) knownTitleKeys.add(tk);
+  const hashSet = new Set(knownHashes[0].map(r => r.hash));
+  const srcSet = new Set(), titSet = new Set();
+  for (const r of knownRows[0]) {
+    try { const ev = JSON.parse(r.event); const sk = sourceKey(ev); if (sk) srcSet.add(sk); const tk = titleKey(ev); if (tk) titSet.add(tk); } catch {}
   }
-
-  let added = 0, skippedHash = 0, skippedSource = 0;
+  let added = 0;
   for (const event of events) {
-    const hash = hashEvent(event);
-
-    // 1. 哈希去重
-    if (knownHashes.has(hash)) {
-      skippedHash++;
-      continue;
-    }
-
-    // 2. URL 去重
-    const sk = sourceKey(event);
-    if (sk && knownSourceKeys.has(sk)) {
-      skippedSource++;
-      continue;
-    }
-
-    // 3. 标题+日期去重
-    const tk = titleKey(event);
-    if (!sk && tk && knownTitleKeys.has(tk)) {
-      skippedSource++;
-      continue;
-    }
-
-    queue.pending.push({
-      queueId:    crypto.randomUUID(),
-      hash,
-      event,
-      sourceKey:  sk,
-      titleKey:   tk,
-      enqueuedAt: new Date().toISOString(),
-      retries:    0,
-    });
-    knownHashes.add(hash);
-    if (sk) knownSourceKeys.add(sk);
-    if (tk) knownTitleKeys.add(tk);
-    added++;
-  }
-
-  if (added > 0) await save(queue);
-  if (skippedHash > 0 || skippedSource > 0) {
-    console.log(`[QueueManager] 入队 ${added} 条，跳过 ${skippedHash + skippedSource} 条重复（哈希:${skippedHash} 源:${skippedSource}）`);
+    const h = hashEvent(event);
+    if (hashSet.has(h)) continue;
+    const sk = sourceKey(event), tk = titleKey(event);
+    if (sk && srcSet.has(sk)) continue;
+    if (!sk && tk && titSet.has(tk)) continue;
+    await getPool().query("INSERT INTO chain_events (queue_id, hash, event, status) VALUES (?,?,?,'pending')",
+      [crypto.randomUUID(), h, JSON.stringify(event)]);
+    hashSet.add(h); if (sk) srcSet.add(sk); if (tk) titSet.add(tk); added++;
   }
   return added;
 }
 
+async function enqueueJSON(events) {
+  let queue;
+  try { queue = JSON.parse(await fs.readFile(QUEUE_FILE, 'utf8')); } catch { queue = { ...EMPTY_QUEUE }; }
+  const all = [...queue.pending, ...(queue.committed||[]), ...queue.submitted, ...queue.failed];
+  const hashSet = new Set(all.map(i => i.hash));
+  const srcSet = new Set(), titSet = new Set();
+  for (const i of all) { const sk = sourceKey(i.event||i); if (sk) srcSet.add(sk); const tk = titleKey(i.event||i); if (tk) titSet.add(tk); }
+  let added = 0;
+  for (const event of events) {
+    const h = hashEvent(event);
+    if (hashSet.has(h)) continue;
+    const sk = sourceKey(event), tk = titleKey(event);
+    if (sk && srcSet.has(sk)) continue;
+    if (!sk && tk && titSet.has(tk)) continue;
+    queue.pending.push({ queueId: crypto.randomUUID(), hash: h, event, enqueuedAt: new Date().toISOString(), retries: 0 });
+    hashSet.add(h); if (sk) srcSet.add(sk); if (tk) titSet.add(tk); added++;
+  }
+  if (added) { await fs.mkdir(path.dirname(QUEUE_FILE), { recursive: true }); await fs.writeFile(QUEUE_FILE, JSON.stringify(queue, null, 2)); }
+  return added;
+}
+
 async function getPending() {
-  const queue = await load();
-  return queue.pending;
+  const [rows] = await getPool().query("SELECT * FROM chain_events WHERE status = 'pending' ORDER BY enqueued_at");
+  return rows.map(r => ({ ...r, event: parseEvent(r.event) }));
 }
 
 async function markCommitted(queueId, txHash, blockNumber) {
-  const queue = await load();
-  const idx = queue.pending.findIndex(i => i.queueId === queueId);
-  if (idx === -1) return;
-  const [item] = queue.pending.splice(idx, 1);
-  queue.committed.push({
-    queueId:     item.queueId,
-    hash:        item.hash,
-    txHash,
-    blockNumber: blockNumber ?? null,
-    committedAt: new Date().toISOString(),
-  });
-  await save(queue);
+  await getPool().query(
+    "UPDATE chain_events SET status = 'committed', tx_hash = ?, block_number = ? WHERE queue_id = ?",
+    [txHash, blockNumber, queueId]
+  );
 }
 
 async function markSubmitted(queueId, txHash, blockNumber) {
-  const queue = await load();
-  let idx = queue.committed.findIndex(i => i.queueId === queueId);
-  if (idx === -1) idx = queue.pending.findIndex(i => i.queueId === queueId);
-  if (idx === -1) return;
-  // 从找到的池移除
-  const pool = queue.committed.findIndex(i => i.queueId === queueId) !== -1 ? queue.committed : queue.pending;
-  const poolIdx = pool.findIndex(i => i.queueId === queueId);
-  const [item] = pool.splice(poolIdx, 1);
-  queue.submitted.push({
-    queueId:     item.queueId,
-    hash:        item.hash,
-    txHash,
-    blockNumber: blockNumber ?? null,
-    submittedAt: new Date().toISOString(),
-  });
-  await save(queue);
+  await getPool().query(
+    "UPDATE chain_events SET status = 'submitted', tx_hash = ?, block_number = ?, submitted_at = NOW() WHERE queue_id = ?",
+    [txHash, blockNumber, queueId]
+  );
 }
 
 async function markFailed(queueId) {
-  const queue = await load();
-  const idx = queue.pending.findIndex(i => i.queueId === queueId);
-  if (idx === -1) return;
-  queue.pending[idx].retries = (queue.pending[idx].retries || 0) + 1;
-  if (queue.pending[idx].retries >= 3) {
-    const [item] = queue.pending.splice(idx, 1);
-    queue.failed.push({ ...item, failedAt: new Date().toISOString() });
+  const [rows] = await getPool().query("SELECT retries FROM chain_events WHERE queue_id = ?", [queueId]);
+  if (!rows.length) return;
+  const retries = (rows[0].retries || 0) + 1;
+  if (retries >= 3) {
+    await getPool().query("UPDATE chain_events SET status = 'failed', retries = ? WHERE queue_id = ?", [retries, queueId]);
+  } else {
+    await getPool().query("UPDATE chain_events SET retries = ? WHERE queue_id = ?", [retries, queueId]);
   }
-  await save(queue);
 }
 
 async function getStats() {
-  const queue = await load();
-  return {
-    pending:   queue.pending.length,
-    committed: queue.committed.length,
-    submitted: queue.submitted.length,
-    failed:    queue.failed.length,
-  };
+  const [rows] = await getPool().query(
+    "SELECT status, COUNT(*) as c FROM chain_events GROUP BY status"
+  );
+  const stats = { pending: 0, committed: 0, submitted: 0, failed: 0 };
+  for (const r of rows) stats[r.status] = r.c;
+  return stats;
 }
 
-/**
- * 查询某哈希的本地状态（submitted池里查 txHash）
- */
 async function getByHash(hash) {
-  const queue = await load();
-  const submitted = queue.submitted.find(i => i.hash === hash);
-  if (submitted) return { status: 'submitted', ...submitted };
-  const committed = queue.committed.find(i => i.hash === hash);
-  if (committed) return { status: 'committed', ...committed };
-  const pending = queue.pending.find(i => i.hash === hash);
-  if (pending)   return { status: 'pending',   ...pending };
-  return null;
+  const [rows] = await getPool().query("SELECT * FROM chain_events WHERE hash = ?", [hash]);
+  if (!rows.length) return null;
+  return { ...rows[0], event: parseEvent(rows[0].event) };
+}
+
+function parseEvent(v) {
+  try { return typeof v === 'string' ? JSON.parse(v) : v; } catch { return v; }
 }
 
 module.exports = { enqueue, getPending, markCommitted, markSubmitted, markFailed, getStats, getByHash };
