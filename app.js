@@ -1253,6 +1253,27 @@ async function renderDetail(profile) {
     `;
     })()}
 
+    <section class="verify-panel" aria-label="来源校验">
+      <span class="eyebrow">Source Verification</span>
+      <p class="verify-intro">对关联事件的来源可信度进行人工判定</p>
+      <div class="verify-grid">
+        ${profile.events.map((ev, i) => {
+          const isVerified = (ev.confidence || '').includes('已核验') || (ev.confidence || '').includes('已确认');
+          const isFalse = (ev.confidence || '').includes('虚假');
+          const stateCls = isVerified ? 'verified' : isFalse ? 'flagged' : '';
+          return `
+          <div class="verify-item ${stateCls}" data-event-idx="${i}" data-profile-id="${profile.id}">
+            <span class="verify-ev-title">${escapeHtml((ev.title || '').substring(0, 40))}</span>
+            <span class="verify-ev-type tag ${ev.impact === '高' ? 'rose' : ev.impact === '中' ? 'amber' : 'jade'}">${escapeHtml(ev.type)}</span>
+            <div class="verify-btns">
+              <button class="verify-btn verify-true ${isVerified ? 'active' : ''}" data-action="verify" data-idx="${i}" ${stateCls ? 'disabled' : ''}>✓ 真实</button>
+              <button class="verify-btn verify-false ${isFalse ? 'active' : ''}" data-action="flag" data-idx="${i}" ${stateCls ? 'disabled' : ''}>✗ 虚假</button>
+            </div>
+          </div>
+        `}).join('') || '<div class="empty-state">暂无关联事件</div>'}
+      </div>
+    </section>
+
     <div class="source-row">
       <span class="tag">数据源占位</span>
       ${profile.sources.map((source) => `<a href="#" aria-label="${escapeHtml(source)}">${escapeHtml(source)}</a>`).join("")}
@@ -1286,9 +1307,41 @@ function render() {
   renderList(filtered);
   const selected = profiles.find((profile) => profile.id === filterState.selectedId) || filtered[0];
   if (selected) void renderDetail(selected);
+  renderSourcesPanel(selected);
   renderEventRadar();
   renderOpinionOverview(filtered);
   renderTablePlus();
+}
+
+function renderSourcesPanel(profile) {
+  const body = document.querySelector("#sourcesBody");
+  if (!body) return;
+  if (!profile || !profile.events || !profile.events.length) {
+    body.innerHTML = '<div class="empty-state">请先在左侧选择一名官员，详情面板中的「来源校验」区域将展示该官员所有关联事件</div>';
+    return;
+  }
+  const vCount = profile.events.filter(e => (e.confidence || '').includes('已核验') || (e.confidence || '').includes('已确认')).length;
+  const fCount = profile.events.filter(e => (e.confidence || '').includes('虚假')).length;
+  body.innerHTML =
+    '<div class="sources-summary"><strong>' + profile.name + '</strong> · ' + profile.events.length + ' 条事件 · ' +
+      '<span class="tag jade">' + vCount + ' 已核实</span> ' +
+      '<span class="tag rose">' + fCount + ' 已标记虚假</span> ' +
+      '<span class="tag">' + (profile.events.length - vCount - fCount) + ' 待判定</span>' +
+    '</div>' +
+    '<div class="verify-grid">' +
+    profile.events.map(function (ev, i) {
+      var isV = (ev.confidence || '').indexOf('已核验') !== -1 || (ev.confidence || '').indexOf('已确认') !== -1;
+      var isF = (ev.confidence || '').indexOf('虚假') !== -1;
+      var cls = isV ? 'verified' : isF ? 'flagged' : '';
+      return '<div class="verify-item ' + cls + '" data-event-idx="' + i + '" data-profile-id="' + profile.id + '">' +
+        '<span class="verify-ev-title">' + escapeHtml((ev.title || '').substring(0, 50)) + '</span>' +
+        '<span class="verify-ev-type tag ' + (ev.impact === '高' ? 'rose' : ev.impact === '中' ? 'amber' : 'jade') + '">' + escapeHtml(ev.type) + '</span>' +
+        '<span class="verify-ev-conf tag">' + escapeHtml(ev.confidence || '待核验') + '</span>' +
+        '<div class="verify-btns">' +
+          '<button class="verify-btn verify-true' + (isV ? ' active' : '') + '" data-action="verify" data-idx="' + i + '"' + (cls ? ' disabled' : '') + '>✓ 真实</button>' +
+          '<button class="verify-btn verify-false' + (isF ? ' active' : '') + '" data-action="flag" data-idx="' + i + '"' + (cls ? ' disabled' : '') + '>✗ 虚假</button>' +
+        '</div></div>';
+    }).join('') + '</div>';
 }
 
 async function renderTablePlus() {
@@ -1339,6 +1392,7 @@ document.addEventListener("click", (event) => {
     if (selected) void renderDetail(selected);
     const filtered = getFilteredProfiles();
     renderList(filtered);
+    renderSourcesPanel(selected);
     renderEventRadar();
     renderOpinionOverview(filtered);
     return;
@@ -1518,6 +1572,47 @@ document.querySelector("#submitChainBtn")?.addEventListener("click", async () =>
   } finally {
     if (btn) btn.disabled = false;
   }
+});
+
+// 侧栏导航点击
+document.querySelectorAll(".nav-item").forEach(function (item) {
+  item.addEventListener("click", function (e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute("href"));
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      // 高亮当前项
+      document.querySelectorAll(".nav-item").forEach(function (n) { n.classList.remove("active"); });
+      this.classList.add("active");
+    }
+  });
+});
+
+// 来源校验：真实/虚假按钮
+document.addEventListener("click", async (event) => {
+  const btn = event.target.closest(".verify-btn");
+  if (!btn) return;
+  event.stopPropagation();
+
+  const action = btn.dataset.action;
+  const evIdx = parseInt(btn.dataset.idx);
+  const pid = btn.closest(".verify-item")?.dataset.profileId || filterState.selectedId;
+  if (isNaN(evIdx) || !pid) return;
+
+  const profile = profiles.find(p => p.id === pid);
+  if (!profile || !profile.events || !profile.events[evIdx]) return;
+
+  profile.events[evIdx].confidence = action === "verify" ? "已核验·人工确认" : "虚假信息·已标记";
+
+  try {
+    await fetch("/api/profiles/" + pid, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ events: profile.events })
+    });
+  } catch(e) {}
+
+  renderDetail(profile);
 });
 
 searchInput.addEventListener("input", (event) => {

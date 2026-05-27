@@ -2253,6 +2253,43 @@ h1 {
 .tpc-remark { font-size: 12px; color: var(--steel); margin-top: 4px; }
 .daily-card { border-left: 3px solid var(--cyan); }
 
+/* ===== Source Verification ===== */
+.verify-panel {
+  margin-top: 22px; padding: 16px;
+  border: 1px solid rgba(58,124,165,0.22); border-radius: 8px;
+  background: rgba(58,124,165,0.03);
+}
+.verify-intro { font-size: 13px; color: var(--muted); margin: 6px 0 12px; }
+.verify-grid { display: grid; gap: 8px; }
+.verify-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(255,255,255,0.8);
+  flex-wrap: wrap;
+}
+.verify-item.verified { border-color: var(--jade); background: rgba(31,122,99,0.06); }
+.verify-item.flagged { border-color: var(--rose); background: rgba(180,59,81,0.06); }
+.verify-ev-title { flex:1; font-size:13px; font-weight:700; min-width:150px; }
+.verify-btns { display: flex; gap: 8px; margin-left: auto; }
+.verify-btn {
+  padding: 5px 14px; border:1px solid var(--line); border-radius:6px;
+  font-size:12px; font-weight:800; cursor:pointer; background:#fff;
+  transition: all 0.15s ease;
+}
+.verify-true { color: var(--jade); border-color: var(--jade); }
+.verify-true:hover, .verify-true.active { color: #fff; background: var(--jade); }
+.verify-false { color: var(--rose); border-color: var(--rose); }
+.verify-false:hover, .verify-false.active { color: #fff; background: var(--rose); }
+.verify-btn:disabled { opacity: 0.4; cursor: default; }
+
+/* ===== Sources Section ===== */
+.sources-section { margin-bottom: 28px; }
+.sources-head { margin-bottom: 14px; }
+.sources-summary { display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 12px; padding: 10px 14px; border:1px solid var(--line); border-radius:8px;
+  background: rgba(255,255,255,0.9); font-size:13px; }
+.verify-ev-conf { font-size: 11px; }
+
 /* ===== Chain Pipeline Animation ===== */
 .chain-pipeline {
   margin: 12px 0 18px;
