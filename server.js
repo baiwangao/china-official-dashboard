@@ -244,17 +244,28 @@ app.post('/api/chain/submit-now', async (req, res) => {
 });
 
 // Chain Stats Routes
-app.get('/api/chain/rating/:name', async (req, res) => {
-  res.json({ message: 'EventProof 合约，使用 total-stored' });
-});
+app.get('/api/chain/rating/:name', (req, res) => res.json({ message: 'see /api/chain/total-reviews' }));
 
 app.get('/api/chain/total-reviews', async (req, res) => {
   try {
     const total = await chainWriter.getTotalStored();
     res.json({ total, configured: chainWriter.isConfigured() });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+// Database Tables (from TablePlus)
+app.get('/api/personnel-changes', async (req, res) => {
+  try {
+    const [rows] = await dataManager.getPool().query('SELECT * FROM personnel_changes ORDER BY date DESC');
+    res.json(rows);
+  } catch (error) { res.status(500).json({ error: error.message }); }
+});
+
+app.get('/api/daily-summary', async (req, res) => {
+  try {
+    const [rows] = await dataManager.getPool().query('SELECT * FROM daily_summary ORDER BY date DESC');
+    res.json(rows);
+  } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
 // Huairentang Routes

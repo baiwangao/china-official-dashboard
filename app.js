@@ -1275,6 +1275,40 @@ function render() {
   if (selected) void renderDetail(selected);
   renderEventRadar();
   renderOpinionOverview(filtered);
+  renderTablePlus();
+}
+
+async function renderTablePlus() {
+  try {
+    const [pcRes, dsRes] = await Promise.all([
+      fetch('/api/personnel-changes'),
+      fetch('/api/daily-summary')
+    ]);
+    if (pcRes.ok) {
+      const pc = await pcRes.json();
+      document.querySelector('#personnelCount').textContent = pc.length + ' 条';
+      document.querySelector('#personnelGrid').innerHTML = pc.map(r => 
+        '<div class="tableplus-card">' +
+          '<div class="tpc-header"><strong>' + r.person_name + '</strong><span class="tag ' + (r.status === '高可信' ? 'jade' : r.status === '叫停' ? 'rose' : 'amber') + '">' + r.status + '</span></div>' +
+          '<p class="tpc-pos">' + r.original_position + ' → ' + r.new_position + '</p>' +
+          '<div class="tpc-meta"><time>' + (r.date||'').split('T')[0] + '</time><span>可信度: ' + r.credibility + '</span></div>' +
+          (r.remarks ? '<p class="tpc-remark">' + r.remarks + '</p>' : '') +
+        '</div>'
+      ).join('') || '<div class="empty-state">暂无数据</div>';
+    }
+    if (dsRes.ok) {
+      const ds = await dsRes.json();
+      document.querySelector('#dailyCount').textContent = ds.length + ' 条';
+      document.querySelector('#dailyGrid').innerHTML = ds.map(r =>
+        '<div class="tableplus-card daily-card">' +
+          '<div class="tpc-header"><time>' + (r.date||'').split('T')[0] + '</time></div>' +
+          '<strong>' + r.main_line + '</strong>' +
+          (r.key_discussion ? '<p class="tpc-pos">' + r.key_discussion + '</p>' : '') +
+          (r.notes ? '<p class="tpc-remark">' + r.notes + '</p>' : '') +
+        '</div>'
+      ).join('') || '<div class="empty-state">暂无数据</div>';
+    }
+  } catch(e) {}
 }
 
 document.addEventListener("click", (event) => {
