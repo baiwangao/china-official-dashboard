@@ -1294,6 +1294,35 @@ function render() {
   renderTablePlus();
 }
 
+function randomInt(max) { return Math.floor(Math.random() * max); }
+
+var marketStore = {};
+function getMarketData(pid) {
+  if (!marketStore[pid]) {
+    var seed = Math.abs(hashStr(pid));
+    var yes = Math.max(0.05, Math.min(0.95, 0.15 + (seed % 65) / 100));
+    var vol = 8000 + (seed % 15000);
+    marketStore[pid] = {
+      yesPrice: yes, noPrice: 1 - yes, volume: vol,
+      trend: Math.round((Math.random() - 0.5) * 12),
+      traders: 20 + (seed % 80), comments: randomInt(15)
+    };
+  }
+  return marketStore[pid];
+}
+
+function hashStr(s) {
+  var h = 0; for (var i = 0; i < (s||'').length; i++) h = ((h << 5) - h) + s.charCodeAt(i); return h;
+}
+
+function getQuestion(p) {
+  var n = p.name;
+  if (/已被立案/.test(p.title||'')) return n + ' 已被中纪委立案审查';
+  if (/已被带走|被留置/.test(p.title||'')) return n + ' 已被中纪委带走调查';
+  if (/被约谈/.test(p.title||'')) return n + ' 在2026年内被正式立案调查？';
+  return n + ' 在2026年内被中纪委调查？';
+}
+
 function renderSourcesPanel(profile) {
   var body = document.querySelector("#sourcesBody");
   if (!body) return;
@@ -1343,61 +1372,48 @@ function renderSourcesPanel(profile) {
   });
 
   body.innerHTML =
-  '<div class="polymarket-bar">' +
-    '<div class="pm-stat"><span>涉案官员</span><strong>' + allCCDI.length + '</strong></div>' +
-    '<div class="pm-stat"><span>已确认落马</span><strong>' + allCCDI.filter(function (c) { return /已立案|已带走|留置/.test(c.profile.title || ''); }).length + '</strong></div>' +
-    '<div class="pm-stat"><span>调查中</span><strong>' + allCCDI.filter(function (c) { return !/已立案|已带走|留置/.test(c.profile.title || ''); }).length + '</strong></div>' +
-    '<div class="pm-stat"><span>总通报数</span><strong>' + allCCDI.reduce(function (s, c) { return s + c.events.length; }, 0) + '</strong></div>' +
+  '<div class="market-header">' +
+    '<h3 style="margin:0;font-size:18px">⚖ 中纪委预测市场</h3>' +
+    '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">对传闻中官员的被查概率进行预测押注 · 数据仅供模拟</p>' +
   '</div>' +
-  '<div class="pm-grid">' +
+  '<div class="market-grid">' +
     allCCDI.map(function (c) {
       var p = c.profile;
-      var isConfirmed = /已立案/.test(p.title || '');
-      var isTaken = /已带走|被留置/.test(p.title || '');
-      var prob = isConfirmed || isTaken ? 95 : p.events.length >= 2 ? 70 : 40;
-      var probColor = prob >= 80 ? 'var(--rose)' : prob >= 50 ? 'var(--amber)' : 'var(--jade)';
-      return '<div class="pm-card" data-profile-id="' + p.id + '">' +
-        '<div class="pm-card-bar" style="background:' + probColor + '"></div>' +
-        '<div class="pm-card-body">' +
-          '<div class="pm-card-top">' +
-            '<div class="pm-name">' + p.name + '</div>' +
-            '<div class="pm-rank">' + (p.rank || '') + '</div>' +
-          '</div>' +
-          '<p class="pm-card-title">' + escapeHtml(p.title || '') + '</p>' +
-          '<div class="pm-card-prob">' +
-            '<div class="pm-prob-ring" style="--prob:' + prob + '; --color:' + probColor + '">' +
-              '<span>' + prob + '%</span>' +
-            '</div>' +
-            '<small>落马概率</small>' +
-          '</div>' +
-          '<div class="pm-card-events">' +
-            c.events.slice(-2).map(function (e) {
-              return '<div class="pm-event">' +
-                '<span class="pm-event-tag ' + (e.impact === '高' ? 'rose' : 'amber') + '">' + escapeHtml(e.type) + '</span>' +
-                '<time>' + escapeHtml(e.date) + '</time>' +
-              '</div>';
-            }).join('') +
+      var confirmed = /已立案/.test(p.title||'') || /已被带走|被留置/.test(p.title||'');
+      var mkt = getMarketData(p.id);
+      var pct = Math.round(mkt.yesPrice * 100);
+      var volK = (mkt.volume / 1000).toFixed(1);
+
+      return '<div class="mkt-card' + (confirmed ? ' settled' : '') + '" data-profile-id="' + p.id + '">' +
+        // 问题
+        '<div class="mkt-question">' + getQuestion(p) + '</div>' +
+        // 概率条
+        '<div class="mkt-bar-wrap">' +
+          '<div class="mkt-bar' + (confirmed ? ' confirmed' : '') + '" style="--pct:' + pct + '%">' +
+            '<span class="mkt-pct">' + pct + '% chance</span>' +
           '</div>' +
         '</div>' +
-      '</div>';
-    }).join('') +
-  '</div>' +
-  '<div class="pm-news-header"><span class="eyebrow">Latest Announcements</span><h3>最新中纪委官宣</h3></div>' +
-  '<div class="pm-news-list">' +
-    allCCDI.flatMap(function (c) {
-      return c.events.filter(function (e) {
-        return (e.confidence || '').indexOf('中央纪委') !== -1 ||
-               (e.confidence || '').indexOf('新华社') !== -1 ||
-               e.type === '反腐通报' || e.type === '落马通报';
-      }).map(function (e) {
-        return '<div class="pm-news-card" data-profile-id="' + c.profile.id + '">' +
-          '<div class="pm-news-bar" style="background:var(--rose)"></div>' +
-          '<div class="pm-news-body">' +
-            '<div class="pm-news-title">' + escapeHtml(e.title) + '</div>' +
-            '<div class="pm-news-meta"><span>' + c.profile.name + '</span><time>' + escapeHtml(e.date) + '</time><span>' + escapeHtml(e.confidence) + '</span></div>' +
+        // 交易按钮
+        '<div class="mkt-prices">' +
+          '<div class="mkt-price yes' + (pct >= 50 ? ' lead' : '') + '">' +
+            '<span class="mkt-label">YES</span><span class="mkt-val">' + pct + '¢</span>' +
           '</div>' +
-        '</div>';
-      });
+          '<div class="mkt-price no' + (pct < 50 ? ' lead' : '') + '">' +
+            '<span class="mkt-label">NO</span><span class="mkt-val">' + (100 - pct) + '¢</span>' +
+          '</div>' +
+        '</div>' +
+        // 底部信息
+        '<div class="mkt-meta">' +
+          '<span>👥 ' + mkt.traders + '</span>' +
+          '<span>Vol ' + volK + 'K</span>' +
+          '<span style="color:' + (mkt.trend >= 0 ? 'var(--jade)' : 'var(--rose)') + '">' + (mkt.trend >= 0 ? '+' : '') + mkt.trend + '¢</span>' +
+          (confirmed ? '<span class="tag rose">已确认</span>' : '') +
+        '</div>' +
+        (!confirmed ? '<div class="mkt-btns">' +
+          '<button class="mkt-btn yes" data-id="' + p.id + '" data-side="yes">Buy YES</button>' +
+          '<button class="mkt-btn no" data-id="' + p.id + '" data-side="no">Buy NO</button>' +
+        '</div>' : '') +
+      '</div>';
     }).join('') +
   '</div>';
 
@@ -1410,8 +1426,117 @@ function renderSourcesPanel(profile) {
     document.querySelector('#profiles')?.scrollIntoView({ behavior: 'smooth' });
     renderList(getFilteredProfiles());
   };
-  body.querySelectorAll('.pm-card, .pm-news-card').forEach(function (item) {
+  body.querySelectorAll('.mkt-card').forEach(function (item) {
     item.addEventListener('click', function () { clickProfile(this.dataset.profileId); });
+  });
+
+  body.querySelectorAll('.mkt-btn').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var pid = this.dataset.id, side = this.dataset.side;
+      var mkt = getMarketData(pid);
+      mkt.yesPrice = Math.max(0.01, Math.min(0.99, mkt.yesPrice + (side === 'yes' ? 0.03 : -0.03)));
+      mkt.noPrice = 1 - mkt.yesPrice;
+      mkt.volume += 200 + randomInt(300);
+      mkt.trend += (side === 'yes' ? 2 : -2);
+      mkt.traders += 1;
+  renderSourcesPanel();
+  renderMarketPanel();
+
+function renderMarketPanel() {
+  var body = document.querySelector('#marketBody');
+  if (!body) return;
+
+  if (!userState.loggedIn) {
+    body.innerHTML = '<div class="empty-state">请先在左侧登录后查看预测市场</div>';
+    return;
+  }
+
+  body.innerHTML = '<div class="market-header"><h3 style="margin:0;font-size:18px">📊 中纪委预测市场</h3>' +
+    '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · 加载中…</p></div>' +
+    '<div class="market-grid"><div class="empty-state">正在加载市场数据…</div></div>';
+
+  // 从 TablePlus 表加载数据
+  fetch('/api/personnel-changes').then(function (r) { return r.json(); }).then(function (rows) {
+    if (!Array.isArray(rows) || !rows.length) {
+      body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div>' +
+        '<div class="empty-state">TablePlus 暂无数据</div>';
+      return;
+    }
+
+    // 只显示传闻/叫停状态的（非已确认）
+    var rumorRows = rows.filter(function (r) {
+      return r.status === '传闻' || r.status === '叫停' || r.status === '调查中' || !r.status;
+    });
+
+    if (!rumorRows.length) {
+      body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div>' +
+        '<div class="empty-state">暂无传闻阶段的人事变动</div>';
+      return;
+    }
+
+    body.innerHTML =
+      '<div class="market-header"><h3 style="margin:0;font-size:18px">📊 中纪委预测市场</h3>' +
+      '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · ' + rumorRows.length + ' 个市场</p></div>' +
+      '<div class="market-grid">' + rumorRows.map(function (r) {
+        var mkt = getMarketData('pc-' + r.id);
+        var pct = Math.round(mkt.yesPrice * 100);
+        var pos = (userState.positions || {})['pc-' + r.id];
+        var hasPos = pos && pos.amount > 0;
+        return '<div class="mkt-card" data-pid="pc-' + r.id + '" data-name="' + escapeHtml(r.person_name) + '">' +
+          '<div class="mkt-question">' + escapeHtml(r.person_name) + '：' + escapeHtml(r.original_position) + ' → ' + escapeHtml(r.new_position) + '</div>' +
+          '<div class="mkt-subtitle" style="font-size:12px;color:var(--muted);margin-top:2px">' + escapeHtml(r.remarks || r.status || '') + '</div>' +
+          '<div class="mkt-bar-wrap"><div class="mkt-bar" style="--pct:' + pct + '%"></div><span class="mkt-pct">' + pct + '%</span></div>' +
+          '<div class="mkt-prices">' +
+            '<div class="mkt-price yes' + (pct >= 50 ? ' lead' : '') + '"><span class="mkt-label">YES</span><span class="mkt-val">' + pct + '%</span></div>' +
+            '<div class="mkt-price no' + (pct < 50 ? ' lead' : '') + '"><span class="mkt-label">NO</span><span class="mkt-val">' + (100 - pct) + '%</span></div>' +
+          '</div>' +
+          '<div class="mkt-meta">' +
+            '<span>👥 ' + mkt.traders + '</span><span>Vol ' + (mkt.volume / 1000).toFixed(1) + 'K</span>' +
+            (hasPos ? '<span class="tag jade">持仓: ' + pos.side.toUpperCase() + ' ' + pos.amount + '份</span>' : '') +
+          '</div>' +
+          '<div class="mkt-btns">' +
+            '<button class="mkt-btn yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '">Buy YES</button>' +
+            '<button class="mkt-btn no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '">Buy NO</button>' +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+
+    // 按钮事件
+    body.querySelectorAll('.mkt-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var pid = this.dataset.id, side = this.dataset.side, name = this.dataset.name;
+        var cost = 10;
+        if (userState.balance < cost) { alert('余额不足！当前: $' + userState.balance); return; }
+        userState.balance -= cost;
+        if (!userState.positions) userState.positions = {};
+        if (!userState.positions[pid]) userState.positions[pid] = { side: side, amount: 0, name: name };
+        userState.positions[pid].amount += 10;
+        var mkt = getMarketData(pid);
+        mkt.yesPrice = Math.max(0.01, Math.min(0.99, mkt.yesPrice + (side === 'yes' ? 0.03 : -0.03)));
+        mkt.noPrice = 1 - mkt.yesPrice;
+        mkt.volume += 200 + randomInt(300); mkt.traders += 1; mkt.trend += (side === 'yes' ? 2 : -2);
+        saveUser(); updateUserUI(); renderMarketPanel();
+      });
+    });
+
+    // 卡片点击搜索对应官员
+    body.querySelectorAll('.mkt-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var n = this.dataset.name;
+        if (n) {
+          filterState.query = n;
+          render();
+          document.querySelector('#profiles')?.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  }).catch(function () {
+    body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div><div class="empty-state">数据加载失败</div>';
+  });
+}
+    });
   });
 }
 
@@ -1656,6 +1781,40 @@ document.querySelector("#submitChainBtn")?.addEventListener("click", async () =>
     if (btn) btn.disabled = false;
   }
 });
+
+// ===== 登录系统 =====
+var userState = { name: '', balance: 1000, positions: {}, loggedIn: false };
+
+function loadUser() {
+  try { var s = localStorage.getItem('ccdi_user'); if (s) { userState = JSON.parse(s); return true; } } catch(e) {}
+  return false;
+}
+function saveUser() { localStorage.setItem('ccdi_user', JSON.stringify(userState)); }
+function updateUserUI() {
+  var nl = document.querySelector('#userNotLoggedIn'), lg = document.querySelector('#userLoggedIn');
+  if (userState.loggedIn) {
+    if (nl) nl.style.display = 'none'; if (lg) lg.style.display = 'flex';
+    var dn = document.querySelector('#userDisplayName'), bal = document.querySelector('#userBalance'), pos = document.querySelector('#userPositions');
+    if (dn) dn.textContent = userState.name;
+    if (bal) bal.textContent = '$' + userState.balance.toLocaleString();
+    if (pos) pos.textContent = Object.keys(userState.positions || {}).length;
+  } else {
+    if (nl) nl.style.display = 'flex'; if (lg) lg.style.display = 'none';
+  }
+}
+
+document.querySelector('#loginBtn')?.addEventListener('click', function () {
+  var name = document.querySelector('#loginNameInput')?.value?.trim();
+  if (!name) return;
+  if (!loadUser() || userState.name !== name) userState = { name: name, balance: 1000, positions: {}, loggedIn: true };
+  else userState.loggedIn = true;
+  saveUser(); updateUserUI(); renderMarketPanel();
+});
+document.querySelector('#logoutBtn')?.addEventListener('click', function () {
+  userState.loggedIn = false; saveUser(); updateUserUI(); renderMarketPanel();
+});
+if (loadUser() && userState.loggedIn) { userState.loggedIn = true; saveUser(); }
+updateUserUI();
 
 // 侧栏导航点击
 document.querySelectorAll(".nav-item").forEach(function (item) {
