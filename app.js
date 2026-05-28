@@ -1342,75 +1342,76 @@ function renderSourcesPanel(profile) {
     });
   });
 
-  body.innerHTML = '<div class="sources-summary">' +
-    '<strong>共 ' + allCCDI.length + ' 名官员</strong> · ' +
-    '<span class="tag rose">' + allCCDI.filter(function (c) { return /已立案|已带走|留置/.test(c.profile.title || ''); }).length + ' 案件确认</span> ' +
-    '<span class="tag amber">' + allCCDI.filter(function (c) { return !/已立案|已带走|留置/.test(c.profile.title || ''); }).length + ' 待进一步</span>' +
+  body.innerHTML =
+  '<div class="polymarket-bar">' +
+    '<div class="pm-stat"><span>涉案官员</span><strong>' + allCCDI.length + '</strong></div>' +
+    '<div class="pm-stat"><span>已确认落马</span><strong>' + allCCDI.filter(function (c) { return /已立案|已带走|留置/.test(c.profile.title || ''); }).length + '</strong></div>' +
+    '<div class="pm-stat"><span>调查中</span><strong>' + allCCDI.filter(function (c) { return !/已立案|已带走|留置/.test(c.profile.title || ''); }).length + '</strong></div>' +
+    '<div class="pm-stat"><span>总通报数</span><strong>' + allCCDI.reduce(function (s, c) { return s + c.events.length; }, 0) + '</strong></div>' +
   '</div>' +
-  '<div class="ccdi-grid">' +
+  '<div class="pm-grid">' +
     allCCDI.map(function (c) {
       var p = c.profile;
-      return '<div class="ccdi-card" data-profile-id="' + p.id + '" role="button" tabindex="0">' +
-        '<div class="ccdi-header">' +
-          '<div><strong>' + p.name + '</strong><span class="tag">' + p.rank + '</span></div>' +
-          statusBadge(p) +
-        '</div>' +
-        '<p class="ccdi-title">' + escapeHtml(p.title || '') + '</p>' +
-        '<div class="ccdi-timeline">' +
-        c.events.slice(-3).map(function (e) {
-          return '<div class="ccdi-event">' +
-            '<time>' + escapeHtml(e.date || '') + '</time>' +
-            '<span class="tag ' + (e.impact === '高' ? 'rose' : 'amber') + '">' + escapeHtml(e.type) + '</span>' +
-            '<span>' + escapeHtml((e.title || '').substring(0, 40)) + '</span>' +
-          '</div>';
-        }).join('') +
+      var isConfirmed = /已立案/.test(p.title || '');
+      var isTaken = /已带走|被留置/.test(p.title || '');
+      var prob = isConfirmed || isTaken ? 95 : p.events.length >= 2 ? 70 : 40;
+      var probColor = prob >= 80 ? 'var(--rose)' : prob >= 50 ? 'var(--amber)' : 'var(--jade)';
+      return '<div class="pm-card" data-profile-id="' + p.id + '">' +
+        '<div class="pm-card-bar" style="background:' + probColor + '"></div>' +
+        '<div class="pm-card-body">' +
+          '<div class="pm-card-top">' +
+            '<div class="pm-name">' + p.name + '</div>' +
+            '<div class="pm-rank">' + (p.rank || '') + '</div>' +
+          '</div>' +
+          '<p class="pm-card-title">' + escapeHtml(p.title || '') + '</p>' +
+          '<div class="pm-card-prob">' +
+            '<div class="pm-prob-ring" style="--prob:' + prob + '; --color:' + probColor + '">' +
+              '<span>' + prob + '%</span>' +
+            '</div>' +
+            '<small>落马概率</small>' +
+          '</div>' +
+          '<div class="pm-card-events">' +
+            c.events.slice(-2).map(function (e) {
+              return '<div class="pm-event">' +
+                '<span class="pm-event-tag ' + (e.impact === '高' ? 'rose' : 'amber') + '">' + escapeHtml(e.type) + '</span>' +
+                '<time>' + escapeHtml(e.date) + '</time>' +
+              '</div>';
+            }).join('') +
+          '</div>' +
         '</div>' +
       '</div>';
     }).join('') +
   '</div>' +
-  // 下方：中纪委官宣新闻时间线
-  '<div class="ccdi-news-section">' +
-    '<div class="ccdi-news-head"><span class="eyebrow">CCDI Announcements</span><h3>近期中纪委官宣通报</h3></div>' +
-    '<div class="ccdi-news-feed">' +
-    (officialNews.length ? officialNews.map(function (item) {
-        var e = item.event;
-        var p = item.profile;
-        return '<div class="ccdi-news-item" data-profile-id="' + p.id + '" role="button" tabindex="0">' +
-          '<div class="news-item-head">' +
-            '<strong>' + escapeHtml(e.title) + '</strong>' +
-            '<span class="tag rose">' + escapeHtml(e.type) + '</span>' +
+  '<div class="pm-news-header"><span class="eyebrow">Latest Announcements</span><h3>最新中纪委官宣</h3></div>' +
+  '<div class="pm-news-list">' +
+    allCCDI.flatMap(function (c) {
+      return c.events.filter(function (e) {
+        return (e.confidence || '').indexOf('中央纪委') !== -1 ||
+               (e.confidence || '').indexOf('新华社') !== -1 ||
+               e.type === '反腐通报' || e.type === '落马通报';
+      }).map(function (e) {
+        return '<div class="pm-news-card" data-profile-id="' + c.profile.id + '">' +
+          '<div class="pm-news-bar" style="background:var(--rose)"></div>' +
+          '<div class="pm-news-body">' +
+            '<div class="pm-news-title">' + escapeHtml(e.title) + '</div>' +
+            '<div class="pm-news-meta"><span>' + c.profile.name + '</span><time>' + escapeHtml(e.date) + '</time><span>' + escapeHtml(e.confidence) + '</span></div>' +
           '</div>' +
-          '<div class="news-item-meta">' +
-            '<time>' + escapeHtml(e.date) + '</time>' +
-            '<span>涉及: ' + escapeHtml(p.name) + '</span>' +
-            '<span>来源: ' + escapeHtml(e.confidence) + '</span>' +
-          '</div>' +
-          '<p>' + escapeHtml(e.relation || '') + '</p>' +
         '</div>';
-      }).join('') : '<div class="empty-state">暂无近期官宣通报</div>') +
-    '</div>' +
+      });
+    }).join('') +
   '</div>';
 
-  var openProfile = function (pid) {
-      filterState.selectedId = pid;
-      filterState.query = '';
-      var p = profiles.find(function (x) { return x.id === pid; });
-      if (p) renderDetail(p);
-      document.querySelector('#profiles').scrollIntoView({ behavior: 'smooth' });
-      renderList(getFilteredProfiles());
-  };
-
   // 点击跳转
-  body.querySelectorAll('.ccdi-card, .ccdi-news-item').forEach(function (item) {
-    item.addEventListener('click', function () {
-      openProfile(this.dataset.profileId);
-    });
-    item.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        openProfile(this.dataset.profileId);
-      }
-    });
+  var clickProfile = function (pid) {
+    filterState.selectedId = pid;
+    filterState.query = '';
+    var p = profiles.find(function (x) { return x.id === pid; });
+    if (p) renderDetail(p);
+    document.querySelector('#profiles')?.scrollIntoView({ behavior: 'smooth' });
+    renderList(getFilteredProfiles());
+  };
+  body.querySelectorAll('.pm-card, .pm-news-card').forEach(function (item) {
+    item.addEventListener('click', function () { clickProfile(this.dataset.profileId); });
   });
 }
 
