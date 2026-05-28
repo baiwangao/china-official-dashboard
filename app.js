@@ -1332,6 +1332,16 @@ function renderSourcesPanel(profile) {
     return '<span class="tag amber">调查中</span>';
   };
 
+  var officialNews = allCCDI.flatMap(function (c) {
+    return c.events.filter(function (e) {
+      return (e.confidence || '').indexOf('中央纪委') !== -1 ||
+             (e.confidence || '').indexOf('新华社') !== -1 ||
+             e.type === '反腐通报' || e.type === '落马通报';
+    }).map(function (e) {
+      return { profile: c.profile, event: e };
+    });
+  });
+
   body.innerHTML = '<div class="sources-summary">' +
     '<strong>共 ' + allCCDI.length + ' 名官员</strong> · ' +
     '<span class="tag rose">' + allCCDI.filter(function (c) { return /已立案|已带走|留置/.test(c.profile.title || ''); }).length + ' 案件确认</span> ' +
@@ -1340,8 +1350,7 @@ function renderSourcesPanel(profile) {
   '<div class="ccdi-grid">' +
     allCCDI.map(function (c) {
       var p = c.profile;
-      var latest = c.events[c.events.length - 1];
-      return '<div class="ccdi-card" data-profile-id="' + p.id + '">' +
+      return '<div class="ccdi-card" data-profile-id="' + p.id + '" role="button" tabindex="0">' +
         '<div class="ccdi-header">' +
           '<div><strong>' + p.name + '</strong><span class="tag">' + p.rank + '</span></div>' +
           statusBadge(p) +
@@ -1358,18 +1367,49 @@ function renderSourcesPanel(profile) {
         '</div>' +
       '</div>';
     }).join('') +
+  '</div>' +
+  // 下方：中纪委官宣新闻时间线
+  '<div class="ccdi-news-section">' +
+    '<div class="ccdi-news-head"><span class="eyebrow">CCDI Announcements</span><h3>近期中纪委官宣通报</h3></div>' +
+    '<div class="ccdi-news-feed">' +
+    (officialNews.length ? officialNews.map(function (item) {
+        var e = item.event;
+        var p = item.profile;
+        return '<div class="ccdi-news-item" data-profile-id="' + p.id + '" role="button" tabindex="0">' +
+          '<div class="news-item-head">' +
+            '<strong>' + escapeHtml(e.title) + '</strong>' +
+            '<span class="tag rose">' + escapeHtml(e.type) + '</span>' +
+          '</div>' +
+          '<div class="news-item-meta">' +
+            '<time>' + escapeHtml(e.date) + '</time>' +
+            '<span>涉及: ' + escapeHtml(p.name) + '</span>' +
+            '<span>来源: ' + escapeHtml(e.confidence) + '</span>' +
+          '</div>' +
+          '<p>' + escapeHtml(e.relation || '') + '</p>' +
+        '</div>';
+      }).join('') : '<div class="empty-state">暂无近期官宣通报</div>') +
+    '</div>' +
   '</div>';
 
-  // 点击跳转
-  body.querySelectorAll('.ccdi-card').forEach(function (card) {
-    card.addEventListener('click', function () {
-      var pid = this.dataset.profileId;
+  var openProfile = function (pid) {
       filterState.selectedId = pid;
       filterState.query = '';
       var p = profiles.find(function (x) { return x.id === pid; });
       if (p) renderDetail(p);
       document.querySelector('#profiles').scrollIntoView({ behavior: 'smooth' });
       renderList(getFilteredProfiles());
+  };
+
+  // 点击跳转
+  body.querySelectorAll('.ccdi-card, .ccdi-news-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      openProfile(this.dataset.profileId);
+    });
+    item.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openProfile(this.dataset.profileId);
+      }
     });
   });
 }
