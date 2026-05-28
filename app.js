@@ -893,6 +893,15 @@ function startEventRadarAutoRefresh() {
 }
 startEventRadarAutoRefresh();
 
+// 自动刷新每日摘要（写入 #eventRadarFeed）
+let dailySummaryTimer = null;
+function startDailySummaryAutoRefresh() {
+  if (dailySummaryTimer) return;
+  renderTablePlus(); // 立即执行一次
+  dailySummaryTimer = setInterval(() => renderTablePlus(), 15000); // 每15秒刷新
+}
+startDailySummaryAutoRefresh();
+
 function buildEventFeedFromProfiles(profileList) {
   const items = [];
   for (const profile of profileList) {
@@ -917,12 +926,10 @@ function eventTypeClass(type) {
 }
 
 function renderEventRadar(options = {}) {
-  const feedEl = document.querySelector("#eventRadarFeed");
   const statusEl = document.querySelector("#eventRadarStatus");
   const totalEl = document.querySelector("#eventTotalCount");
   const transitionEl = document.querySelector("#eventTransitionCount");
   const lastScanEl = document.querySelector("#eventLastScan");
-  if (!feedEl) return;
 
   const feed =
     eventRadarState.cachedFeed?.length
@@ -937,45 +944,6 @@ function renderEventRadar(options = {}) {
       ? new Date(eventRadarState.lastScanAt).toLocaleString("zh-CN", { hour: "2-digit", minute: "2-digit" })
       : "未扫描";
   }
-
-  const typeFilter = eventRadarState.filter;
-  const visible = typeFilter === "all" ? feed : feed.filter((e) => e.type === typeFilter);
-
-  if (!visible.length) {
-    feedEl.innerHTML =
-      '<div class="empty-state">' +
-      (feed.length
-        ? "当前筛选下无匹配事件，请切换筛选或执行扫描"
-        : "暂无事件。选择官员后点击「扫描当前官员」抓取变迁新闻") +
-      "</div>";
-    return;
-  }
-
-  feedEl.innerHTML = visible
-    .slice(0, 40)
-    .map(
-      (ev) => `
-      <article class="radar-event-card${eventRadarState.lastNewKeys.has(eventItemKey(ev)) ? " is-new" : ""}" data-profile-id="${escapeHtml(ev.profileId)}">
-        <div class="radar-event-head">
-          <div class="radar-event-profile">
-            ${eventRadarState.lastNewKeys.has(eventItemKey(ev)) ? '<span class="radar-new-badge">新</span>' : ""}
-            <strong>${escapeHtml(ev.profileName)}</strong>
-            <span class="tag ${eventTypeClass(ev.type)}">${escapeHtml(ev.type)}</span>
-            <span class="tag ${ev.impact === "高" ? "rose" : ev.impact === "中" ? "amber" : "jade"}">影响 ${escapeHtml(ev.impact)}</span>
-          </div>
-          <time>${escapeHtml(ev.date)}</time>
-        </div>
-        <h4 class="radar-event-title">${escapeHtml(ev.title)}</h4>
-        <p class="radar-event-relation">${escapeHtml(ev.relation || "")}</p>
-        <div class="radar-event-foot">
-          <span>${escapeHtml(ev.confidence || "待核验")}</span>
-          <span>${escapeHtml(ev.source || ev.region || "")}</span>
-          ${ev.url ? `<a href="${escapeHtml(ev.url)}" target="_blank" rel="noopener noreferrer" class="radar-event-link">查看原文</a>` : ""}
-        </div>
-      </article>
-    `,
-    )
-    .join("");
 
   if (statusEl && !eventRadarState.scanning && eventRadarState.lastScanAt && !options.preserveStatus) {
     statusEl.textContent = `共 ${feed.length} 条事件，其中任免动向 ${transitionCount} 条`;
@@ -1320,41 +1288,90 @@ function render() {
   renderList(filtered);
   const selected = profiles.find((profile) => profile.id === filterState.selectedId) || filtered[0];
   if (selected) void renderDetail(selected);
-  renderSourcesPanel(selected);
+  renderSourcesPanel();
   renderEventRadar();
   renderOpinionOverview(filtered);
   renderTablePlus();
 }
 
 function renderSourcesPanel(profile) {
-  const body = document.querySelector("#sourcesBody");
+  var body = document.querySelector("#sourcesBody");
   if (!body) return;
-  if (!profile || !profile.events || !profile.events.length) {
-    body.innerHTML = '<div class="empty-state">请先在左侧选择一名官员，详情面板中的「来源校验」区域将展示该官员所有关联事件</div>';
+
+  var ccdiKeywords = ['反腐通报', '落马通报', '立案审查', '被立案', '已被带走', '被留置', '涉嫌严重违纪'];
+  var allCCDI = [];
+
+  for (var i = 0; i < profiles.length; i++) {
+    var p = profiles[i];
+    var isTitle = /已被立案审查|已被带走|被留置/.test(p.title || '');
+    if (isTitle) {
+      allCCDI.push({ profile: p, reason: 'title', events: p.events || [] });
+      continue;
+    }
+    var ccdiEvents = (p.events || []).filter(function (e) {
+      return ccdiKeywords.some(function (k) {
+        return (e.type || '').indexOf(k) !== -1 || (e.title || '').indexOf(k) !== -1;
+      });
+    });
+    if (ccdiEvents.length > 0) {
+      allCCDI.push({ profile: p, reason: 'events', events: ccdiEvents });
+    }
+  }
+
+  if (!allCCDI.length) {
+    body.innerHTML = '<div class="empty-state">暂无中纪委相关案件</div>';
     return;
   }
-  const vCount = profile.events.filter(e => (e.confidence || '').includes('已核验') || (e.confidence || '').includes('已确认')).length;
-  const fCount = profile.events.filter(e => (e.confidence || '').includes('虚假')).length;
-  body.innerHTML =
-    '<div class="sources-summary"><strong>' + profile.name + '</strong> · ' + profile.events.length + ' 条事件 · ' +
-      '<span class="tag jade">' + vCount + ' 已核实</span> ' +
-      '<span class="tag rose">' + fCount + ' 已标记虚假</span> ' +
-      '<span class="tag">' + (profile.events.length - vCount - fCount) + ' 待判定</span>' +
-    '</div>' +
-    '<div class="verify-grid">' +
-    profile.events.map(function (ev, i) {
-      var isV = (ev.confidence || '').indexOf('已核验') !== -1 || (ev.confidence || '').indexOf('已确认') !== -1;
-      var isF = (ev.confidence || '').indexOf('虚假') !== -1;
-      var cls = isV ? 'verified' : isF ? 'flagged' : '';
-      return '<div class="verify-item ' + cls + '" data-event-idx="' + i + '" data-profile-id="' + profile.id + '">' +
-        '<span class="verify-ev-title">' + escapeHtml((ev.title || '').substring(0, 50)) + '</span>' +
-        '<span class="verify-ev-type tag ' + (ev.impact === '高' ? 'rose' : ev.impact === '中' ? 'amber' : 'jade') + '">' + escapeHtml(ev.type) + '</span>' +
-        '<span class="verify-ev-conf tag">' + escapeHtml(ev.confidence || '待核验') + '</span>' +
-        '<div class="verify-btns">' +
-          '<button class="verify-btn verify-true' + (isV ? ' active' : '') + '" data-action="verify" data-idx="' + i + '"' + (cls ? ' disabled' : '') + '>✓ 真实</button>' +
-          '<button class="verify-btn verify-false' + (isF ? ' active' : '') + '" data-action="flag" data-idx="' + i + '"' + (cls ? ' disabled' : '') + '>✗ 虚假</button>' +
-        '</div></div>';
-    }).join('') + '</div>';
+
+  var statusBadge = function (p) {
+    var t = p.title || '';
+    if (t.indexOf('已被立案审查') !== -1) return '<span class="tag rose">已立案</span>';
+    if (t.indexOf('已被带走') !== -1) return '<span class="tag rose">已带走</span>';
+    if (t.indexOf('被留置') !== -1) return '<span class="tag rose">留置中</span>';
+    if (t.indexOf('被约谈') !== -1) return '<span class="tag amber">约谈中</span>';
+    return '<span class="tag amber">调查中</span>';
+  };
+
+  body.innerHTML = '<div class="sources-summary">' +
+    '<strong>共 ' + allCCDI.length + ' 名官员</strong> · ' +
+    '<span class="tag rose">' + allCCDI.filter(function (c) { return /已立案|已带走|留置/.test(c.profile.title || ''); }).length + ' 案件确认</span> ' +
+    '<span class="tag amber">' + allCCDI.filter(function (c) { return !/已立案|已带走|留置/.test(c.profile.title || ''); }).length + ' 待进一步</span>' +
+  '</div>' +
+  '<div class="ccdi-grid">' +
+    allCCDI.map(function (c) {
+      var p = c.profile;
+      var latest = c.events[c.events.length - 1];
+      return '<div class="ccdi-card" data-profile-id="' + p.id + '">' +
+        '<div class="ccdi-header">' +
+          '<div><strong>' + p.name + '</strong><span class="tag">' + p.rank + '</span></div>' +
+          statusBadge(p) +
+        '</div>' +
+        '<p class="ccdi-title">' + escapeHtml(p.title || '') + '</p>' +
+        '<div class="ccdi-timeline">' +
+        c.events.slice(-3).map(function (e) {
+          return '<div class="ccdi-event">' +
+            '<time>' + escapeHtml(e.date || '') + '</time>' +
+            '<span class="tag ' + (e.impact === '高' ? 'rose' : 'amber') + '">' + escapeHtml(e.type) + '</span>' +
+            '<span>' + escapeHtml((e.title || '').substring(0, 40)) + '</span>' +
+          '</div>';
+        }).join('') +
+        '</div>' +
+      '</div>';
+    }).join('') +
+  '</div>';
+
+  // 点击跳转
+  body.querySelectorAll('.ccdi-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      var pid = this.dataset.profileId;
+      filterState.selectedId = pid;
+      filterState.query = '';
+      var p = profiles.find(function (x) { return x.id === pid; });
+      if (p) renderDetail(p);
+      document.querySelector('#profiles').scrollIntoView({ behavior: 'smooth' });
+      renderList(getFilteredProfiles());
+    });
+  });
 }
 
 async function renderTablePlus() {
@@ -1366,28 +1383,40 @@ async function renderTablePlus() {
     if (pcRes.ok) {
       const pc = await pcRes.json();
       document.querySelector('#personnelCount').textContent = pc.length + ' 条';
-      document.querySelector('#personnelGrid').innerHTML = pc.map(r => 
+      document.querySelector('#personnelGrid').innerHTML = pc.map(r =>
         '<div class="tableplus-card">' +
-          '<div class="tpc-header"><strong>' + r.person_name + '</strong><span class="tag ' + (r.status === '高可信' ? 'jade' : r.status === '叫停' ? 'rose' : 'amber') + '">' + r.status + '</span></div>' +
-          '<p class="tpc-pos">' + r.original_position + ' → ' + r.new_position + '</p>' +
-          '<div class="tpc-meta"><time>' + (r.date||'').split('T')[0] + '</time><span>可信度: ' + r.credibility + '</span></div>' +
-          (r.remarks ? '<p class="tpc-remark">' + r.remarks + '</p>' : '') +
+          '<div class="tpc-header"><strong>' + escapeHtml(r.person_name) + '</strong><span class="tag ' + (r.status === '高可信' ? 'jade' : r.status === '叫停' ? 'rose' : 'amber') + '">' + escapeHtml(r.status) + '</span></div>' +
+          '<p class="tpc-pos">' + escapeHtml(r.original_position) + ' → ' + escapeHtml(r.new_position) + '</p>' +
+          '<div class="tpc-meta"><time>' + escapeHtml((r.date||'').split('T')[0]) + '</time><span>可信度: ' + escapeHtml(r.credibility) + '</span></div>' +
+          (r.remarks ? '<p class="tpc-remark">' + escapeHtml(r.remarks) + '</p>' : '') +
         '</div>'
       ).join('') || '<div class="empty-state">暂无数据</div>';
     }
+
+    const feedEl = document.querySelector('#eventRadarFeed');
     if (dsRes.ok) {
       const ds = await dsRes.json();
       document.querySelector('#dailyCount').textContent = ds.length + ' 条';
-      document.querySelector('#dailyGrid').innerHTML = ds.map(r =>
-        '<div class="tableplus-card daily-card">' +
-          '<div class="tpc-header"><time>' + (r.date||'').split('T')[0] + '</time></div>' +
-          '<strong>' + r.main_line + '</strong>' +
-          (r.key_discussion ? '<p class="tpc-pos">' + r.key_discussion + '</p>' : '') +
-          (r.notes ? '<p class="tpc-remark">' + r.notes + '</p>' : '') +
-        '</div>'
-      ).join('') || '<div class="empty-state">暂无数据</div>';
+      const dailyHtml = ds.length
+        ? ds.map(r =>
+            '<div class="tableplus-card daily-card">' +
+              '<div class="tpc-header"><time>' + escapeHtml((r.date||'').split('T')[0]) + '</time></div>' +
+              '<strong>' + escapeHtml(r.main_line) + '</strong>' +
+              (r.key_discussion ? '<p class="tpc-pos">' + escapeHtml(r.key_discussion) + '</p>' : '') +
+              (r.notes ? '<p class="tpc-remark">' + escapeHtml(r.notes) + '</p>' : '') +
+            '</div>'
+          ).join('')
+        : '<div class="empty-state">暂无每日摘要数据</div>';
+      // 同时写入独立的每日摘要区块和事件雷达 feed 区域
+      document.querySelector('#dailyGrid').innerHTML = dailyHtml;
+      if (feedEl) feedEl.innerHTML = dailyHtml;
+    } else {
+      if (feedEl) feedEl.innerHTML = '<div class="empty-state">每日摘要暂不可用</div>';
     }
-  } catch(e) {}
+  } catch(e) {
+    const feedEl = document.querySelector('#eventRadarFeed');
+    if (feedEl) feedEl.innerHTML = '<div class="empty-state">加载失败，请检查服务是否运行</div>';
+  }
 }
 
 document.addEventListener("click", (event) => {
@@ -1405,7 +1434,7 @@ document.addEventListener("click", (event) => {
     if (selected) void renderDetail(selected);
     const filtered = getFilteredProfiles();
     renderList(filtered);
-    renderSourcesPanel(selected);
+    renderSourcesPanel();
     renderEventRadar();
     renderOpinionOverview(filtered);
     return;
@@ -1436,7 +1465,7 @@ document.querySelector("#scanBatchBtn")?.addEventListener("click", () => {
 
 document.querySelector("#eventRadarFilter")?.addEventListener("change", (e) => {
   eventRadarState.filter = e.target.value;
-  renderEventRadar(getFilteredProfiles());
+  renderEventRadar();
 });
 
 // Chain status bar
@@ -1630,6 +1659,21 @@ document.addEventListener("click", async (event) => {
 
 searchInput.addEventListener("input", (event) => {
   filterState.query = event.target.value;
+  const q = filterState.query.trim();
+  // 按姓名精确匹配优先
+  if (q) {
+    const exact = profiles.find(p => p.name === q);
+    if (exact) {
+      filterState.selectedId = exact.id;
+      filterState.region = "全部";
+      filterState.system = "全部";
+      filterState.attention = "全部";
+      render();
+      const el = document.querySelector('[data-profile-id="' + exact.id + '"]');
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+  }
   render();
 });
 

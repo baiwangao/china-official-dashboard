@@ -1,4 +1,3 @@
-const axios = require('axios');
 const { httpsFetch } = require('./httpsFetch');
 
 class NewsApiService {
@@ -56,20 +55,11 @@ class NewsApiService {
   }
 
   async getTopHeadlines(category = 'general', country = 'us') {
-    try {
-      const response = await axios.get(`${this.baseUrl}/top-headlines`, {
-        params: {
-          category,
-          country,
-          apiKey: this.newsApiKey
-        }
-      });
-
-      return this.formatNewsResponse(response.data);
-    } catch (error) {
-      console.error('NewsAPI headlines error:', error.response?.data || error.message);
-      throw new Error(`NewsAPI headlines failed: ${error.message}`);
-    }
+    if (!this.newsApiKey) throw new Error('NEWS_API_KEY not configured');
+    const params = new URLSearchParams({ category, country, apiKey: this.newsApiKey });
+    const response = await httpsFetch(`${this.baseUrl}/top-headlines?${params}`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return this.formatNewsResponse(await response.json());
   }
 
   async searchChinaNews() {
@@ -127,30 +117,17 @@ class GdeltService {
   }
 
   async searchEvents(query, options = {}) {
-    const { 
-      mode = 'ArtList', 
+    const {
+      mode = 'ArtList',
       format = 'json',
       maxRecords = 50,
       timespan = '24h'
     } = options;
 
-    try {
-      const response = await axios.get(this.baseUrl, {
-        params: {
-          query,
-          mode,
-          format,
-          maxrecords: maxRecords,
-          timespan,
-          sort: 'DateDesc'
-        }
-      });
-
-      return this.formatGdeltResponse(response.data);
-    } catch (error) {
-      console.error('GDELT API error:', error.message);
-      throw new Error(`GDELT request failed: ${error.message}`);
-    }
+    const params = new URLSearchParams({ query, mode, format, maxrecords: maxRecords, timespan, sort: 'DateDesc' });
+    const response = await httpsFetch(`${this.baseUrl}?${params}`);
+    if (!response.ok) throw new Error(`GDELT HTTP ${response.status}`);
+    return this.formatGdeltResponse(await response.json());
   }
 
   formatGdeltResponse(data) {

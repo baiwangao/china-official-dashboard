@@ -125,7 +125,6 @@ async function crawl() {
  * 返回已入队（含已上链）的怀仁堂事件列表，供 API 路由查询。
  */
 async function getQueuedEvents() {
-  const { getPending } = queueManager;
   const pending = await queueManager.getPending();
   return pending
     .filter(item => item.event && item.event.isHuairentang)

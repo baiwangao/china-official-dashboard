@@ -1,5 +1,27 @@
 [
   {
+    "id": 9,
+    "person_name": "饶程",
+    "original_position": "崇州市委副书记、市长",
+    "new_position": "待官宣",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-27T04:52:14.000Z"
+  },
+  {
+    "id": 10,
+    "person_name": "陈衡治",
+    "original_position": "浙江省委副秘书长",
+    "new_position": "浙江省发展和改革委员会主任",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T04:52:14.000Z"
+  },
+  {
     "id": 4,
     "person_name": "宁咏",
     "original_position": "省委统战部长",

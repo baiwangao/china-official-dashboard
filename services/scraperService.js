@@ -6,8 +6,8 @@ try {
   puppeteer = null;
 }
 
-const axios = require('axios');
 const cheerio = require('cheerio');
+const { httpsFetch } = require('./httpsFetch');
 
 class ScraperService {
   constructor() {
@@ -125,13 +125,14 @@ class ScraperService {
   async scrapeWithCheerio(source, query) {
     try {
       const searchUrl = `${source.searchUrl}${encodeURIComponent(query)}`;
-      const response = await axios.get(searchUrl, {
+      const response = await httpsFetch(searchUrl, {
         headers: {
           'User-Agent': process.env.SCRAPER_USER_AGENT || 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
         }
       });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-      const $ = cheerio.load(response.data);
+      const $ = cheerio.load(await response.text());
       const articles = [];
 
       $(source.selectors.article).each((index, element) => {

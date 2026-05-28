@@ -88,52 +88,131 @@ async function enqueueJSON(events) {
 }
 
 async function getPending() {
-  const [rows] = await getPool().query("SELECT * FROM chain_events WHERE status = 'pending' ORDER BY enqueued_at");
-  return rows.map(r => ({ ...r, event: parseEvent(r.event) }));
+  const dbResult = await tryDB(async () => {
+    const [rows] = await getPool().query("SELECT * FROM chain_events WHERE status = 'pending' ORDER BY enqueued_at");
+    return rows.map(r => ({ ...r, event: parseEvent(r.event) }));
+  });
+  if (dbResult !== null) return dbResult;
+
+  const queue = await readQueue();
+  return queue.pending.map(item => ({
+    queue_id: item.queueId, hash: item.hash, event: item.event,
+    status: 'pending', enqueued_at: item.enqueuedAt, retries: item.retries || 0,
+    queueId: item.queueId,
+  }));
 }
 
 async function markCommitted(queueId, txHash, blockNumber) {
-  await getPool().query(
+  const dbResult = await tryDB(() => getPool().query(
     "UPDATE chain_events SET status = 'committed', tx_hash = ?, block_number = ? WHERE queue_id = ?",
     [txHash, blockNumber, queueId]
-  );
+  ));
+  if (dbResult !== null) return;
+
+  await updateQueueItem(queueId, item => ({ ...item, status: 'committed', txHash, blockNumber }), 'committed');
 }
 
 async function markSubmitted(queueId, txHash, blockNumber) {
-  await getPool().query(
+  const dbResult = await tryDB(() => getPool().query(
     "UPDATE chain_events SET status = 'submitted', tx_hash = ?, block_number = ?, submitted_at = NOW() WHERE queue_id = ?",
     [txHash, blockNumber, queueId]
-  );
+  ));
+  if (dbResult !== null) return;
+
+  await updateQueueItem(queueId, item => ({ ...item, status: 'submitted', txHash, blockNumber, submittedAt: new Date().toISOString() }), 'submitted');
 }
 
 async function markFailed(queueId) {
-  const [rows] = await getPool().query("SELECT retries FROM chain_events WHERE queue_id = ?", [queueId]);
-  if (!rows.length) return;
-  const retries = (rows[0].retries || 0) + 1;
-  if (retries >= 3) {
-    await getPool().query("UPDATE chain_events SET status = 'failed', retries = ? WHERE queue_id = ?", [retries, queueId]);
-  } else {
-    await getPool().query("UPDATE chain_events SET retries = ? WHERE queue_id = ?", [retries, queueId]);
-  }
+  const dbResult = await tryDB(async () => {
+    const [rows] = await getPool().query("SELECT retries FROM chain_events WHERE queue_id = ?", [queueId]);
+    if (!rows.length) return;
+    const retries = (rows[0].retries || 0) + 1;
+    if (retries >= 3) {
+      await getPool().query("UPDATE chain_events SET status = 'failed', retries = ? WHERE queue_id = ?", [retries, queueId]);
+    } else {
+      await getPool().query("UPDATE chain_events SET retries = ? WHERE queue_id = ?", [retries, queueId]);
+    }
+    return true;
+  });
+  if (dbResult !== null) return;
+
+  await updateQueueItem(queueId, item => {
+    const retries = (item.retries || 0) + 1;
+    return retries >= 3 ? { ...item, status: 'failed', retries } : { ...item, retries };
+  }, 'auto');
 }
 
 async function getStats() {
-  const [rows] = await getPool().query(
-    "SELECT status, COUNT(*) as c FROM chain_events GROUP BY status"
-  );
-  const stats = { pending: 0, committed: 0, submitted: 0, failed: 0 };
-  for (const r of rows) stats[r.status] = r.c;
-  return stats;
+  const dbResult = await tryDB(async () => {
+    const [rows] = await getPool().query("SELECT status, COUNT(*) as c FROM chain_events GROUP BY status");
+    const stats = { pending: 0, committed: 0, submitted: 0, failed: 0 };
+    for (const r of rows) stats[r.status] = Number(r.c);
+    return stats;
+  });
+  if (dbResult !== null) return dbResult;
+
+  const queue = await readQueue();
+  return {
+    pending:   queue.pending.length,
+    committed: (queue.committed || []).length,
+    submitted: queue.submitted.length,
+    failed:    queue.failed.length,
+  };
 }
 
 async function getByHash(hash) {
-  const [rows] = await getPool().query("SELECT * FROM chain_events WHERE hash = ?", [hash]);
-  if (!rows.length) return null;
-  return { ...rows[0], event: parseEvent(rows[0].event) };
+  const dbResult = await tryDB(async () => {
+    const [rows] = await getPool().query("SELECT * FROM chain_events WHERE hash = ?", [hash]);
+    if (!rows.length) return undefined;
+    return { ...rows[0], event: parseEvent(rows[0].event) };
+  });
+  if (dbResult !== null) return dbResult;
+
+  const queue = await readQueue();
+  const all = [...queue.pending, ...(queue.committed || []), ...queue.submitted, ...queue.failed];
+  const item = all.find(i => i.hash === hash);
+  if (!item) return null;
+  return { queue_id: item.queueId, hash: item.hash, event: item.event, status: item.status || 'pending',
+    tx_hash: item.txHash || null, block_number: item.blockNumber || null,
+    enqueued_at: item.enqueuedAt, submitted_at: item.submittedAt || null };
 }
 
 function parseEvent(v) {
   try { return typeof v === 'string' ? JSON.parse(v) : v; } catch { return v; }
+}
+
+async function readQueue() {
+  try { return JSON.parse(await fs.readFile(QUEUE_FILE, 'utf8')); } catch { return { ...EMPTY_QUEUE }; }
+}
+
+async function writeQueue(queue) {
+  await fs.mkdir(path.dirname(QUEUE_FILE), { recursive: true });
+  await fs.writeFile(QUEUE_FILE, JSON.stringify(queue, null, 2));
+}
+
+/**
+ * Find item by queueId across all buckets, apply transformer, move to targetBucket if provided.
+ * If targetBucket is 'auto', use updated.status as the destination bucket.
+ */
+async function updateQueueItem(queueId, transform, targetBucket) {
+  const queue = await readQueue();
+  const buckets = ['pending', 'committed', 'submitted', 'failed'];
+  for (const bucket of buckets) {
+    if (!queue[bucket]) queue[bucket] = [];
+    const idx = queue[bucket].findIndex(i => i.queueId === queueId);
+    if (idx === -1) continue;
+    const updated = transform(queue[bucket][idx]);
+    const dest = targetBucket === 'auto' ? (updated.status || bucket) : targetBucket;
+    if (dest && dest !== bucket) {
+      queue[bucket].splice(idx, 1);
+      if (!queue[dest]) queue[dest] = [];
+      queue[dest].push(updated);
+    } else {
+      queue[bucket][idx] = updated;
+    }
+    await writeQueue(queue);
+    return;
+  }
 }
 
 module.exports = { enqueue, getPending, markCommitted, markSubmitted, markFailed, getStats, getByHash };

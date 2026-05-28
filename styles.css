@@ -2290,6 +2290,25 @@ h1 {
   background: rgba(255,255,255,0.9); font-size:13px; }
 .verify-ev-conf { font-size: 11px; }
 
+/* ===== CCDI Case Tracker ===== */
+.ccdi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.ccdi-card {
+  padding: 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: rgba(255,255,255,0.9); cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.ccdi-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,31,44,0.1); }
+.ccdi-header { display: flex; justify-content: space-between; align-items: center; gap: 6px; margin-bottom: 6px; }
+.ccdi-title { font-size: 12px; color: var(--muted); margin-bottom: 10px; line-height: 1.4; }
+.ccdi-timeline { display: grid; gap: 6px; }
+.ccdi-event { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+.ccdi-event time { color: var(--muted); font-weight: 800; min-width: 65px; }
+.ccdi-event span:last-child { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+
 /* ===== Chain Pipeline Animation ===== */
 .chain-pipeline {
   margin: 12px 0 18px;

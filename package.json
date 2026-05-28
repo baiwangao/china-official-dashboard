@@ -4,8 +4,8 @@
   "description": "Chinese official career trajectory analysis with real API and web scraping",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_OPTIONS=--dns-result-order=ipv4first node server.js",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 NODE_OPTIONS=--dns-result-order=ipv4first nodemon server.js",
+    "start": "NODE_OPTIONS=--dns-result-order=ipv4first node server.js",
+    "dev": "NODE_OPTIONS=--dns-result-order=ipv4first nodemon server.js",
     "scrape": "node scripts/scraper.js",
     "predict": "node scripts/predictor.js"
   },
