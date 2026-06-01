@@ -20,6 +20,47 @@ const { parseExport } = require('./telegram/parseExport');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+function parseMaybeJson(value, fallback = null) {
+  if (value == null) return fallback;
+  if (Array.isArray(value) || typeof value === 'object') return value;
+  if (typeof value !== 'string') return fallback;
+  try {
+    return JSON.parse(value);
+  } catch {
+    return fallback;
+  }
+}
+
+function normalizeHuairentangEvent(row) {
+  const rawOfficials = parseMaybeJson(row.officials, null);
+  const officials = Array.isArray(rawOfficials)
+    ? rawOfficials
+    : String(row.officials || '')
+        .split(/[、,，;；\s]+/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+  const title = row.title || row.headline || '';
+  const type =
+    row.type ||
+    (/被查|立案|留置|审查|调查/.test(title) ? '反腐通报' : '怀仁堂日报');
+  const impact =
+    row.impact ||
+    (/严重违纪|违法|立案|留置/.test(title) ? '高' : '中');
+
+  return {
+    id: row.id,
+    date: row.date || row.event_date || row.created_at || '',
+    title,
+    summary: row.summary || row.description || row.content || '',
+    officials,
+    source: row.source || '怀仁堂日报',
+    url: row.url || row.link || '',
+    type,
+    impact,
+    createdAt: row.created_at,
+  };
+}
+
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '200mb' }));
@@ -242,6 +283,43 @@ app.post('/api/chain/submit-now', async (req, res) => {
   }
 });
 
+app.post('/api/chain/settle-market', async (req, res) => {
+  try {
+    const { settlements, userName } = req.body;
+    if (!settlements || !Array.isArray(settlements)) {
+      return res.status(400).json({ error: 'Invalid settlements data' });
+    }
+
+    // 将结算结果添加到上链队列
+    const queueItems = settlements.map(settlement => ({
+      type: 'market_settlement',
+      data: {
+        personName: settlement.personName,
+        side: settlement.side,
+        amount: settlement.amount,
+        result: settlement.result,
+        won: settlement.won,
+        settledAt: settlement.settledAt,
+        userName: userName
+      },
+      timestamp: new Date().toISOString()
+    }));
+
+    // 添加到队列
+    for (const item of queueItems) {
+      await queueManager.add(item);
+    }
+
+    res.json({
+      success: true,
+      queued: queueItems.length,
+      message: `已将 ${queueItems.length} 条结算结果加入上链队列`
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Chain Stats Routes
 app.get('/api/chain/rating/:name', (req, res) => res.json({ message: 'see /api/chain/total-reviews' }));
 
@@ -285,13 +363,23 @@ app.get('/api/daily-summary', async (req, res) => {
   }
 });
 
-// Huairentang Routes
 app.get('/api/huairentang/events', async (req, res) => {
   try {
-    const events = await huairentangCrawler.getQueuedEvents();
-    res.json({ total: events.length, events, timestamp: new Date().toISOString() });
+    const limit = Math.min(parseInt(req.query.limit, 10) || 100, 500);
+    const [rows] = await dataManager
+      .getPool()
+      .query('SELECT * FROM huairentang_events ORDER BY date DESC, id DESC LIMIT ?', [limit]);
+    const events = rows.map(normalizeHuairentangEvent);
+    if (events.length) {
+      const fs = require('fs').promises;
+      fs.writeFile(path.join(__dirname, 'data/huairentang-events.json'), JSON.stringify(events, null, 2)).catch(()=>{});
+    }
+    res.json(events);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    try {
+      const cache = JSON.parse(await require('fs').promises.readFile(path.join(__dirname, 'data/huairentang-events.json'), 'utf8'));
+      return res.json(cache.map(normalizeHuairentangEvent));
+    } catch { res.status(500).json({ error: error.message }); }
   }
 });
 

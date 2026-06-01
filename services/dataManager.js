@@ -31,16 +31,22 @@ class DataManager {
 
   getPool() {
     if (!this.pool) {
+      const socketPath = process.env.DB_SOCKET || '';
       this.pool = mysql.createPool({
-        host: process.env.DB_HOST || 'localhost',
-        port: parseInt(process.env.DB_PORT) || 3306,
+        ...(socketPath
+          ? { socketPath }
+          : {
+              host: process.env.DB_HOST || 'localhost',
+              port: parseInt(process.env.DB_PORT) || 3306,
+            }),
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASSWORD || '',
         database: process.env.DB_NAME || 'china-official',
         waitForConnections: true,
         connectionLimit: 5,
-        connectTimeout: 3000,
-        charset: 'utf8mb4'
+        connectTimeout: 8000,
+        charset: 'utf8mb4',
+        ssl: socketPath ? undefined : false
       });
     }
     return this.pool;

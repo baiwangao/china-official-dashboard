@@ -1327,121 +1327,126 @@ function renderSourcesPanel(profile) {
   var body = document.querySelector("#sourcesBody");
   if (!body) return;
 
-  var ccdiKeywords = ['反腐通报', '落马通报', '立案审查', '被立案', '已被带走', '被留置', '涉嫌严重违纪'];
-  var allCCDI = [];
+  body.innerHTML = '<div class="empty-state">加载中…</div>';
 
-  for (var i = 0; i < profiles.length; i++) {
-    var p = profiles[i];
-    var isTitle = /已被立案审查|已被带走|被留置/.test(p.title || '');
-    if (isTitle) {
-      allCCDI.push({ profile: p, reason: 'title', events: p.events || [] });
-      continue;
+  // 从 TablePlus MySQL 表 huairentang_events 读取数据
+  fetch('/api/huairentang/events?limit=200').then(function (r) { return r.json(); }).then(function (events) {
+    if (!Array.isArray(events) || !events.length) {
+      body.innerHTML = '<div class="empty-state">暂无案件通报数据</div>';
+      return;
     }
-    var ccdiEvents = (p.events || []).filter(function (e) {
-      return ccdiKeywords.some(function (k) {
-        return (e.type || '').indexOf(k) !== -1 || (e.title || '').indexOf(k) !== -1;
+
+    // 筛选反腐通报类型的案件
+    var caseEvents = events.filter(function (e) {
+      return e.type === '反腐通报' || e.type === '落马通报' || (e.title || '').indexOf('被查') !== -1 || (e.title || '').indexOf('立案') !== -1;
+    });
+
+    if (!caseEvents.length) {
+      body.innerHTML = '<div class="empty-state">暂无反腐通报案件</div>';
+      return;
+    }
+
+    body.innerHTML =
+    '<div class="market-header">' +
+      '<h3 style="margin:0;font-size:18px">⚖ 中纪委案件通报</h3>' +
+      '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">TablePlus · huairentang_events · ' + caseEvents.length + ' 条反腐通报</p>' +
+    '</div>' +
+    '<div class="case-list">' +
+      caseEvents.map(function (e) {
+        var impactClass = e.impact === '高' ? 'rose' : e.impact === '中' ? 'amber' : 'jade';
+        var officialsList = (e.officials || []).map(function (name) {
+          return '<span class="tag">' + escapeHtml(name) + '</span>';
+        }).join(' ');
+
+        return '<div class="case-card" data-url="' + escapeHtml(e.url || '') + '">' +
+          '<div class="case-header">' +
+            '<span class="tag ' + impactClass + '">' + escapeHtml(e.type) + '</span>' +
+            '<time>' + escapeHtml(e.date || '') + '</time>' +
+          '</div>' +
+          '<div class="case-title">' + escapeHtml(e.title || '') + '</div>' +
+          '<div class="case-summary">' + escapeHtml(e.summary || '') + '</div>' +
+          '<div class="case-officials">' + officialsList + '</div>' +
+          '<div class="case-footer">' +
+            '<span class="case-source">来源：怀仁堂日报</span>' +
+          '</div>' +
+        '</div>';
+      }).join('') +
+    '</div>';
+
+    // 点击卡片打开链接
+    body.querySelectorAll('.case-card[data-url]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var url = this.dataset.url;
+        if (url) {
+          window.open(url, '_blank');
+        }
+      });
+      card.style.cursor = 'pointer';
+    });
+  }).catch(function (error) {
+    console.error('加载案件通报失败:', error);
+    body.innerHTML = '<div class="empty-state">加载失败：请检查 /api/huairentang/events 与 TablePlus 数据库连接</div>';
+  });
+}
+
+function renderHuairentangPanel() {
+  var body = document.querySelector('#huairentangBody');
+  if (!body) return;
+
+  body.innerHTML = '<div class="empty-state">加载中…</div>';
+
+  fetch('/api/huairentang/events?limit=100').then(function (r) { return r.json(); }).then(function (events) {
+    if (!Array.isArray(events) || !events.length) {
+      body.innerHTML = '<div class="empty-state">暂无怀仁堂日报数据</div>';
+      return;
+    }
+
+    body.innerHTML =
+      '<div class="market-header">' +
+        '<h3 style="margin:0;font-size:18px">怀仁堂日报</h3>' +
+        '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">TablePlus · huairentang_events · ' + events.length + ' 条</p>' +
+      '</div>' +
+      '<div class="case-list">' + events.map(function (event) {
+        var officials = Array.isArray(event.officials)
+          ? event.officials
+          : String(event.officials || '').split(/[、,，;；\s]+/).filter(Boolean);
+        var type = event.type || '怀仁堂日报';
+        var impact = event.impact || (type === '反腐通报' ? '高' : '中');
+        var typeColor = 'var(--muted)';
+        if (type === '人事动向') typeColor = 'var(--jade)';
+        if (type === '反腐通报') typeColor = 'var(--rose)';
+        if (type === '外事活动') typeColor = 'var(--amber)';
+        if (type === '重大事故') typeColor = 'var(--rose)';
+        var impactClass = impact === '高' ? 'rose' : impact === '低' ? 'jade' : 'amber';
+
+        return '<div class="case-card" data-url="' + escapeHtml(event.url || '') + '">' +
+          '<div class="case-header">' +
+            '<span class="case-type" style="color:' + typeColor + '">' + escapeHtml(type) + '</span>' +
+            '<span class="tag ' + impactClass + '">影响 ' + escapeHtml(impact) + '</span>' +
+            '<span class="case-date">' + escapeHtml(event.date || '') + '</span>' +
+          '</div>' +
+          '<h4 class="case-title">' + escapeHtml(event.title || '') + '</h4>' +
+          '<p class="case-summary">' + escapeHtml(event.summary || '') + '</p>' +
+          (officials.length ? '<div class="case-officials">涉及官员: ' + officials.map(function (o) { return '<span class="tag">' + escapeHtml(o) + '</span>'; }).join(' ') + '</div>' : '') +
+          '<div class="case-footer">' +
+            '<span class="case-source">来源：' + escapeHtml(event.source || '怀仁堂日报') + '</span>' +
+            (event.url ? '<span>点击查看原文</span>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('') + '</div>';
+
+    // 添加点击事件
+    body.querySelectorAll('.case-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var url = this.dataset.url;
+        if (url) window.open(url, '_blank');
       });
     });
-    if (ccdiEvents.length > 0) {
-      allCCDI.push({ profile: p, reason: 'events', events: ccdiEvents });
-    }
-  }
-
-  if (!allCCDI.length) {
-    body.innerHTML = '<div class="empty-state">暂无中纪委相关案件</div>';
-    return;
-  }
-
-  var statusBadge = function (p) {
-    var t = p.title || '';
-    if (t.indexOf('已被立案审查') !== -1) return '<span class="tag rose">已立案</span>';
-    if (t.indexOf('已被带走') !== -1) return '<span class="tag rose">已带走</span>';
-    if (t.indexOf('被留置') !== -1) return '<span class="tag rose">留置中</span>';
-    if (t.indexOf('被约谈') !== -1) return '<span class="tag amber">约谈中</span>';
-    return '<span class="tag amber">调查中</span>';
-  };
-
-  var officialNews = allCCDI.flatMap(function (c) {
-    return c.events.filter(function (e) {
-      return (e.confidence || '').indexOf('中央纪委') !== -1 ||
-             (e.confidence || '').indexOf('新华社') !== -1 ||
-             e.type === '反腐通报' || e.type === '落马通报';
-    }).map(function (e) {
-      return { profile: c.profile, event: e };
-    });
+  }).catch(function (error) {
+    console.error('加载怀仁堂日报失败:', error);
+    body.innerHTML = '<div class="empty-state">加载失败：请检查 /api/huairentang/events 与 TablePlus 数据库连接</div>';
   });
-
-  body.innerHTML =
-  '<div class="market-header">' +
-    '<h3 style="margin:0;font-size:18px">⚖ 中纪委预测市场</h3>' +
-    '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">对传闻中官员的被查概率进行预测押注 · 数据仅供模拟</p>' +
-  '</div>' +
-  '<div class="market-grid">' +
-    allCCDI.map(function (c) {
-      var p = c.profile;
-      var confirmed = /已立案/.test(p.title||'') || /已被带走|被留置/.test(p.title||'');
-      var mkt = getMarketData(p.id);
-      var pct = Math.round(mkt.yesPrice * 100);
-      var volK = (mkt.volume / 1000).toFixed(1);
-
-      return '<div class="mkt-card' + (confirmed ? ' settled' : '') + '" data-profile-id="' + p.id + '">' +
-        // 问题
-        '<div class="mkt-question">' + getQuestion(p) + '</div>' +
-        // 概率条
-        '<div class="mkt-bar-wrap">' +
-          '<div class="mkt-bar' + (confirmed ? ' confirmed' : '') + '" style="--pct:' + pct + '%">' +
-            '<span class="mkt-pct">' + pct + '% chance</span>' +
-          '</div>' +
-        '</div>' +
-        // 交易按钮
-        '<div class="mkt-prices">' +
-          '<div class="mkt-price yes' + (pct >= 50 ? ' lead' : '') + '">' +
-            '<span class="mkt-label">YES</span><span class="mkt-val">' + pct + '¢</span>' +
-          '</div>' +
-          '<div class="mkt-price no' + (pct < 50 ? ' lead' : '') + '">' +
-            '<span class="mkt-label">NO</span><span class="mkt-val">' + (100 - pct) + '¢</span>' +
-          '</div>' +
-        '</div>' +
-        // 底部信息
-        '<div class="mkt-meta">' +
-          '<span>👥 ' + mkt.traders + '</span>' +
-          '<span>Vol ' + volK + 'K</span>' +
-          '<span style="color:' + (mkt.trend >= 0 ? 'var(--jade)' : 'var(--rose)') + '">' + (mkt.trend >= 0 ? '+' : '') + mkt.trend + '¢</span>' +
-          (confirmed ? '<span class="tag rose">已确认</span>' : '') +
-        '</div>' +
-        (!confirmed ? '<div class="mkt-btns">' +
-          '<button class="mkt-btn yes" data-id="' + p.id + '" data-side="yes">Buy YES</button>' +
-          '<button class="mkt-btn no" data-id="' + p.id + '" data-side="no">Buy NO</button>' +
-        '</div>' : '') +
-      '</div>';
-    }).join('') +
-  '</div>';
-
-  // 点击跳转
-  var clickProfile = function (pid) {
-    filterState.selectedId = pid;
-    filterState.query = '';
-    var p = profiles.find(function (x) { return x.id === pid; });
-    if (p) renderDetail(p);
-    document.querySelector('#profiles')?.scrollIntoView({ behavior: 'smooth' });
-    renderList(getFilteredProfiles());
-  };
-  body.querySelectorAll('.mkt-card').forEach(function (item) {
-    item.addEventListener('click', function () { clickProfile(this.dataset.profileId); });
-  });
-
-  body.querySelectorAll('.mkt-btn').forEach(function (btn) {
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var pid = this.dataset.id, side = this.dataset.side;
-      var mkt = getMarketData(pid);
-      mkt.yesPrice = Math.max(0.01, Math.min(0.99, mkt.yesPrice + (side === 'yes' ? 0.03 : -0.03)));
-      mkt.noPrice = 1 - mkt.yesPrice;
-      mkt.volume += 200 + randomInt(300);
-      mkt.trend += (side === 'yes' ? 2 : -2);
-      mkt.traders += 1;
-  renderSourcesPanel();
-  renderMarketPanel();
+}
 
 function renderMarketPanel() {
   var body = document.querySelector('#marketBody');
@@ -1456,8 +1461,14 @@ function renderMarketPanel() {
     '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · 加载中…</p></div>' +
     '<div class="market-grid"><div class="empty-state">正在加载市场数据…</div></div>';
 
-  // 从 TablePlus 表加载数据
-  fetch('/api/personnel-changes').then(function (r) { return r.json(); }).then(function (rows) {
+  // 同时加载 TablePlus 数据和结算结果
+  Promise.all([
+    fetch('/api/personnel-changes').then(function (r) { return r.json(); }),
+    fetch('./data/market-results.json').then(function (r) { return r.json(); }).catch(function(){return {};})
+  ]).then(function (results) {
+    var rows = results[0];
+    var marketResults = results[1];
+
     if (!Array.isArray(rows) || !rows.length) {
       body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div>' +
         '<div class="empty-state">TablePlus 暂无数据</div>';
@@ -1481,24 +1492,48 @@ function renderMarketPanel() {
       '<div class="market-grid">' + rumorRows.map(function (r) {
         var mkt = getMarketData('pc-' + r.id);
         var pct = Math.round(mkt.yesPrice * 100);
-        var pos = (userState.positions || {})['pc-' + r.id];
-        var hasPos = pos && pos.amount > 0;
-        return '<div class="mkt-card" data-pid="pc-' + r.id + '" data-name="' + escapeHtml(r.person_name) + '">' +
+        var pid = 'pc-' + r.id;
+        var yesPos = (userState.positions || {})[pid + '_yes'];
+        var noPos = (userState.positions || {})[pid + '_no'];
+        var hasPos = (yesPos && yesPos.amount > 0) || (noPos && noPos.amount > 0);
+        var isLost = (yesPos && yesPos.lost) || (noPos && noPos.lost);
+        var isSettled = (yesPos && yesPos.settled) || (noPos && noPos.settled);
+        var result = marketResults[r.person_name];
+        var hasResult = result && result.result !== 'pending';
+        var resultText = hasResult ? (result.result === 'confirmed' ? '✓ 已确认' : '✗ 已澄清') : '';
+        var settledText = isSettled ? ((yesPos && yesPos.settledResult === 'confirmed') || (noPos && noPos.settledResult === 'confirmed') ? '✓ 已确认' : '✗ 已澄清') : '';
+
+        var statusTags = [];
+        if (yesPos && yesPos.amount > 0) {
+          if (yesPos.settled) statusTags.push('<span class="tag jade">YES已结算</span>');
+          else if (yesPos.lost) statusTags.push('<span class="tag rose">YES猜错</span>');
+          else statusTags.push('<span class="tag jade">YES ' + yesPos.amount + '份</span>');
+        }
+        if (noPos && noPos.amount > 0) {
+          if (noPos.settled) statusTags.push('<span class="tag jade">NO已结算</span>');
+          else if (noPos.lost) statusTags.push('<span class="tag rose">NO猜错</span>');
+          else statusTags.push('<span class="tag jade">NO ' + noPos.amount + '份</span>');
+        }
+        var statusTag = statusTags.join(' ');
+
+        return '<div class="mkt-card' + (isLost ? ' lost' : '') + (hasResult || isSettled ? ' settled' : '') + '" data-pid="pc-' + r.id + '" data-name="' + escapeHtml(r.person_name) + '">' +
           '<div class="mkt-question">' + escapeHtml(r.person_name) + '：' + escapeHtml(r.original_position) + ' → ' + escapeHtml(r.new_position) + '</div>' +
-          '<div class="mkt-subtitle" style="font-size:12px;color:var(--muted);margin-top:2px">' + escapeHtml(r.remarks || r.status || '') + '</div>' +
-          '<div class="mkt-bar-wrap"><div class="mkt-bar" style="--pct:' + pct + '%"></div><span class="mkt-pct">' + pct + '%</span></div>' +
+          '<div class="mkt-subtitle" style="font-size:12px;color:var(--muted);margin-top:2px">' + escapeHtml(r.remarks || r.status || '') + (hasResult ? ' · ' + resultText : '') + (isSettled && !hasResult ? ' · ' + settledText : '') + '</div>' +
+          (hasResult || isSettled ? '' : (isLost ? '' : '<div class="mkt-bar-wrap"><div class="mkt-bar" style="--pct:' + pct + '%"></div><span class="mkt-pct">' + pct + '%</span></div>' +
           '<div class="mkt-prices">' +
             '<div class="mkt-price yes' + (pct >= 50 ? ' lead' : '') + '"><span class="mkt-label">YES</span><span class="mkt-val">' + pct + '%</span></div>' +
             '<div class="mkt-price no' + (pct < 50 ? ' lead' : '') + '"><span class="mkt-label">NO</span><span class="mkt-val">' + (100 - pct) + '%</span></div>' +
-          '</div>' +
+          '</div>')) +
           '<div class="mkt-meta">' +
             '<span>👥 ' + mkt.traders + '</span><span>Vol ' + (mkt.volume / 1000).toFixed(1) + 'K</span>' +
-            (hasPos ? '<span class="tag jade">持仓: ' + pos.side.toUpperCase() + ' ' + pos.amount + '份</span>' : '') +
+            statusTag +
           '</div>' +
+          (hasResult || isSettled ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算</span></div>' :
+          (isLost ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算 - 猜错归零</span></div>' :
           '<div class="mkt-btns">' +
             '<button class="mkt-btn yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '">Buy YES</button>' +
             '<button class="mkt-btn no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '">Buy NO</button>' +
-          '</div>' +
+          '</div>')) +
         '</div>';
       }).join('') + '</div>';
 
@@ -1511,10 +1546,29 @@ function renderMarketPanel() {
         if (userState.balance < cost) { alert('余额不足！当前: $' + userState.balance); return; }
         userState.balance -= cost;
         if (!userState.positions) userState.positions = {};
-        if (!userState.positions[pid]) userState.positions[pid] = { side: side, amount: 0, name: name };
-        userState.positions[pid].amount += 10;
+
+        // 修改持仓数据结构，允许同时持有YES和NO
+        var posKey = pid + '_' + side;
+        if (!userState.positions[posKey]) {
+          userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid };
+        }
+        userState.positions[posKey].amount += 10;
+
         var mkt = getMarketData(pid);
-        mkt.yesPrice = Math.max(0.01, Math.min(0.99, mkt.yesPrice + (side === 'yes' ? 0.03 : -0.03)));
+        // 根据买入量调整概率，初始为50%
+        var yesAmount = 0;
+        var noAmount = 0;
+        // 统计所有用户的持仓量（这里简化为只统计当前用户）
+        for (var key in userState.positions) {
+          if (key.startsWith(pid + '_yes')) yesAmount += userState.positions[key].amount;
+          if (key.startsWith(pid + '_no')) noAmount += userState.positions[key].amount;
+        }
+        var totalAmount = yesAmount + noAmount;
+        if (totalAmount > 0) {
+          mkt.yesPrice = Math.max(0.01, Math.min(0.99, yesAmount / totalAmount));
+        } else {
+          mkt.yesPrice = 0.5;
+        }
         mkt.noPrice = 1 - mkt.yesPrice;
         mkt.volume += 200 + randomInt(300); mkt.traders += 1; mkt.trend += (side === 'yes' ? 2 : -2);
         saveUser(); updateUserUI(); renderMarketPanel();
@@ -1534,9 +1588,6 @@ function renderMarketPanel() {
     });
   }).catch(function () {
     body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div><div class="empty-state">数据加载失败</div>';
-  });
-}
-    });
   });
 }
 
@@ -1786,18 +1837,206 @@ document.querySelector("#submitChainBtn")?.addEventListener("click", async () =>
 var userState = { name: '', balance: 1000, positions: {}, loggedIn: false };
 
 function loadUser() {
-  try { var s = localStorage.getItem('ccdi_user'); if (s) { userState = JSON.parse(s); return true; } } catch(e) {}
+  try {
+    var s = localStorage.getItem('ccdi_user_' + userState.name);
+    if (s) {
+      userState = JSON.parse(s);
+      return true;
+    }
+  } catch(e) {}
   return false;
 }
-function saveUser() { localStorage.setItem('ccdi_user', JSON.stringify(userState)); }
+function saveUser() {
+  localStorage.setItem('ccdi_user_' + userState.name, JSON.stringify(userState));
+}
+
+function checkMarketResults() {
+  console.log('检查结算结果，用户名:', userState.name);
+  console.log('用户持仓:', userState.positions);
+  if (!userState.name || !userState.positions) return;
+  var positions = userState.positions;
+  fetch('./data/market-results.json').then(function (r) { return r.json(); }).catch(function(){return {}}).then(function (data) {
+    console.log('结算数据:', data);
+    if (!data) return;
+    var settledPositions = [];
+    for (var posKey in positions) {
+      var pos = positions[posKey];
+      console.log('检查持仓:', posKey, pos);
+      if (!pos || !pos.name) continue;
+      // 如果已经结算过，跳过
+      if (pos.settled) continue;
+
+      var result = data[pos.name];
+      console.log('持仓人名:', pos.name, '结算结果:', result);
+      if (!result || result.result === 'pending') continue;
+
+      var won = false;
+      if (result.result === 'confirmed' && pos.side === 'yes') won = true;
+      if (result.result === 'cleared' && pos.side === 'no') won = true;
+
+      console.log('是否获胜:', won);
+      // 标记为已结算
+      pos.settled = true;
+      pos.settledResult = result.result;
+      pos.settledAt = result.resolvedAt || new Date().toISOString();
+      settledPositions.push({
+        personName: pos.name,
+        side: pos.side,
+        amount: pos.amount,
+        result: result.result,
+        won: won,
+        settledAt: pos.settledAt
+      });
+
+      if (won) {
+        var payout = pos.amount * (pos.credibilityRate || 0.5);
+        userState.balance += Math.round(payout);
+        shootFireworks();
+        setTimeout(function () {
+          alert('🎉 猜中了！+' + Math.round(payout) + ' 奖金到账');
+          saveUser(); renderMarketPanel(); updateUserUI();
+        }, 4000);
+      } else {
+        setTimeout(function () {
+          alert('❌ 猜错了，持仓已锁定');
+          saveUser(); renderMarketPanel(); updateUserUI();
+        }, 1000);
+      }
+    }
+    saveUser(); renderMarketPanel();
+
+    // 上链结算结果
+    if (settledPositions.length > 0) {
+      console.log('上链结算结果:', settledPositions);
+      fetch('/api/chain/settle-market', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          settlements: settledPositions,
+          userName: userState.name
+        })
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        console.log('上链成功:', data);
+      }).catch(function (error) {
+        console.error('上链失败:', error);
+      });
+    }
+  });
+}
+
+// 烟花效果函数
+function rand(a, b) { return Math.random() * (b - a) + a; }
+
+function clearFireworksStage() {
+  var stage = document.querySelector('#fireworksStage');
+  if (stage) stage.innerHTML = '';
+}
+
+function addSpark(cx, cy, delay) {
+  var stage = document.querySelector('#fireworksStage');
+  if (!stage) return;
+
+  var el = document.createElement('div');
+  var size = rand(6, 14);
+  var angle = rand(0, 360) * Math.PI / 180;
+  var dist = rand(60, 200);
+  var tx = Math.cos(angle) * dist;
+  var ty = Math.sin(angle) * dist;
+  var dur = rand(0.7, 1.3);
+  var colors = ['#7F77DD', '#1D9E75', '#D85A30', '#D4537E', '#378ADD', '#EF9F27', '#E24B4A', '#97C459', '#5DCAA5', '#FAC775'];
+  var color = colors[Math.floor(Math.random() * colors.length)];
+
+  el.className = 'fireworks-spark';
+  el.style.cssText = [
+    'left:' + cx + 'px', 'top:' + cy + 'px',
+    'width:' + size + 'px', 'height:' + size + 'px',
+    'background:' + color,
+    '--tx:' + tx + 'px', '--ty:' + ty + 'px',
+    '--dur:' + dur + 's', '--delay:' + delay + 's',
+  ].join(';');
+
+  stage.appendChild(el);
+  setTimeout(function () { el.remove(); }, (dur + delay) * 1000 + 100);
+}
+
+function shootFireworks() {
+  var stage = document.querySelector('#fireworksStage');
+  if (!stage) return;
+
+  var wr = window.innerWidth;
+  var hr = window.innerHeight;
+
+  // 中心大爆炸
+  for (var i = 0; i < 80; i++) addSpark(wr / 2, hr / 2, 0);
+
+  // 四角小爆炸
+  var spots = [
+    { x: wr * 0.15, y: hr * 0.15 },
+    { x: wr * 0.85, y: hr * 0.15 },
+    { x: wr * 0.15, y: hr * 0.85 },
+    { x: wr * 0.85, y: hr * 0.85 },
+  ];
+  spots.forEach(function (s, si) {
+    for (var j = 0; j < 30; j++) addSpark(s.x, s.y, 0.3 + si * 0.18);
+  });
+
+  // 随机散射
+  for (var k = 0; k < 6; k++) {
+    var rx = rand(wr * 0.1, wr * 0.9);
+    var ry = rand(hr * 0.1, hr * 0.9);
+    for (var j = 0; j < 20; j++) addSpark(rx, ry, 0.6 + k * 0.2);
+  }
+}
 function updateUserUI() {
   var nl = document.querySelector('#userNotLoggedIn'), lg = document.querySelector('#userLoggedIn');
   if (userState.loggedIn) {
     if (nl) nl.style.display = 'none'; if (lg) lg.style.display = 'flex';
     var dn = document.querySelector('#userDisplayName'), bal = document.querySelector('#userBalance'), pos = document.querySelector('#userPositions');
+    var posList = document.querySelector('#userPositionList');
     if (dn) dn.textContent = userState.name;
     if (bal) bal.textContent = '$' + userState.balance.toLocaleString();
     if (pos) pos.textContent = Object.keys(userState.positions || {}).length;
+
+    // 更新持仓列表
+    if (posList) {
+      var positions = userState.positions || {};
+      // 按人员分组持仓
+      var personPositions = {};
+      for (var posKey in positions) {
+        var p = positions[posKey];
+        if (!p || !p.name) continue;
+        if (!personPositions[p.name]) {
+          personPositions[p.name] = { yes: 0, no: 0, settled: false, settledResult: null };
+        }
+        if (p.side === 'yes') personPositions[p.name].yes += p.amount;
+        if (p.side === 'no') personPositions[p.name].no += p.amount;
+        if (p.settled) {
+          personPositions[p.name].settled = true;
+          personPositions[p.name].settledResult = p.settledResult;
+        }
+      }
+
+      var positionItems = Object.keys(personPositions).map(function (personName) {
+        var pp = personPositions[personName];
+        var settledClass = pp.settled ? 'settled' : '';
+        var settledText = pp.settled ? (pp.settledResult === 'confirmed' ? ' ✓' : ' ✗') : '';
+        var details = [];
+        if (pp.yes > 0) details.push('<span class="side-yes">YES ' + pp.yes + '份</span>');
+        if (pp.no > 0) details.push('<span class="side-no">NO ' + pp.no + '份</span>');
+        return '<div class="user-position-item ' + settledClass + '">' +
+          '<div class="person-name">' + escapeHtml(personName) + settledText + '</div>' +
+          '<div class="position-detail">' +
+            details.join(' · ') +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      if (positionItems) {
+        posList.innerHTML = positionItems;
+      } else {
+        posList.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center;padding:8px">暂无持仓</div>';
+      }
+    }
   } else {
     if (nl) nl.style.display = 'flex'; if (lg) lg.style.display = 'none';
   }
@@ -1806,15 +2045,34 @@ function updateUserUI() {
 document.querySelector('#loginBtn')?.addEventListener('click', function () {
   var name = document.querySelector('#loginNameInput')?.value?.trim();
   if (!name) return;
-  if (!loadUser() || userState.name !== name) userState = { name: name, balance: 1000, positions: {}, loggedIn: true };
-  else userState.loggedIn = true;
-  saveUser(); updateUserUI(); renderMarketPanel();
+  var tempState = { name: name };
+  var saved = localStorage.getItem('ccdi_user_' + name);
+  if (saved) {
+    userState = JSON.parse(saved);
+    userState.loggedIn = true;
+  } else {
+    userState = { name: name, balance: 1000, positions: {}, loggedIn: true };
+  }
+  localStorage.setItem('ccdi_last_user', name);
+  saveUser(); updateUserUI(); renderMarketPanel(); checkMarketResults();
 });
 document.querySelector('#logoutBtn')?.addEventListener('click', function () {
-  userState.loggedIn = false; saveUser(); updateUserUI(); renderMarketPanel();
+  userState.loggedIn = false;
+  localStorage.removeItem('ccdi_last_user');
+  saveUser(); updateUserUI(); renderMarketPanel();
 });
-if (loadUser() && userState.loggedIn) { userState.loggedIn = true; saveUser(); }
+// 页面加载时自动恢复最后一个登录的用户
+var lastUser = localStorage.getItem('ccdi_last_user');
+if (lastUser) {
+  var saved = localStorage.getItem('ccdi_user_' + lastUser);
+  if (saved) {
+    userState = JSON.parse(saved);
+    userState.loggedIn = true;
+    checkMarketResults();
+  }
+}
 updateUserUI();
+renderHuairentangPanel();
 
 // 侧栏导航点击
 document.querySelectorAll(".nav-item").forEach(function (item) {

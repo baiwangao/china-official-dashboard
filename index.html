@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <!-- 烟花粒子层 -->
+    <div class="fireworks-stage" id="fireworksStage"></div>
+
     <div class="app-shell">
       <aside class="sidebar" aria-label="筛选">
         <div class="brand-block">
@@ -24,6 +27,7 @@
           <a class="nav-item" href="#opinion"><span aria-hidden="true">◎</span>舆论监测</a>
           <a class="nav-item" href="#sources"><span aria-hidden="true">⚖</span>中纪委案件</a>
           <a class="nav-item" href="#market"><span aria-hidden="true">📊</span>预测市场</a>
+          <a class="nav-item" href="#huairentang"><span aria-hidden="true">📰</span>怀仁堂日报</a>
         </nav>
 
         <div class="user-panel" id="userPanel">
@@ -44,6 +48,7 @@
               <span>📈 持仓</span>
               <span id="userPositions">0</span>
             </div>
+            <div id="userPositionList" class="user-position-list"></div>
           </div>
         </div>
 
@@ -142,19 +147,6 @@
           </div>
         </section>
 
-        <section class="sources-section" id="market" aria-label="预测市场">
-          <div class="sources-head">
-            <div>
-              <span class="eyebrow">Prediction Market</span>
-              <h3>中纪委预测市场</h3>
-              <p class="section-desc">对传闻阶段官员的被查概率进行预测押注。每用户初始 $1,000 虚拟资金。</p>
-            </div>
-          </div>
-          <div class="sources-body" id="marketBody">
-            <div class="empty-state">请先登录后查看预测市场</div>
-          </div>
-        </section>
-
         <section class="sources-section" id="sources" aria-label="中纪委案件">
           <div class="sources-head">
             <div>
@@ -164,6 +156,32 @@
             </div>
           </div>
           <div class="sources-body" id="sourcesBody">
+            <div class="empty-state">加载中…</div>
+          </div>
+        </section>
+
+        <section class="sources-section" id="market" aria-label="预测市场">
+          <div class="sources-head">
+            <div>
+              <span class="eyebrow">Prediction Market</span>
+              <h3>中纪委预测市场</h3>
+              <p class="section-desc">基于 TablePlus 人事变动表进行 YES / NO 研判标记。</p>
+            </div>
+          </div>
+          <div class="sources-body" id="marketBody">
+            <div class="empty-state">请先登录后查看预测市场</div>
+          </div>
+        </section>
+
+        <section class="sources-section" id="huairentang" aria-label="怀仁堂日报">
+          <div class="sources-head">
+            <div>
+              <span class="eyebrow">Huairentang Daily</span>
+              <h3>怀仁堂日报</h3>
+              <p class="section-desc">来自怀仁堂日报的最新政治人物动态和事件报道。</p>
+            </div>
+          </div>
+          <div class="sources-body" id="huairentangBody">
             <div class="empty-state">加载中…</div>
           </div>
         </section>

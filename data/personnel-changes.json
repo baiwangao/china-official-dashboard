@@ -1,5 +1,126 @@
 [
   {
+    "id": 20,
+    "person_name": "诸葛宇杰",
+    "original_position": "湖北省委副书记",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-05-30T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-30T08:38:00.000Z"
+  },
+  {
+    "id": 21,
+    "person_name": "朱镕基",
+    "original_position": "曾任中共中央政治局常委、国务院总理",
+    "new_position": "能否活过2026年",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-05-30T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-30T01:38:00.000Z"
+  },
+  {
+    "id": 11,
+    "person_name": "王忠林",
+    "original_position": "湖北省委书记、省人大常委会主任",
+    "new_position": "国家安全部部长",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-28T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 17,
+    "person_name": "王忠林",
+    "original_position": "湖北省委书记、省人大常委会主任",
+    "new_position": "退居二线",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-05-28T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-29T09:31:14.000Z"
+  },
+  {
+    "id": 19,
+    "person_name": "吴晓军",
+    "original_position": "青海省委书记、省人大常委会主任、省军区党委第一书记",
+    "new_position": "青海省委常委、西宁市委书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-05-28T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-29T08:38:00.000Z"
+  },
+  {
+    "id": 12,
+    "person_name": "肖菊华",
+    "original_position": "原省政府副省长、党组成员，省委政法委书记",
+    "new_position": "待官宣落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 13,
+    "person_name": "贺志亮",
+    "original_position": "中央社会工作部副部长",
+    "new_position": "待官宣落马",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 14,
+    "person_name": "陈新武",
+    "original_position": "重庆市委副书记",
+    "new_position": "升任重庆市市长",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 15,
+    "person_name": "关志鸿",
+    "original_position": "自然资源部部长",
+    "new_position": "任湖北省委、常委、书记",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 16,
+    "person_name": "陈新武",
+    "original_position": "重庆市委副书记",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-28T09:31:14.000Z"
+  },
+  {
+    "id": 18,
+    "person_name": "陈一新",
+    "original_position": "国家安全部部长、党委书记、中央政法委员",
+    "new_position": "退休",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-05-27T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-05-29T09:31:14.000Z"
+  },
+  {
     "id": 9,
     "person_name": "饶程",
     "original_position": "崇州市委副书记、市长",
