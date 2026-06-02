@@ -1889,11 +1889,11 @@ function checkMarketResults() {
       });
 
       if (won) {
-        var payout = pos.amount * (pos.credibilityRate || 0.5);
-        userState.balance += Math.round(payout);
+        var profit = Math.round(pos.amount * (pos.credibilityRate || 0.5));
+        userState.balance += pos.amount + profit;
         shootFireworks();
         setTimeout(function () {
-          alert('🎉 猜中了！+' + Math.round(payout) + ' 奖金到账');
+          alert('🎉 猜中了！本金 $' + pos.amount + ' + 奖金 $' + profit + ' 到账');
           saveUser(); renderMarketPanel(); updateUserUI();
         }, 4000);
       } else {
