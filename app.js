@@ -1468,6 +1468,11 @@ function renderMarketPanel() {
   ]).then(function (results) {
     var rows = results[0];
     var marketResults = results[1];
+    var globalSettlements = getGlobalSettlements();
+    // 合并全局结算状态到 marketResults
+    for (var mk in globalSettlements) {
+      if (!marketResults[mk]) marketResults[mk] = globalSettlements[mk];
+    }
 
     if (!Array.isArray(rows) || !rows.length) {
       body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div>' +
@@ -1498,7 +1503,7 @@ function renderMarketPanel() {
         var hasPos = (yesPos && yesPos.amount > 0) || (noPos && noPos.amount > 0);
         var isLost = (yesPos && yesPos.lost) || (noPos && noPos.lost);
         var isSettled = (yesPos && yesPos.settled) || (noPos && noPos.settled);
-        var result = marketResults[r.person_name];
+        var result = marketResults[pid];
         var hasResult = result && result.result !== 'pending';
         var resultText = hasResult ? (result.result === 'confirmed' ? '✓ 已确认' : '✗ 已澄清') : '';
         var settledText = isSettled ? ((yesPos && yesPos.settledResult === 'confirmed') || (noPos && noPos.settledResult === 'confirmed') ? '✓ 已确认' : '✗ 已澄清') : '';
@@ -1531,8 +1536,8 @@ function renderMarketPanel() {
           (hasResult || isSettled ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算</span></div>' :
           (isLost ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算 - 猜错归零</span></div>' :
           '<div class="mkt-btns">' +
-            '<button class="mkt-btn yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '">Buy YES</button>' +
-            '<button class="mkt-btn no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '">Buy NO</button>' +
+            '<button class="mkt-btn yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">Buy YES</button>' +
+            '<button class="mkt-btn no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">Buy NO</button>' +
           '</div>')) +
         '</div>';
       }).join('') + '</div>';
@@ -1541,7 +1546,7 @@ function renderMarketPanel() {
     body.querySelectorAll('.mkt-btn').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        var pid = this.dataset.id, side = this.dataset.side, name = this.dataset.name;
+        var pid = this.dataset.id, side = this.dataset.side, name = this.dataset.name, eventDesc = this.dataset.event;
         var cost = 10;
         if (userState.balance < cost) { alert('余额不足！当前: $' + userState.balance); return; }
         userState.balance -= cost;
@@ -1550,7 +1555,7 @@ function renderMarketPanel() {
         // 修改持仓数据结构，允许同时持有YES和NO
         var posKey = pid + '_' + side;
         if (!userState.positions[posKey]) {
-          userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid };
+          userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid, event: eventDesc || '' };
         }
         userState.positions[posKey].amount += 10;
 
@@ -1850,6 +1855,16 @@ function saveUser() {
   localStorage.setItem('ccdi_user_' + userState.name, JSON.stringify(userState));
 }
 
+function getGlobalSettlements() {
+  try { return JSON.parse(localStorage.getItem('ccdi_market_settlements') || '{}'); } catch(e) { return {}; }
+}
+
+function saveGlobalSettlement(personName, result) {
+  var s = getGlobalSettlements();
+  s[personName] = { result: result, settledAt: new Date().toISOString() };
+  localStorage.setItem('ccdi_market_settlements', JSON.stringify(s));
+}
+
 function checkMarketResults() {
   console.log('检查结算结果，用户名:', userState.name);
   console.log('用户持仓:', userState.positions);
@@ -1866,8 +1881,8 @@ function checkMarketResults() {
       // 如果已经结算过，跳过
       if (pos.settled) continue;
 
-      var result = data[pos.name];
-      console.log('持仓人名:', pos.name, '结算结果:', result);
+      var result = data[pos.pid];
+      console.log('持仓ID:', pos.pid, '持仓人名:', pos.name, '结算结果:', result);
       if (!result || result.result === 'pending') continue;
 
       var won = false;
@@ -1888,6 +1903,7 @@ function checkMarketResults() {
         settledAt: pos.settledAt
       });
 
+      saveGlobalSettlement(pos.pid, result.result);
       if (won) {
         var profit = Math.round(pos.amount * (pos.credibilityRate || 0.5));
         userState.balance += pos.amount + profit;
@@ -1997,44 +2013,28 @@ function updateUserUI() {
     if (bal) bal.textContent = '$' + userState.balance.toLocaleString();
     if (pos) pos.textContent = Object.keys(userState.positions || {}).length;
 
-    // 更新持仓列表
+    // 更新持仓列表（每个仓位独立显示，不按人名合并）
     if (posList) {
       var positions = userState.positions || {};
-      // 按人员分组持仓
-      var personPositions = {};
-      for (var posKey in positions) {
+      var positionItems = Object.keys(positions).map(function (posKey) {
         var p = positions[posKey];
-        if (!p || !p.name) continue;
-        if (!personPositions[p.name]) {
-          personPositions[p.name] = { yes: 0, no: 0, settled: false, settledResult: null };
-        }
-        if (p.side === 'yes') personPositions[p.name].yes += p.amount;
-        if (p.side === 'no') personPositions[p.name].no += p.amount;
-        if (p.settled) {
-          personPositions[p.name].settled = true;
-          personPositions[p.name].settledResult = p.settledResult;
-        }
-      }
-
-      var positionItems = Object.keys(personPositions).map(function (personName) {
-        var pp = personPositions[personName];
-        var settledClass = pp.settled ? 'settled' : '';
-        var settledText = pp.settled ? (pp.settledResult === 'confirmed' ? ' ✓' : ' ✗') : '';
-        var details = [];
-        if (pp.yes > 0) details.push('<span class="side-yes">YES ' + pp.yes + '份</span>');
-        if (pp.no > 0) details.push('<span class="side-no">NO ' + pp.no + '份</span>');
+        if (!p || !p.name) return '';
+        var settledClass = p.settled ? 'settled' : '';
+        var settledText = p.settled ? (p.settledResult === 'confirmed' ? ' ✓' : ' ✗') : '';
+        var sideClass = p.side === 'yes' ? 'side-yes' : 'side-no';
+        var eventLabel = p.event ? ' → ' + escapeHtml(p.event) : '';
         return '<div class="user-position-item ' + settledClass + '">' +
-          '<div class="person-name">' + escapeHtml(personName) + settledText + '</div>' +
-          '<div class="position-detail">' +
-            details.join(' · ') +
+          '<div class="upi-main">' + escapeHtml(p.name) + '<span style="font-size:10px;opacity:0.55">' + eventLabel + '</span>' + settledText + '</div>' +
+          '<div class="upi-side">' +
+            '<span class="' + sideClass + '">' + p.side.toUpperCase() + ' ' + p.amount + '份</span>' +
           '</div>' +
         '</div>';
-      }).join('');
+      }).filter(Boolean).join('');
 
       if (positionItems) {
         posList.innerHTML = positionItems;
       } else {
-        posList.innerHTML = '<div style="font-size:12px;color:rgba(255,255,255,0.5);text-align:center;padding:8px">暂无持仓</div>';
+        posList.innerHTML = '<div class="user-position-empty">暂无持仓</div>';
       }
     }
   } else {

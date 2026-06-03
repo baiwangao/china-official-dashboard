@@ -1,5 +1,27 @@
 [
   {
+    "id": 22,
+    "person_name": "胡海峰",
+    "original_position": "民政部党组成员、副部长",
+    "new_position": "甘肃省委常委、兰州市委书记",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-06-01T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-02T08:36:00.000Z"
+  },
+  {
+    "id": 23,
+    "person_name": "诸葛宇杰",
+    "original_position": "湖北省委副书记",
+    "new_position": "甘肃省长",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-06-01T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-02T08:36:00.000Z"
+  },
+  {
     "id": 20,
     "person_name": "诸葛宇杰",
     "original_position": "湖北省委副书记",
