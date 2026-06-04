@@ -1,5 +1,49 @@
 [
   {
+    "id": 27,
+    "person_name": "周乃翔",
+    "original_position": "山东省省长、第二十届中央委员",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-03T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-04T15:54:00.000Z"
+  },
+  {
+    "id": 24,
+    "person_name": "陈宇剑",
+    "original_position": "上海市副市长",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-02T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-03T15:36:00.000Z"
+  },
+  {
+    "id": 25,
+    "person_name": "高浩孟",
+    "original_position": "浙江省交通投资集团有限公司党委书记",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-02T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-03T15:36:00.000Z"
+  },
+  {
+    "id": 26,
+    "person_name": "蓝绍敏",
+    "original_position": "黑龙江政协主席",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-02T16:00:00.000Z",
+    "remarks": "被约谈",
+    "created_at": "2026-06-04T01:34:00.000Z"
+  },
+  {
     "id": 22,
     "person_name": "胡海峰",
     "original_position": "民政部党组成员、副部长",
