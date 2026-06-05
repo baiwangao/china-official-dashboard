@@ -215,4 +215,28 @@ async function updateQueueItem(queueId, transform, targetBucket) {
   }
 }
 
-module.exports = { enqueue, getPending, markCommitted, markSubmitted, markFailed, getStats, getByHash };
+module.exports = { enqueue, getPending, markCommitted, markSubmitted, markFailed, getStats, getByHash, add };
+
+// 通用上链入口：接受任意 payload，序列化后哈希入库
+async function add(payload) {
+  const canonical = JSON.stringify(payload);
+  const hash = '0x' + crypto.createHash('sha256').update(canonical, 'utf8').digest('hex');
+  const event = { title: payload.type || 'chain_event', date: payload.timestamp || new Date().toISOString(), source: 'system', url: '', type: payload.type || 'generic' };
+
+  const dbResult = await tryDB(async () => {
+    const [rows] = await getPool().query('SELECT hash FROM chain_events WHERE hash = ?', [hash]);
+    if (rows.length) return 0;
+    await getPool().query("INSERT INTO chain_events (queue_id, hash, event, status) VALUES (?,?,?,'pending')",
+      [crypto.randomUUID(), hash, JSON.stringify({ ...event, _payload: payload })]);
+    return 1;
+  });
+  if (dbResult !== null) return dbResult;
+
+  let queue;
+  try { queue = JSON.parse(await fs.readFile(QUEUE_FILE, 'utf8')); } catch { queue = { ...EMPTY_QUEUE }; }
+  const all = [...queue.pending, ...(queue.committed||[]), ...queue.submitted, ...queue.failed];
+  if (all.some(i => i.hash === hash)) return 0;
+  queue.pending.push({ queueId: crypto.randomUUID(), hash, event: { ...event, _payload: payload }, enqueuedAt: new Date().toISOString(), retries: 0 });
+  await writeQueue(queue);
+  return 1;
+}
