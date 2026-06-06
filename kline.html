@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="api-auth-token" content=""/>
+<title>中纪委审查调查 · K线监控</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --bg0:#0a0c0f; --bg1:#111418; --bg2:#181c22; --bg3:#1e242c;
+  --border:#2a3040; --border2:#374050; --text0:#e8eaf0; --text1:#9aa3b2; --text2:#5c6578;
+  --red:#e84c4c; --green:#2ecc8a; --amber:#f5a623; --blue:#4a9eff;
+  --red-dim:rgba(232,76,76,0.12); --font-serif:'Noto Serif SC',serif;
+}
+html,body { height:100%; background:var(--bg0); color:var(--text0); font-family:monospace; font-size:13px; }
+.shell { display:grid; grid-template-rows:48px 1fr; grid-template-columns:240px 1fr; height:100vh; overflow:hidden; }
+header { grid-column:1/-1; display:flex; align-items:center; padding:0 20px; border-bottom:1px solid var(--border); background:var(--bg1); gap:24px; }
+.logo { font-family:var(--font-serif); font-size:15px; font-weight:700; letter-spacing:.05em; white-space:nowrap; }
+.logo span { color:var(--red); }
+.hbar-sep { width:1px; height:20px; background:var(--border); }
+.nav-links { display:flex; gap:16px; }
+.nav-links a { color:var(--text2); text-decoration:none; font-size:12px; transition:color .15s; }
+.nav-links a:hover,.nav-links a.active { color:var(--text0); }
+.nav-links a.active { color:var(--red); }
+.clock { margin-left:auto; font-size:11px; color:var(--text2); white-space:nowrap; }
+aside { background:var(--bg1); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow-y:auto; }
+.side-section { padding:12px 14px; border-bottom:1px solid var(--border); }
+.side-label { font-size:10px; color:var(--text2); letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; }
+.year-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.year-btn { background:var(--bg2); border:1px solid var(--border); color:var(--text1); font-family:monospace; font-size:12px; padding:6px 0; cursor:pointer; border-radius:3px; text-align:center; transition:all .15s; }
+.year-btn:hover { border-color:var(--border2); color:var(--text0); }
+.year-btn.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
+.filter-row { display:flex; gap:4px; flex-wrap:wrap; }
+.chip { background:var(--bg2); border:1px solid var(--border); color:var(--text2); font-family:monospace; font-size:11px; padding:3px 8px; border-radius:2px; cursor:pointer; transition:all .15s; }
+.chip:hover { color:var(--text1); border-color:var(--border2); }
+.chip.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
+.stat-grid { display:grid; gap:6px; }
+.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:8px 10px; }
+.stat-card .s-label { font-size:10px; color:var(--text2); margin-bottom:2px; }
+.stat-card .s-val { font-size:18px; font-weight:600; }
+.stat-card .s-sub { font-size:10px; color:var(--text1); margin-top:1px; }
+.stat-card.red .s-val { color:var(--red); }
+.stat-card.amber .s-val { color:var(--amber); }
+.grade-bar-wrap { display:flex; flex-direction:column; gap:5px; }
+.grade-row { display:flex; align-items:center; gap:6px; }
+.grade-name { font-size:10px; color:var(--text2); width:48px; flex-shrink:0; }
+.grade-bar-outer { flex:1; height:6px; background:var(--bg3); border-radius:2px; overflow:hidden; }
+.grade-bar-inner { height:100%; background:var(--red); border-radius:2px; transition:width .5s; }
+.grade-cnt { font-size:10px; color:var(--text1); width:28px; text-align:right; }
+main { display:grid; grid-template-rows:auto 1fr auto; overflow:hidden; background:var(--bg0); }
+.toolbar { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid var(--border); background:var(--bg1); flex-wrap:wrap; }
+.toolbar-label { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:.1em; }
+.seg-group { display:flex; gap:2px; }
+.seg-btn { background:var(--bg2); border:1px solid var(--border); color:var(--text1); font-family:monospace; font-size:11px; padding:4px 10px; cursor:pointer; transition:all .15s; }
+.seg-btn:first-child { border-radius:3px 0 0 3px; }
+.seg-btn:last-child { border-radius:0 3px 3px 0; }
+.seg-btn:not(:first-child) { border-left:none; }
+.seg-btn:hover { color:var(--text0); }
+.seg-btn.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
+.toolbar-sep { width:1px; height:18px; background:var(--border); }
+.chart-wrap { position:relative; overflow:hidden; }
+#main-chart { width:100%; height:100%; }
+.detail-panel { border-top:1px solid var(--border); background:var(--bg1); padding:10px 16px; min-height:80px; max-height:200px; overflow-y:auto; }
+.detail-panel.empty { opacity:.4; }
+.detail-month { font-size:22px; font-weight:600; line-height:1; }
+.detail-sub { font-size:10px; color:var(--text2); margin-top:3px; }
+.detail-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.dtag { background:var(--bg3); border:1px solid var(--border); border-radius:2px; padding:2px 8px; font-size:11px; color:var(--text1); }
+.dtag.high { border-color:var(--red); color:var(--red); background:var(--red-dim); }
+.personnel-section { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
+.personnel-title { font-size:11px; color:var(--amber); font-weight:600; margin-bottom:4px; }
+.personnel-item { font-size:10px; color:var(--text1); margin-bottom:3px; padding:4px; background:var(--bg2); border-radius:2px; }
+.personnel-item .name { color:var(--text0); font-weight:600; }
+.personnel-item .change { color:var(--blue); }
+.personnel-item .status { margin-left:4px; padding:1px 4px; border-radius:2px; font-size:9px; }
+.personnel-item .status.high { background:rgba(46,204,138,0.2); color:#2ecc8a; }
+.personnel-item .status.medium { background:rgba(245,166,35,0.2); color:#f5a623; }
+.personnel-item .status.low { background:rgba(232,76,76,0.2); color:#e84c4c; }
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="logo"><span>中</span>纪委 · K线监控</div>
+    <div class="hbar-sep"></div>
+    <div class="nav-links">
+      <a href="/">← 返回主页</a>
+    </div>
+    <div class="clock" id="clock"></div>
+  </header>
+  <aside>
+    <div class="side-section"><div class="side-label">年份</div><div class="year-grid" id="year-grid"></div></div>
+    <div class="side-section">
+      <div class="side-label">级别筛选</div>
+      <div class="filter-row">
+        <button class="chip active" data-grade="all" onclick="setGrade(this)">全部级别</button>
+        <button class="chip" data-grade="high" onclick="setGrade(this)">副部级+</button>
+      </div>
+    </div>
+    <div class="side-section">
+      <div class="side-label">汇总统计</div>
+      <div class="stat-grid">
+        <div class="stat-card red"><div class="s-label">数据库总人数</div><div class="s-val" id="s-total">—</div></div>
+        <div class="stat-card amber"><div class="s-label">单月最高纪录</div><div class="s-val" id="s-peak-cnt">—</div><div class="s-sub" id="s-peak-month">—</div></div>
+        <div class="stat-card"><div class="s-label">最高级别被查</div><div class="s-val" id="s-top-grade">—</div></div>
+      </div>
+    </div>
+    <div class="side-section" style="flex:1;"><div class="side-label">级别分布</div><div class="grade-bar-wrap" id="grade-bars"></div></div>
+  </aside>
+  <main>
+    <div class="toolbar">
+      <span class="toolbar-label">展示方式</span>
+      <div class="seg-group">
+        <button class="seg-btn active" data-mode="kline" onclick="setMode(this)">K线</button>
+        <button class="seg-btn" data-mode="bar" onclick="setMode(this)">柱状</button>
+        <button class="seg-btn" data-mode="line" onclick="setMode(this)">折线</button>
+      </div>
+      <div class="toolbar-sep"></div>
+      <span class="toolbar-label">对比年份</span>
+      <div class="seg-group">
+        <button class="seg-btn active" data-compare="off" onclick="setCompare(this)">关闭</button>
+        <button class="seg-btn" data-compare="on" onclick="setCompare(this)">开启</button>
+      </div>
+    </div>
+    <div class="chart-wrap"><div id="main-chart"></div></div>
+    <div class="detail-panel empty" id="detail-panel">
+      <div class="detail-month" id="d-month">点击K线查看详情</div>
+      <div class="detail-sub" id="d-sub">—</div>
+      <div class="detail-tags" id="d-tags"></div>
+      <div class="personnel-section" id="personnel-section" style="display:none;">
+        <div class="personnel-title">人事变动</div>
+        <div id="personnel-list"></div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+var state={ year:2026, grade:'all', mode:'kline', compare:false, klineData:[], prevData:[] };
+var chart=null;
+var API_TOKEN=document.querySelector('meta[name="api-auth-token"]')?.content||'';
+
+function af(url,opts){ opts=opts||{}; if(API_TOKEN){ opts.headers=opts.headers||{}; opts.headers['x-api-key']=API_TOKEN; } return fetch(url,opts).then(function(r){ if(!r.ok)throw Error(r.status); return r.json(); }); }
+
+function init(){
+  chart=echarts.init(document.getElementById('main-chart'),null,{renderer:'canvas'});
+  window.addEventListener('resize',function(){ chart.resize(); });
+  tickClock(); setInterval(tickClock,1000);
+  loadYears(); loadStats(); loadKline();
+}
+function tickClock(){ document.getElementById('clock').textContent=new Date().toLocaleString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'}); }
+
+function loadYears(){
+  af('/api/kline/years').then(function(data){
+    var years=data.map(function(r){ return r.year; });
+    // 只显示2026年
+    years=years.filter(function(y){ return y===2026; });
+    if(years.length && years.indexOf(state.year)===-1) state.year=2026;
+    var grid=document.getElementById('year-grid');
+    grid.innerHTML=years.map(function(y){ return '<button class="year-btn'+(y===state.year?' active':'')+'" onclick="selectYear('+y+')">'+y+'</button>'; }).join('');
+    if(!years.length){ grid.innerHTML='<button class="year-btn active">2026</button>'; }
+  }).catch(function(){});
+}
+
+function loadStats(){
+  var qs='grade='+state.grade;
+  af('/api/kline/stats?'+qs).then(function(s){
+    document.getElementById('s-total').textContent=s.total.toLocaleString();
+    document.getElementById('s-peak-cnt').textContent=s.peakCount;
+    document.getElementById('s-peak-month').textContent=s.peakMonth;
+    document.getElementById('s-top-grade').textContent=s.topGrade;
+    var maxCnt=Math.max.apply(null,(s.byGrade||[]).map(function(r){ return Number(r.cnt); }));
+    document.getElementById('grade-bars').innerHTML=(s.byGrade||[]).map(function(r){
+      return '<div class="grade-row"><div class="grade-name">'+r.grade+'</div><div class="grade-bar-outer"><div class="grade-bar-inner" style="width:'+Math.round(Number(r.cnt)/maxCnt*100)+'%"></div></div><div class="grade-cnt">'+r.cnt+'</div></div>';
+    }).join('');
+  }).catch(function(){});
+}
+
+function loadKline(){
+  var qs='grade='+state.grade;
+  af('/api/kline/'+state.year+'?'+qs).then(function(res){
+    state.klineData=res.data||[];
+    if(state.compare){
+      af('/api/kline/'+(state.year-1)+'?'+qs).then(function(res2){ state.prevData=res2.data||[]; renderChart(); }).catch(function(){ renderChart(); });
+    } else { state.prevData=[]; renderChart(); }
+  }).catch(function(e){ console.error(e); });
+}
+
+function renderChart(){
+  var data=state.klineData;
+  var labels=data.map(function(d){ return d.month.slice(5)+'月'; });
+  var series=[];
+  if(state.mode==='kline'){
+    var kData=data.map(function(d){ return [d.open,d.close,d.low===0?0:d.low,d.high]; });
+    series.push({ name:state.year+'年', type:'candlestick', data:kData,
+      itemStyle:{ color:'#e84c4c', color0:'#2ecc8a', borderColor:'#c73a3a', borderColor0:'#25a870', borderWidth:1.5 },
+      emphasis:{ itemStyle:{ borderWidth:2.5 } } });
+    if(state.prevData.length){
+      series.push({ name:(state.year-1)+'年', type:'candlestick', data:state.prevData.map(function(d){ return [d.open,d.close,d.low,d.high]; }),
+        itemStyle:{ color:'rgba(74,158,255,0.6)', color0:'rgba(74,158,255,0.3)', borderColor:'#4a9eff', borderColor0:'#4a9eff', borderWidth:1 } });
+    }
+    series.push({ name:'月落马人数', type:'bar', xAxisIndex:1, yAxisIndex:1,
+      data:data.map(function(d,i){ return { value:d.count, itemStyle:{ color:d.count>=(i>0?data[i-1].count:d.count)?'rgba(232,76,76,0.4)':'rgba(46,204,138,0.4)' } }; }) });
+  } else if(state.mode==='bar'){
+    series.push({ name:state.year+'年', type:'bar', data:data.map(function(d){ return { value:d.count, itemStyle:{ color:d.count>8?'#e84c4c':d.count>5?'#f5a623':'#2ecc8a' } }; }),
+      label:{ show:true, position:'top', color:'#9aa3b2', fontSize:10, formatter:'{c}' } });
+    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'bar', data:state.prevData.map(function(d){ return d.count; }), itemStyle:{ color:'rgba(74,158,255,0.5)' } });
+  } else {
+    series.push({ name:state.year+'年', type:'line', data:data.map(function(d){ return d.count; }), lineStyle:{ color:'#e84c4c', width:1.5 }, itemStyle:{ color:'#e84c4c' }, areaStyle:{ color:'rgba(232,76,76,0.08)' }, symbol:'circle', symbolSize:5, smooth:.3 });
+    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'line', data:state.prevData.map(function(d){ return d.count; }), lineStyle:{ color:'#4a9eff', width:1, type:'dashed' }, itemStyle:{ color:'#4a9eff' }, symbol:'none', smooth:.3 });
+  }
+  var isK=state.mode==='kline';
+  chart.setOption({
+    backgroundColor:'transparent', animation:true, animationDuration:400,
+    grid:isK?[{ left:50,right:20,top:20,bottom:120 },{ left:50,right:20,top:'75%',bottom:20 }]:[{ left:50,right:20,top:20,bottom:40 }],
+    xAxis:isK?[{ type:'category',data:labels,gridIndex:0,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}},{ type:'category',data:labels,gridIndex:1,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{show:false},axisTick:{show:false},splitLine:{show:false}}]:[{ type:'category',data:labels,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}}],
+    yAxis:isK?[{ gridIndex:0,scale:true,splitLine:{lineStyle:{color:'#1e242c'}},axisLabel:{color:'#5c6578',fontSize:10},min:0},{ gridIndex:1,scale:true,splitLine:{show:false},axisLabel:{show:false}}]:[{ scale:true,splitLine:{lineStyle:{color:'#1e242c'}},axisLabel:{color:'#5c6578',fontSize:10},min:0}],
+    dataZoom:[{ type:'inside',xAxisIndex:[0,isK?1:0],start:0,end:100 },{ type:'slider',xAxisIndex:[0,isK?1:0],start:0,end:100,bottom:isK?20:4,height:16,borderColor:'#2a3040',backgroundColor:'transparent',fillerColor:'rgba(232,76,76,0.08)',handleStyle:{color:'#374050'},textStyle:{color:'#5c6578',fontSize:10},showDetail:false}],
+    series:series
+  },true);
+  chart.off('click');
+  chart.on('click',function(p){
+    var d=state.klineData[p.dataIndex];
+    if(!d||d.count===0) return;
+    var panel=document.getElementById('detail-panel'); panel.classList.remove('empty');
+    document.getElementById('d-month').textContent=d.month;
+    document.getElementById('d-sub').textContent='共 '+d.count+' 人 · 最高级别：'+(d.top_grade||'—')+' · 涉及：'+(d.provinces||'—');
+    var gs={ '正国级':10,'副国级':9,'正部级':8,'副部级':7,'正厅级':6,'副厅级':5 };
+    document.getElementById('d-tags').innerHTML=d.officials.map(function(o){
+      var s=gs[o.grade]||0, cls=s>=8?'high':s>=6?'mid':'';
+      return '<div class="dtag '+cls+'">'+(o.name||'（未披露）')+' · '+o.grade+'</div>';
+    }).join('')||'<div class="dtag">暂无详细数据</div>';
+
+    // 显示人事变动信息
+    var personnelSection=document.getElementById('personnel-section');
+    var personnelList=document.getElementById('personnel-list');
+    if(d.personnel_changes && d.personnel_changes.length>0){
+      personnelSection.style.display='block';
+      personnelList.innerHTML=d.personnel_changes.map(function(p){
+        var statusClass=p.credibility==='高'?'high':p.credibility==='中'?'medium':'low';
+        return '<div class="personnel-item">'+
+          '<span class="name">'+p.name+'</span> · '+
+          '<span class="change">'+(p.original_position||'—')+' → '+(p.new_position||'—')+'</span>'+
+          '<span class="status '+statusClass+'">'+p.status+'</span>'+
+          (p.remarks?' <span style="color:var(--text2)">('+p.remarks+')</span>':'')+
+          '</div>';
+      }).join('');
+    } else {
+      personnelSection.style.display='none';
+    }
+  });
+}
+
+function selectYear(y){ state.year=y; document.querySelectorAll('.year-btn').forEach(function(b){ b.classList.toggle('active',parseInt(b.textContent)===y); }); loadKline(); }
+function setGrade(b){ state.grade=b.dataset.grade; document.querySelectorAll('.chip').forEach(function(c){ c.classList.toggle('active',c.dataset.grade===state.grade); }); loadStats(); loadKline(); }
+function setMode(b){ state.mode=b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(function(c){ c.classList.toggle('active',c.dataset.mode===state.mode); }); renderChart(); }
+function setCompare(b){ state.compare=b.dataset.compare==='on'; document.querySelectorAll('[data-compare]').forEach(function(c){ c.classList.toggle('active',c.dataset.compare===b.dataset.compare); }); loadKline(); }
+
+init();
+</script>
+</body>
+</html>
