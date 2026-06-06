@@ -1,5 +1,38 @@
 [
   {
+    "id": 28,
+    "person_name": "路红卫",
+    "original_position": "河南省南阳市委副书记",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-06-05T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-06T02:10:00.000Z"
+  },
+  {
+    "id": 29,
+    "person_name": "程晓波",
+    "original_position": "甘肃省委常委、省政府副省长、党组副书记",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-05T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-06T02:42:00.000Z"
+  },
+  {
+    "id": 30,
+    "person_name": "曹路宝",
+    "original_position": "吉林省委宣传部部长",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-05T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-06T03:55:00.000Z"
+  },
+  {
     "id": 27,
     "person_name": "周乃翔",
     "original_position": "山东省省长、第二十届中央委员",
@@ -16,7 +49,7 @@
     "original_position": "上海市副市长",
     "new_position": "落马",
     "status": "传闻",
-    "credibility": "中",
+    "credibility": "高",
     "date": "2026-06-02T16:00:00.000Z",
     "remarks": "传闻中",
     "created_at": "2026-06-03T15:36:00.000Z"

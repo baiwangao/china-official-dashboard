@@ -1,3 +1,14 @@
+const API_TOKEN = document.querySelector('meta[name="api-auth-token"]')?.content || '';
+
+function apiFetch(url, opts) {
+  opts = opts || {};
+  if (API_TOKEN) {
+    opts.headers = opts.headers || {};
+    opts.headers['x-api-key'] = API_TOKEN;
+  }
+  return fetch(url, opts);
+}
+
 let profiles = [
   {
     id: "liu-xiaoming",
@@ -303,7 +314,7 @@ function closeAddProfileDialog() {
 
 async function persistProfile(profile) {
   try {
-    const response = await fetch("/api/profiles", {
+    const response = await apiFetch("/api/profiles", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(profile),
@@ -667,7 +678,7 @@ function normalizeProfile(profile) {
 async function loadExternalProfiles() {
   try {
     // Try to load from API first
-    const response = await fetch("/api/profiles", { cache: "no-store" });
+    const response = await apiFetch("/api/profiles", { cache: "no-store" });
     if (response.ok) {
       const apiProfiles = await response.json();
       if (Array.isArray(apiProfiles) && apiProfiles.length > 0) {
@@ -870,7 +881,7 @@ function applyScanResultsToProfiles(results) {
 
 async function refreshEventFeedCache() {
   try {
-    const res = await fetch("/api/events/feed", { cache: "no-store" });
+    const res = await apiFetch("/api/events/feed", { cache: "no-store" });
     if (!res.ok) return null;
     const data = await res.json();
     eventRadarState.cachedFeed = data.items || null;
@@ -965,7 +976,7 @@ async function runEventRadarScan(options = {}) {
     if (options.profileId) body.profileId = options.profileId;
     if (options.limit) body.limit = options.limit;
 
-    const response = await fetch("/api/events/scan", {
+    const response = await apiFetch("/api/events/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -1038,7 +1049,7 @@ async function renderDetail(profile) {
 
   let predictionData = null;
   try {
-    const predResponse = await fetch(`/api/predict/profile`, {
+    const predResponse = await apiFetch(`/api/predict/profile`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(profile),
@@ -1330,7 +1341,7 @@ function renderSourcesPanel(profile) {
   body.innerHTML = '<div class="empty-state">加载中…</div>';
 
   // 从 TablePlus MySQL 表 huairentang_events 读取数据
-  fetch('/api/huairentang/events?limit=200').then(function (r) { return r.json(); }).then(function (events) {
+  apiFetch('/api/huairentang/events?limit=200').then(function (r) { return r.json(); }).then(function (events) {
     if (!Array.isArray(events) || !events.length) {
       body.innerHTML = '<div class="empty-state">暂无案件通报数据</div>';
       return;
@@ -1395,7 +1406,7 @@ function renderHuairentangPanel() {
 
   body.innerHTML = '<div class="empty-state">加载中…</div>';
 
-  fetch('/api/huairentang/events?limit=100').then(function (r) { return r.json(); }).then(function (events) {
+  apiFetch('/api/huairentang/events?limit=100').then(function (r) { return r.json(); }).then(function (events) {
     if (!Array.isArray(events) || !events.length) {
       body.innerHTML = '<div class="empty-state">暂无怀仁堂日报数据</div>';
       return;
@@ -1463,7 +1474,7 @@ function renderMarketPanel() {
 
   // 同时加载 TablePlus 数据和结算结果
   Promise.all([
-    fetch('/api/personnel-changes').then(function (r) { return r.json(); }),
+    apiFetch('/api/personnel-changes').then(function (r) { return r.json(); }),
     fetch('./data/market-results.json').then(function (r) { return r.json(); }).catch(function(){return {};})
   ]).then(function (results) {
     var rows = results[0];
@@ -1599,8 +1610,8 @@ function renderMarketPanel() {
 async function renderTablePlus() {
   try {
     const [pcRes, dsRes] = await Promise.all([
-      fetch('/api/personnel-changes'),
-      fetch('/api/daily-summary')
+      apiFetch('/api/personnel-changes'),
+      apiFetch('/api/daily-summary')
     ]);
     if (pcRes.ok) {
       const pc = await pcRes.json();
@@ -1694,8 +1705,8 @@ document.querySelector("#eventRadarFilter")?.addEventListener("change", (e) => {
 async function refreshChainStatus() {
   try {
     const [statsRes, htRes] = await Promise.all([
-      fetch("/api/chain/stats"),
-      fetch("/api/huairentang/events"),
+      apiFetch("/api/chain/stats"),
+      apiFetch("/api/huairentang/events"),
     ]);
     if (statsRes.ok) {
       const stats = await statsRes.json();
@@ -1723,7 +1734,7 @@ document.querySelector("#telegramImportFile")?.addEventListener("change", async 
     const text = await file.text();
     const exportData = JSON.parse(text);
     if (statusEl) statusEl.textContent = "正在解析并入队…";
-    const res = await fetch("/api/telegram/import", {
+    const res = await apiFetch("/api/telegram/import", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(exportData),
@@ -1825,7 +1836,7 @@ document.querySelector("#submitChainBtn")?.addEventListener("click", async () =>
   if (statusEl) statusEl.textContent = "⛓ 正在将事件哈希写入 Sepolia 链…";
 
   try {
-    const res = await fetch("/api/chain/submit-now", { method: "POST" });
+    const res = await apiFetch("/api/chain/submit-now", { method: "POST" });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || "上链失败");
     if (statusEl) statusEl.textContent = "上链完成：成功 " + (data.submitted ?? 0) + " 条，失败 " + (data.failed ?? 0) + " 条";
@@ -1924,7 +1935,7 @@ function checkMarketResults() {
     // 上链结算结果
     if (settledPositions.length > 0) {
       console.log('上链结算结果:', settledPositions);
-      fetch('/api/chain/settle-market', {
+      apiFetch('/api/chain/settle-market', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2105,7 +2116,7 @@ document.addEventListener("click", async (event) => {
   profile.events[evIdx].confidence = action === "verify" ? "已核验·人工确认" : "虚假信息·已标记";
 
   try {
-    await fetch("/api/profiles/" + pid, {
+    await apiFetch("/api/profiles/" + pid, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ events: profile.events })

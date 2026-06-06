@@ -64,7 +64,28 @@ function normalizeHuairentangEvent(row) {
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '200mb' }));
-app.use(express.static(path.join(__dirname, '.')));
+
+// API 鉴权中间件：GET 放行读操作，写操作需要 x-api-key
+const API_AUTH_TOKEN = process.env.API_AUTH_TOKEN;
+function apiAuth(req, res, next) {
+  if (req.method === 'GET') return next();
+  if (!API_AUTH_TOKEN) return next(); // 未配置则放行
+  const key = req.headers['x-api-key'];
+  if (key !== API_AUTH_TOKEN) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+}
+app.use('/api', apiAuth);
+
+// 静态文件路由：注入 token 到页面
+app.get('/', (req, res, next) => {
+  const fs = require('fs');
+  const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
+  res.send(html.replace('</head>', '<meta name="api-auth-token" content="' + (API_AUTH_TOKEN || '') + '">\n</head>'));
+});
+app.use(express.static(path.join(__dirname, '.')), (req, res, next) => {
+  if (req.path === '/' || req.path === '/index.html') return; // handled by route above
+  next();
+});
 
 // API Routes
 app.get('/api/profiles', async (req, res) => {
