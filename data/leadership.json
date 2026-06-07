@@ -1071,6 +1071,17 @@
       },
       {
         "type": "外事活动",
+        "title": "王沪宁会见出席第三届海峡两岸中华文化峰会两岸文化界人士代表 - 紫荆网",
+        "date": "2026-05-11",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxORGs2X2FHWkVJSHYwQTZkREJHTU9rbmp1ZEhOMGZZOEt3bFc5YVVVcWNhQ2Zja0ltU0tfNkNJZ2xCQ1ZzX1ZOQXk3Z1FTRkhiTDczczJEUTFjeDFaTkhRVXYwQlBrNjBNMTFYTzBVSDBKTlcyY2FKZHlMX05MUGtNTjZ4c3p1OFhlR2E1Qy12SXAwQkFK?oc=5",
+        "source": "紫荆网",
+        "fetchedAt": "2026-06-06T10:01:06.829Z"
+      },
+      {
+        "type": "外事活动",
         "title": "王沪宁会见美国哈佛大学教授艾利森 - 中华人民共和国驻新潟总领事馆",
         "date": "2026-03-20",
         "impact": "低",
@@ -1260,8 +1271,8 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 80,
-    "updatedAt": "2026-06-05T10:30:35.079Z"
+    "eventRisk": 84,
+    "updatedAt": "2026-06-06T10:05:51.192Z"
   },
   {
     "id": "cai-qi",
@@ -1302,6 +1313,28 @@
       ]
     ],
     "events": [
+      {
+        "type": "媒体报道",
+        "title": "習近平心腹？陳希卸任 蔡奇兼掌中央黨校影響力增 - 世界新聞網",
+        "date": "2026-06-06",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9vaHRPSXVWQlV2NVV5MTA0UUlwTHF6TWFJejhMSFI4Y3JsM1B5ZE9pZzZvNk5GTldfaEQ0QXgwYm9laFhFMFNWWURSaEMwT2FPNWlRWG94OG1KR1dxd2NIRnNsRi1ITWNVMVHSAWdBVV95cUxPSFM1NDlVOHNpR0lkVTUyVnh0VkFhUFJaZVpHVDRLemdicjJxb25zZ2tzZzlYcGlqR3NNQWJLaUc1VHhwcGNzeGRDS2FyeXNTZ2tvOHNka2loc0dXTkQ1a1J3aWhOMkdN?oc=5",
+        "source": "世界新聞網",
+        "fetchedAt": "2026-06-06T10:01:23.083Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "蔡奇出任中共中央党校校长 分析指其党内影响力进一步提升 - RFI",
+        "date": "2026-06-05",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMimANBVV95cUxQY3NGVjdSMEg1UUdWOFFlbGZjRGVsVzZCVDRXNnpBM09RUG85YW45WXgtUDRCSVVGZUY0aGlXLWtfSkFCV2t5ZTBtTWs3M3R6ZVZaX1dLWmdTNC1WMnpEZDNhanZ6OEtRWUZrTDZvZ2pnR1NtU3QtOU9UdDhXS0RoRUE0eVBhVU9zOE9ORm5FZHNhTEpqZ1J1dG9RLW55SnQzalYxZ19aSDg2THZ0OEpuV0c1OXJtOGtJR1JWdC1DeFJocXRFdGUtQlZYczFXMlhRWnVTS1hubVFzTGR0ZWs1akg1QXVrc05nemlJbDZzV0N5N2VPUU5pMkp0eVhSMDQzV0x0ckFTM1J2ai1MMmF0U0xLdVFiYThnTG8yUGZOeDRYYnNiSC14emRtVTBlQ3VtbzVZRGRQdjhVR2hWUGNVaVM5SzhOYjM4YVpSeU5mRE9BVnRnNU5ka2pXVEU5VmNYbFl2RlIzNnFjT3FiZTZ2Q1hDdDc1VHcxVlBKaHVHaVBKVU1fbVBfYTMxekwySm1LcWlYSUNSd1M?oc=5",
+        "source": "RFI",
+        "fetchedAt": "2026-06-06T10:01:23.083Z"
+      },
       {
         "type": "外事活动",
         "title": "蔡奇会见塞尔维亚前进党代表团 - 人民日报",
@@ -1590,7 +1623,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.085Z"
+    "updatedAt": "2026-06-06T10:05:52.328Z"
   },
   {
     "id": "ding-xuexiang",
@@ -1631,6 +1664,17 @@
       ]
     ],
     "events": [
+      {
+        "type": "反腐通报",
+        "title": "习近平突推深化台湾福建一体化蓝图; 丁薛祥领了大任务；美国会代表团启动访华证实华尔街论坛消息，谁来安排行程？中国电车欧洲遭调查｜华尔街论坛（李其、晓洋、何频） Express Entry Draw (JuejU7sIzt) - Mshale",
+        "date": "2026-06-04",
+        "impact": "高",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE0wOEg3bTlHc2J2aDBBWTFyN3cxeWowVG8ybFl3SzI1elFlNngxdndJbjR4LXpWMjdDZFdnblFWSzFLX0hYeHFycFNtak80dUxkTm9TTnQwOTQweFk?oc=5",
+        "source": "Mshale",
+        "fetchedAt": "2026-06-06T10:01:42.062Z"
+      },
       {
         "type": "外事活动",
         "title": "参加中俄元首小范围及大范围会谈",
@@ -1737,6 +1781,17 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE9NUUl5R2o3VXpidmIxRkJOU3RNVE43bjV1bU13RlBwTE1WSkpPZWZZRzB0cUhLSk5adjhtYXJKNlQzQ1RLQ1RSZldscHZZS0lCVmlJWFBsVnRET2szbFREM0FFdHBTYlgzbkpfYmp3MFJFdEta?oc=5",
         "source": "cppcc.gov.cn",
         "fetchedAt": "2026-05-24T11:54:55.190Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "丁薛祥与港澳地区全国政协委员共商国是 - 紫荆网",
+        "date": "2026-03-06",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxOSlBBdUlwZWJnNmprNUsydFRTbzhYbjBzZHJYUk52Tk83ZkhzZ3lLRTVxclE5ci1jNXFFOFVnZ2xwSjViNnRqUjFLc180OEZIUDJvd2JZejcwU1UyMkhQRXFiZXREazVIZFQtSWpyXzhLS0xkazNFb0NIbGhDX3lLMVg5cWNFOE1Da3cwVjJyazJHa3hU?oc=5",
+        "source": "紫荆网",
+        "fetchedAt": "2026-06-06T10:01:42.062Z"
       },
       {
         "type": "媒体报道",
@@ -1941,7 +1996,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.091Z"
+    "updatedAt": "2026-06-06T10:05:52.346Z"
   },
   {
     "id": "li-xi",
@@ -3775,6 +3830,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "习近平旧部李书磊新任中纪委副书记 - 希望之声",
+        "date": "2017-01-09",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5lSktnUG1ncWFjV1ZPWHR4S0hCQ21xcEpwYms3MFdnaFFrN2lpcDdfa1lHVDdSX0FqSWEzS2ozT1ItdzlYcTJJOFB0RGtOUzMy?oc=5",
+        "source": "希望之声",
+        "fetchedAt": "2026-06-06T10:05:16.903Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "担任北京纪委书记一年 “北大神童”李书磊料再升迁 - 联合早报",
         "date": "2017-01-06",
         "impact": "低",
@@ -3865,8 +3931,8 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 88,
-    "updatedAt": "2026-06-05T10:30:35.181Z"
+    "eventRisk": 92,
+    "updatedAt": "2026-06-06T10:05:52.356Z"
   },
   {
     "id": "he-weidong",
@@ -4302,6 +4368,17 @@
         "fetchedAt": "2026-05-24T11:56:03.096Z"
       },
       {
+        "type": "任免动向",
+        "title": "刘赐贵当选厦门市市长 何立峰任职人大主任(图) - 搜狐网",
+        "date": "2007-04-02",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5RYkVNUzR4NTdtSEp0UnJaZ3BPMFl1a0ptYlZjNWx4OUNRU3V2anRkb3JGMTdMc0FCbTlzeEtDaWZhektVcF9XVWVlbkxTeVVoOTlrUVhTemZ6eG8?oc=5",
+        "source": "搜狐网",
+        "fetchedAt": "2026-06-06T10:05:49.975Z"
+      },
+      {
         "type": "媒体报道",
         "title": "何立峰连任中共厦门市委书记 坦言责任大(图) - 搜狐网",
         "date": "2006-10-26",
@@ -4317,7 +4394,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.192Z"
+    "updatedAt": "2026-06-06T10:05:52.367Z"
   },
   {
     "id": "zhang-guoqing",

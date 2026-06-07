@@ -46,7 +46,9 @@ class DataManager {
         connectionLimit: 5,
         connectTimeout: 8000,
         charset: 'utf8mb4',
-        ssl: socketPath ? undefined : false
+        ssl: socketPath ? undefined : false,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 30000
       });
     }
     return this.pool;

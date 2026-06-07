@@ -67,8 +67,12 @@ main { display:grid; grid-template-rows:auto 1fr auto; overflow:hidden; backgrou
 .detail-month { font-size:22px; font-weight:600; line-height:1; }
 .detail-sub { font-size:10px; color:var(--text2); margin-top:3px; }
 .detail-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
-.dtag { background:var(--bg3); border:1px solid var(--border); border-radius:2px; padding:2px 8px; font-size:11px; color:var(--text1); }
+.dtag { background:var(--bg3); border:1px solid var(--border); border-radius:3px; padding:3px 10px; font-size:11px; color:var(--text1); min-width:80px; line-height:1.5; }
 .dtag.high { border-color:var(--red); color:var(--red); background:var(--red-dim); }
+.off-name { font-weight:600; color:var(--text0); display:block; margin-bottom:2px; }
+.off-grade { font-size:10px; color:var(--text2); }
+.off-title { font-size:10px; color:var(--text1); margin-top:1px; }
+.off-status { font-size:9px; padding:1px 4px; border-radius:2px; background:rgba(245,166,35,0.15); color:var(--amber); }
 .personnel-section { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
 .personnel-title { font-size:11px; color:var(--amber); font-weight:600; margin-bottom:4px; }
 .personnel-item { font-size:10px; color:var(--text1); margin-bottom:3px; padding:4px; background:var(--bg2); border-radius:2px; }
@@ -132,10 +136,6 @@ main { display:grid; grid-template-rows:auto 1fr auto; overflow:hidden; backgrou
       <div class="detail-month" id="d-month">点击K线查看详情</div>
       <div class="detail-sub" id="d-sub">—</div>
       <div class="detail-tags" id="d-tags"></div>
-      <div class="personnel-section" id="personnel-section" style="display:none;">
-        <div class="personnel-title">人事变动</div>
-        <div id="personnel-list"></div>
-      </div>
     </div>
   </main>
 </div>
@@ -157,12 +157,10 @@ function tickClock(){ document.getElementById('clock').textContent=new Date().to
 function loadYears(){
   af('/api/kline/years').then(function(data){
     var years=data.map(function(r){ return r.year; });
-    // 只显示2026年
-    years=years.filter(function(y){ return y===2026; });
-    if(years.length && years.indexOf(state.year)===-1) state.year=2026;
+    if(years.length && years.indexOf(state.year)===-1) state.year=years[0];
     var grid=document.getElementById('year-grid');
     grid.innerHTML=years.map(function(y){ return '<button class="year-btn'+(y===state.year?' active':'')+'" onclick="selectYear('+y+')">'+y+'</button>'; }).join('');
-    if(!years.length){ grid.innerHTML='<button class="year-btn active">2026</button>'; }
+    if(!years.length){ grid.innerHTML='<button class="year-btn active">—</button>'; }
   }).catch(function(){});
 }
 
@@ -192,34 +190,72 @@ function loadKline(){
 
 function renderChart(){
   var data=state.klineData;
+  if(!data.length) return;
   var labels=data.map(function(d){ return d.month.slice(5)+'月'; });
   var series=[];
+  
+  // 计算均线
+  function calculateMA(dayCount, data) {
+    var result=[];
+    for(var i=0, len=data.length; i<len; i++){
+      if(i<dayCount){
+        result.push('-');
+        continue;
+      }
+      var sum=0;
+      for(var j=0; j<dayCount; j++){
+        sum+=data[i-j].close;
+      }
+      result.push((sum/dayCount).toFixed(2));
+    }
+    return result;
+  }
+  
+  var ma5=calculateMA(5, data);
+  var ma10=calculateMA(10, data);
+  
   if(state.mode==='kline'){
-    var kData=data.map(function(d){ return [d.open,d.close,d.low===0?0:d.low,d.high]; });
-    series.push({ name:state.year+'年', type:'candlestick', data:kData,
-      itemStyle:{ color:'#e84c4c', color0:'#2ecc8a', borderColor:'#c73a3a', borderColor0:'#25a870', borderWidth:1.5 },
-      emphasis:{ itemStyle:{ borderWidth:2.5 } } });
+    var kData=data.map(function(d){ return [d.open,d.close,d.low,d.high]; });
+    series.push({ name:'K线', type:'candlestick', data:kData,
+      itemStyle:{ color:'#ef5350', color0:'#26a69a', borderColor:'#ef5350', borderColor0:'#26a69a', borderWidth:1 },
+      emphasis:{ itemStyle:{ borderWidth:2 } } });
+    
+    // 添加均线
+    series.push({ name:'MA5', type:'line', data:ma5, smooth:true, lineStyle:{ opacity:0.5, width:1, color:'#ff9800' }, symbol:'none' });
+    series.push({ name:'MA10', type:'line', data:ma10, smooth:true, lineStyle:{ opacity:0.5, width:1, color:'#2196f3' }, symbol:'none' });
+    
+    // 成交量
+    series.push({ name:'成交量', type:'bar', xAxisIndex:1, yAxisIndex:1,
+      data:data.map(function(d,i){ return { 
+        value:d.count, 
+        itemStyle:{ color:d.close>=d.open?'rgba(239,83,80,0.5)':'rgba(38,166,154,0.5)' } 
+      }; }) });
+    
     if(state.prevData.length){
       series.push({ name:(state.year-1)+'年', type:'candlestick', data:state.prevData.map(function(d){ return [d.open,d.close,d.low,d.high]; }),
-        itemStyle:{ color:'rgba(74,158,255,0.6)', color0:'rgba(74,158,255,0.3)', borderColor:'#4a9eff', borderColor0:'#4a9eff', borderWidth:1 } });
+        itemStyle:{ color:'rgba(74,158,255,0.4)', color0:'rgba(74,158,255,0.2)', borderColor:'#4a9eff', borderColor0:'#4a9eff', borderWidth:1 } });
     }
-    series.push({ name:'月落马人数', type:'bar', xAxisIndex:1, yAxisIndex:1,
-      data:data.map(function(d,i){ return { value:d.count, itemStyle:{ color:d.count>=(i>0?data[i-1].count:d.count)?'rgba(232,76,76,0.4)':'rgba(46,204,138,0.4)' } }; }) });
   } else if(state.mode==='bar'){
-    series.push({ name:state.year+'年', type:'bar', data:data.map(function(d){ return { value:d.count, itemStyle:{ color:d.count>8?'#e84c4c':d.count>5?'#f5a623':'#2ecc8a' } }; }),
+    series.push({ name:state.year+'年', type:'bar', data:data.map(function(d){ return { value:d.count, itemStyle:{ color:d.close>=d.open?'#ef5350':'#26a69a' } }; }),
       label:{ show:true, position:'top', color:'#9aa3b2', fontSize:10, formatter:'{c}' } });
     if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'bar', data:state.prevData.map(function(d){ return d.count; }), itemStyle:{ color:'rgba(74,158,255,0.5)' } });
   } else {
-    series.push({ name:state.year+'年', type:'line', data:data.map(function(d){ return d.count; }), lineStyle:{ color:'#e84c4c', width:1.5 }, itemStyle:{ color:'#e84c4c' }, areaStyle:{ color:'rgba(232,76,76,0.08)' }, symbol:'circle', symbolSize:5, smooth:.3 });
-    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'line', data:state.prevData.map(function(d){ return d.count; }), lineStyle:{ color:'#4a9eff', width:1, type:'dashed' }, itemStyle:{ color:'#4a9eff' }, symbol:'none', smooth:.3 });
+    series.push({ name:state.year+'年', type:'line', data:data.map(function(d){ return d.close; }), lineStyle:{ color:'#ef5350', width:2 }, itemStyle:{ color:'#ef5350' }, areaStyle:{ color:'rgba(239,83,80,0.1)' }, symbol:'circle', symbolSize:4, smooth:0.3 });
+    series.push({ name:'MA5', type:'line', data:ma5, smooth:true, lineStyle:{ opacity:0.7, width:1, color:'#ff9800' }, symbol:'none' });
+    series.push({ name:'MA10', type:'line', data:ma10, smooth:true, lineStyle:{ opacity:0.7, width:1, color:'#2196f3' }, symbol:'none' });
+    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'line', data:state.prevData.map(function(d){ return d.close; }), lineStyle:{ color:'#4a9eff', width:1, type:'dashed' }, itemStyle:{ color:'#4a9eff' }, symbol:'none', smooth:0.3 });
   }
+  
   var isK=state.mode==='kline';
   chart.setOption({
-    backgroundColor:'transparent', animation:true, animationDuration:400,
-    grid:isK?[{ left:50,right:20,top:20,bottom:120 },{ left:50,right:20,top:'75%',bottom:20 }]:[{ left:50,right:20,top:20,bottom:40 }],
+    backgroundColor:'transparent', animation:true, animationDuration:500,
+    title:{ text:'中纪委审查调查 · 严重度指数', left:'center', textStyle:{ color:'#e8eaf0', fontSize:14, fontWeight:'normal' } },
+    tooltip:{ trigger:'axis', axisPointer:{ type:'cross' }, backgroundColor:'rgba(17,20,24,0.9)', borderColor:'#2a3040', textStyle:{ color:'#e8eaf0' } },
+    legend:{ data:['K线','MA5','MA10','成交量'], top:30, textStyle:{ color:'#9aa3b2', fontSize:11 } },
+    grid:isK?[{ left:60,right:50,top:70,bottom:100 },{ left:60,right:50,top:'75%',bottom:20 }]:[{ left:60,right:50,top:70,bottom:40 }],
     xAxis:isK?[{ type:'category',data:labels,gridIndex:0,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}},{ type:'category',data:labels,gridIndex:1,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{show:false},axisTick:{show:false},splitLine:{show:false}}]:[{ type:'category',data:labels,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}}],
-    yAxis:isK?[{ gridIndex:0,scale:true,splitLine:{lineStyle:{color:'#1e242c'}},axisLabel:{color:'#5c6578',fontSize:10},min:0},{ gridIndex:1,scale:true,splitLine:{show:false},axisLabel:{show:false}}]:[{ scale:true,splitLine:{lineStyle:{color:'#1e242c'}},axisLabel:{color:'#5c6578',fontSize:10},min:0}],
-    dataZoom:[{ type:'inside',xAxisIndex:[0,isK?1:0],start:0,end:100 },{ type:'slider',xAxisIndex:[0,isK?1:0],start:0,end:100,bottom:isK?20:4,height:16,borderColor:'#2a3040',backgroundColor:'transparent',fillerColor:'rgba(232,76,76,0.08)',handleStyle:{color:'#374050'},textStyle:{color:'#5c6578',fontSize:10},showDetail:false}],
+    yAxis:isK?[{ gridIndex:0,scale:true,splitLine:{lineStyle:{color:'#1e242c',type:'dashed'}},axisLabel:{color:'#5c6578',fontSize:10},min:0},{ gridIndex:1,scale:true,splitLine:{show:false},axisLabel:{show:false}}]:[{ scale:true,splitLine:{lineStyle:{color:'#1e242c',type:'dashed'}},axisLabel:{color:'#5c6578',fontSize:10},min:0}],
+    dataZoom:[{ type:'inside',xAxisIndex:[0,isK?1:0],start:0,end:100 },{ type:'slider',xAxisIndex:[0,isK?1:0],start:0,end:100,bottom:isK?25:5,height:20,borderColor:'#2a3040',backgroundColor:'transparent',fillerColor:'rgba(239,83,80,0.1)',handleStyle:{color:'#374050'},textStyle:{color:'#5c6578',fontSize:10},showDetail:false}],
     series:series
   },true);
   chart.off('click');
@@ -228,30 +264,21 @@ function renderChart(){
     if(!d||d.count===0) return;
     var panel=document.getElementById('detail-panel'); panel.classList.remove('empty');
     document.getElementById('d-month').textContent=d.month;
-    document.getElementById('d-sub').textContent='共 '+d.count+' 人 · 最高级别：'+(d.top_grade||'—')+' · 涉及：'+(d.provinces||'—');
-    var gs={ '正国级':10,'副国级':9,'正部级':8,'副部级':7,'正厅级':6,'副厅级':5 };
-    document.getElementById('d-tags').innerHTML=d.officials.map(function(o){
-      var s=gs[o.grade]||0, cls=s>=8?'high':s>=6?'mid':'';
-      return '<div class="dtag '+cls+'">'+(o.name||'（未披露）')+' · '+o.grade+'</div>';
+    var change=d.open?((d.close-d.open)/d.open*100).toFixed(2):0;
+    var changeColor=change>=0?'#ef5350':'#26a69a';
+    var changeSymbol=change>=0?'+':'';
+    document.getElementById('d-sub').innerHTML='严重度指数：<span style="color:#e8eaf0">'+d.severity.toFixed(2)+'</span> · 涨跌：<span style="color:'+changeColor+'">'+changeSymbol+change+'%</span> · 反腐'+d.anti_corruption+' · 事故'+d.major_accident+' · 人事'+d.personnel_move;
+    var typeColors={ '反腐通报':'#ef5350','重大事故':'#ff9800','人事动向':'#4a9eff','外事活动':'#26a69a','传闻轶事':'#9c27b0' };
+    document.getElementById('d-tags').innerHTML=d.events.map(function(e){
+      var tc=typeColors[e.type]||'var(--text2)';
+      var ic=e.impact==='高'?'high':e.impact==='中'?'mid':'';
+      return '<div class="dtag '+ic+'">'+
+        '<span class="off-name" style="border-left:3px solid '+tc+';padding-left:6px;">'+e.title+'</span>'+
+        '<span class="off-grade"> · '+e.type+'</span>'+
+        (e.impact?'<span class="off-status">'+e.impact+'影响</span>':'')+
+        (e.summary?'<div class="off-title">'+e.summary.slice(0,60)+(e.summary.length>60?'…':'')+'</div>':'')+
+        '</div>';
     }).join('')||'<div class="dtag">暂无详细数据</div>';
-
-    // 显示人事变动信息
-    var personnelSection=document.getElementById('personnel-section');
-    var personnelList=document.getElementById('personnel-list');
-    if(d.personnel_changes && d.personnel_changes.length>0){
-      personnelSection.style.display='block';
-      personnelList.innerHTML=d.personnel_changes.map(function(p){
-        var statusClass=p.credibility==='高'?'high':p.credibility==='中'?'medium':'low';
-        return '<div class="personnel-item">'+
-          '<span class="name">'+p.name+'</span> · '+
-          '<span class="change">'+(p.original_position||'—')+' → '+(p.new_position||'—')+'</span>'+
-          '<span class="status '+statusClass+'">'+p.status+'</span>'+
-          (p.remarks?' <span style="color:var(--text2)">('+p.remarks+')</span>':'')+
-          '</div>';
-      }).join('');
-    } else {
-      personnelSection.style.display='none';
-    }
   });
 }
 

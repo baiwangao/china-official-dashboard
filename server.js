@@ -494,49 +494,18 @@ const GRADE_CASE = `
 app.get('/api/kline/years', async (_req, res) => {
   try {
     const [rows] = await dataManager.getPool().execute(
-      'SELECT YEAR(fell_date) AS year, COUNT(*) AS total FROM fallen_officials WHERE fell_date IS NOT NULL GROUP BY year ORDER BY year DESC');
+      'SELECT YEAR(date) AS year, COUNT(*) AS total FROM huairentang_events WHERE date IS NOT NULL GROUP BY year ORDER BY year DESC');
     res.json(rows);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
-app.get('/api/kline/stats', async (req, res) => {
+app.get('/api/kline/stats', async (_req, res) => {
   try {
-    const minGrade = req.query.grade === 'high' ? 7 : 0;
-    const conditions = ['fell_date IS NOT NULL'];
-    const params = [];
-    if (minGrade > 0) { conditions.push(`(${GRADE_CASE}) >= ?`); params.push(minGrade); }
-
-    // 获取总人数
-    const [[t]] = await dataManager.getPool().execute(
-      `SELECT COUNT(*) AS cnt FROM fallen_officials WHERE ${conditions.join(' AND ')}`,
-      params
-    );
-
-    // 获取单月峰值
-    const [[pm]] = await dataManager.getPool().execute(
-      `SELECT DATE_FORMAT(fell_date,'%Y-%m') AS month, COUNT(*) AS cnt FROM fallen_officials WHERE ${conditions.join(' AND ')} GROUP BY month ORDER BY cnt DESC LIMIT 1`,
-      params
-    );
-
-    // 获取最高级别
-    const [[tg]] = await dataManager.getPool().execute(
-      `SELECT grade FROM fallen_officials WHERE ${conditions.join(' AND ')} AND grade!='未知' GROUP BY grade ORDER BY ${GRADE_CASE} DESC LIMIT 1`,
-      params
-    );
-
-    // 获取级别分布
-    const [bg] = await dataManager.getPool().execute(
-      `SELECT grade, COUNT(*) AS cnt FROM fallen_officials WHERE ${conditions.join(' AND ')} GROUP BY grade ORDER BY ${GRADE_CASE} DESC`,
-      params
-    );
-
-    res.json({
-      total: Number(t.cnt),
-      topGrade: tg?.grade || '—',
-      peakMonth: pm?.month || '—',
-      peakCount: Number(pm?.cnt || 0),
-      byGrade: bg.map(g => ({ grade: g.grade, cnt: Number(g.cnt) }))
-    });
+    const [[t]] = await dataManager.getPool().execute('SELECT COUNT(*) AS cnt FROM huairentang_events');
+    const [[pm]] = await dataManager.getPool().execute("SELECT DATE_FORMAT(date,'%Y-%m') AS month, COUNT(*) AS cnt FROM huairentang_events GROUP BY month ORDER BY cnt DESC LIMIT 1");
+    const [[tg]] = await dataManager.getPool().execute("SELECT type FROM huairentang_events WHERE impact='高' GROUP BY type ORDER BY COUNT(*) DESC LIMIT 1");
+    const [bg] = await dataManager.getPool().execute('SELECT type AS grade, COUNT(*) AS cnt FROM huairentang_events GROUP BY type ORDER BY cnt DESC');
+    res.json({ total: Number(t.cnt), topGrade: tg?.type || '—', peakMonth: pm?.month || '—', peakCount: Number(pm?.cnt || 0), byGrade: bg.map(g => ({ grade: g.grade, cnt: Number(g.cnt) })) });
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
 
@@ -545,8 +514,8 @@ app.get('/api/kline/search', async (req, res) => {
   if (!q || q.length < 2) return res.json([]);
   try {
     const [rows] = await dataManager.getPool().execute(
-      'SELECT id, name, former_title, grade, province, status, fell_date FROM fallen_officials WHERE name LIKE ? OR former_title LIKE ? ORDER BY fell_date DESC LIMIT 30',
-      [`%${q}%`, `%${q}%`]);
+      'SELECT id, title, type, impact, summary, date FROM huairentang_events WHERE title LIKE ? ORDER BY date DESC LIMIT 30',
+      [`%${q}%`]);
     res.json(rows);
   } catch (err) { res.status(500).json({ error: err.message }); }
 });
@@ -554,148 +523,47 @@ app.get('/api/kline/search', async (req, res) => {
 app.get('/api/kline/:year', async (req, res) => {
   try {
     const year = parseInt(req.params.year);
-    const minGrade = req.query.grade === 'high' ? 7 : 0;
     if (isNaN(year) || year < 2012 || year > 2030) return res.status(400).json({ error: '年份参数无效' });
 
-    const conditions = ['YEAR(fell_date) = ?'];
-    const params = [year];
-    if (minGrade > 0) { conditions.push(`(${GRADE_CASE}) >= ?`); params.push(minGrade); }
-
-    // 获取按月、按日的数据用于计算真实的 OHLC
-    const [dailyData] = await dataManager.getPool().execute(`
-      SELECT DATE_FORMAT(fell_date, '%Y-%m') AS month,
-             DATE(fell_date) AS day,
-             COUNT(*) AS count
-      FROM fallen_officials
-      WHERE ${conditions.join(' AND ')}
-      GROUP BY month, day
-      ORDER BY fell_date
-    `, params);
-
-    // 按月聚合数据
-    const monthlyMap = new Map();
-    dailyData.forEach(d => {
-      if (!monthlyMap.has(d.month)) {
-        monthlyMap.set(d.month, { dates: [], counts: [] });
-      }
-      const entry = monthlyMap.get(d.month);
-      entry.dates.push(d.day);
-      entry.counts.push(d.count);
-    });
-
-    // 获取按月的汇总数据（用于详情展示）
-    const [monthlyStats] = await dataManager.getPool().execute(`
-      SELECT DATE_FORMAT(fell_date, '%Y-%m') AS month,
-             COUNT(*) AS count,
-             MAX(CASE WHEN grade = '正国级' THEN '正国级'
-                     WHEN grade = '副国级' THEN '副国级'
-                     WHEN grade = '正部级' THEN '正部级'
-                     WHEN grade = '副部级' THEN '副部级'
-                     WHEN grade = '正厅级' THEN '正厅级'
-                     WHEN grade = '副厅级' THEN '副厅级'
-                     ELSE NULL END) AS top_grade,
-             GROUP_CONCAT(DISTINCT province ORDER BY province SEPARATOR ',') AS provinces
-      FROM fallen_officials
-      WHERE ${conditions.join(' AND ')}
-      GROUP BY month
-      ORDER BY fell_date
-    `, params);
-
-    // 获取该月的官员详情
-    const [officialsByMonth] = await dataManager.getPool().execute(`
-      SELECT DATE_FORMAT(fell_date, '%Y-%m') AS month,
-             name,
-             grade
-      FROM fallen_officials
-      WHERE ${conditions.join(' AND ')}
-      ORDER BY fell_date
-    `, params);
-
-    const officialsByMonthMap = new Map();
-    officialsByMonth.forEach(o => {
-      if (!officialsByMonthMap.has(o.month)) {
-        officialsByMonthMap.set(o.month, []);
-      }
-      officialsByMonthMap.get(o.month).push({ name: o.name, grade: o.grade });
-    });
-
-    // 获取该月的人事变动数据
-    const [personnelChangesByMonth] = await dataManager.getPool().execute(`
+    await dataManager.getPool().execute('SET SESSION group_concat_max_len = 65536');
+    const [rows] = await dataManager.getPool().execute(`
       SELECT DATE_FORMAT(date, '%Y-%m') AS month,
-             person_name,
-             original_position,
-             new_position,
-             status,
-             credibility,
-             remarks
-      FROM personnel_changes
+             COUNT(*) AS count,
+             SUM(CASE WHEN impact = '高' THEN 10 WHEN impact = '中' THEN 6 ELSE 3 END) AS severity,
+             COUNT(CASE WHEN type = '反腐通报' THEN 1 END) AS anti_corruption,
+             COUNT(CASE WHEN type = '重大事故' THEN 1 END) AS major_accident,
+             COUNT(CASE WHEN type = '人事动向' THEN 1 END) AS personnel_move,
+             GROUP_CONCAT(CONCAT(IFNULL(title,''), '|||', IFNULL(type,''), '|||', IFNULL(impact,''), '|||', IFNULL(summary,'')) ORDER BY date DESC SEPARATOR '~~~') AS events_raw
+      FROM huairentang_events
       WHERE YEAR(date) = ?
-      ORDER BY date
+      GROUP BY month ORDER BY month
     `, [year]);
 
-    const personnelChangesByMonthMap = new Map();
-    personnelChangesByMonth.forEach(p => {
-      if (!personnelChangesByMonthMap.has(p.month)) {
-        personnelChangesByMonthMap.set(p.month, []);
-      }
-      personnelChangesByMonthMap.get(p.month).push({
-        name: p.person_name,
-        original_position: p.original_position,
-        new_position: p.new_position,
-        status: p.status,
-        credibility: p.credibility,
-        remarks: p.remarks
-      });
+    if (!rows.length) return res.json({ year, data: [] });
+
+    const months = rows.map(r => ({
+      month: r.month,
+      count: Number(r.count),
+      severity: Number(r.severity),
+      anti_corruption: Number(r.anti_corruption),
+      major_accident: Number(r.major_accident),
+      personnel_move: Number(r.personnel_move),
+      events: (r.events_raw || '').split('~~~').filter(Boolean).map(s => {
+        const p = s.split('|||');
+        return { title: p[0] || '', type: p[1] || '', impact: p[2] || '', summary: p[3] || '' };
+      }),
+    }));
+
+    const klineData = months.map((m, i) => {
+      const open = i === 0 ? m.severity : months[i - 1].severity;
+      const close = m.severity;
+      const body = Math.abs(close - open);
+      const low  = Math.max(0, Math.min(open, close) - Math.max(1, Math.floor(body * 0.3)));
+      const high = Math.max(open, close) + Math.max(1, Math.floor(body * 0.4));
+      return { ...m, open, close, low, high };
     });
 
-    // 生成 K 线数据 - 使用真实的 OHLC 逻辑
-    const klineData = monthlyStats.map(stat => {
-      const monthData = monthlyMap.get(stat.month);
-      let open = 0, high = 0, low = Infinity, close = 0;
-
-      if (monthData && monthData.counts.length > 0) {
-        open = monthData.counts[0]; // 该月第一个审查日期的人数
-        high = Math.max(...monthData.counts); // 该月最高单日人数
-        low = Math.min(...monthData.counts); // 该月最低单日人数
-        close = monthData.counts[monthData.counts.length - 1]; // 该月最后一个审查日期的人数
-      }
-
-      if (low === Infinity) low = 0;
-
-      return {
-        month: stat.month,
-        count: stat.count,
-        open,
-        close,
-        high,
-        low,
-        top_grade: stat.top_grade,
-        provinces: stat.provinces,
-        officials: officialsByMonthMap.get(stat.month) || [],
-        personnel_changes: personnelChangesByMonthMap.get(stat.month) || [],
-      };
-    });
-
-    // 填充全年12个月的数据
-    const fullYear = Array.from({ length: 12 }, (_, i) => {
-      const m = String(i + 1).padStart(2, '0');
-      const key = `${year}-${m}`;
-      const existing = klineData.find(d => d.month === key);
-      return existing || {
-        month: key,
-        count: 0,
-        open: 0,
-        close: 0,
-        high: 0,
-        low: 0,
-        top_grade: null,
-        provinces: '',
-        officials: [],
-        personnel_changes: []
-      };
-    });
-
-    res.json({ year, data: fullYear });
+    res.json({ year, data: klineData });
   } catch (err) { res.status(500).json({ error: '查询失败', detail: err.message }); }
 });
 
