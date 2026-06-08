@@ -4,288 +4,200 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="api-auth-token" content=""/>
-<title>中纪委审查调查 · K线监控</title>
+<title>中纪委审查调查 · 市场监控</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 <style>
-*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-:root {
-  --bg0:#0a0c0f; --bg1:#111418; --bg2:#181c22; --bg3:#1e242c;
-  --border:#2a3040; --border2:#374050; --text0:#e8eaf0; --text1:#9aa3b2; --text2:#5c6578;
-  --red:#e84c4c; --green:#2ecc8a; --amber:#f5a623; --blue:#4a9eff;
-  --red-dim:rgba(232,76,76,0.12); --font-serif:'Noto Serif SC',serif;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0e11; --surface:#14181d; --card:#1a1f26; --card-hover:#1e242e;
+  --border:rgba(255,255,255,0.06); --border-active:rgba(255,255,255,0.12);
+  --text0:#f0f2f5; --text1:#8895a7; --text2:#505a6b;
+  --red:#ff4757; --green:#2ed573; --amber:#ffa502; --blue:#70a1ff;
+  --red-bg:rgba(255,71,87,0.1); --green-bg:rgba(46,213,115,0.08);
+  --amber-bg:rgba(255,165,2,0.08); --blue-bg:rgba(112,161,255,0.08);
+  --radius:10px; --radius-sm:6px; --font:'-apple-system','BlinkMacSystemFont','Segoe UI',sans-serif;
 }
-html,body { height:100%; background:var(--bg0); color:var(--text0); font-family:monospace; font-size:13px; }
-.shell { display:grid; grid-template-rows:48px 1fr; grid-template-columns:240px 1fr; height:100vh; overflow:hidden; }
-header { grid-column:1/-1; display:flex; align-items:center; padding:0 20px; border-bottom:1px solid var(--border); background:var(--bg1); gap:24px; }
-.logo { font-family:var(--font-serif); font-size:15px; font-weight:700; letter-spacing:.05em; white-space:nowrap; }
-.logo span { color:var(--red); }
-.hbar-sep { width:1px; height:20px; background:var(--border); }
-.nav-links { display:flex; gap:16px; }
-.nav-links a { color:var(--text2); text-decoration:none; font-size:12px; transition:color .15s; }
-.nav-links a:hover,.nav-links a.active { color:var(--text0); }
-.nav-links a.active { color:var(--red); }
-.clock { margin-left:auto; font-size:11px; color:var(--text2); white-space:nowrap; }
-aside { background:var(--bg1); border-right:1px solid var(--border); display:flex; flex-direction:column; overflow-y:auto; }
-.side-section { padding:12px 14px; border-bottom:1px solid var(--border); }
-.side-label { font-size:10px; color:var(--text2); letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; }
-.year-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
-.year-btn { background:var(--bg2); border:1px solid var(--border); color:var(--text1); font-family:monospace; font-size:12px; padding:6px 0; cursor:pointer; border-radius:3px; text-align:center; transition:all .15s; }
-.year-btn:hover { border-color:var(--border2); color:var(--text0); }
-.year-btn.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
-.filter-row { display:flex; gap:4px; flex-wrap:wrap; }
-.chip { background:var(--bg2); border:1px solid var(--border); color:var(--text2); font-family:monospace; font-size:11px; padding:3px 8px; border-radius:2px; cursor:pointer; transition:all .15s; }
-.chip:hover { color:var(--text1); border-color:var(--border2); }
-.chip.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
-.stat-grid { display:grid; gap:6px; }
-.stat-card { background:var(--bg2); border:1px solid var(--border); border-radius:3px; padding:8px 10px; }
-.stat-card .s-label { font-size:10px; color:var(--text2); margin-bottom:2px; }
-.stat-card .s-val { font-size:18px; font-weight:600; }
-.stat-card .s-sub { font-size:10px; color:var(--text1); margin-top:1px; }
-.stat-card.red .s-val { color:var(--red); }
-.stat-card.amber .s-val { color:var(--amber); }
-.grade-bar-wrap { display:flex; flex-direction:column; gap:5px; }
-.grade-row { display:flex; align-items:center; gap:6px; }
-.grade-name { font-size:10px; color:var(--text2); width:48px; flex-shrink:0; }
-.grade-bar-outer { flex:1; height:6px; background:var(--bg3); border-radius:2px; overflow:hidden; }
-.grade-bar-inner { height:100%; background:var(--red); border-radius:2px; transition:width .5s; }
-.grade-cnt { font-size:10px; color:var(--text1); width:28px; text-align:right; }
-main { display:grid; grid-template-rows:auto 1fr auto; overflow:hidden; background:var(--bg0); }
-.toolbar { display:flex; align-items:center; gap:12px; padding:10px 16px; border-bottom:1px solid var(--border); background:var(--bg1); flex-wrap:wrap; }
-.toolbar-label { font-size:10px; color:var(--text2); text-transform:uppercase; letter-spacing:.1em; }
-.seg-group { display:flex; gap:2px; }
-.seg-btn { background:var(--bg2); border:1px solid var(--border); color:var(--text1); font-family:monospace; font-size:11px; padding:4px 10px; cursor:pointer; transition:all .15s; }
-.seg-btn:first-child { border-radius:3px 0 0 3px; }
-.seg-btn:last-child { border-radius:0 3px 3px 0; }
-.seg-btn:not(:first-child) { border-left:none; }
-.seg-btn:hover { color:var(--text0); }
-.seg-btn.active { background:var(--red-dim); border-color:var(--red); color:var(--red); }
-.toolbar-sep { width:1px; height:18px; background:var(--border); }
-.chart-wrap { position:relative; overflow:hidden; }
-#main-chart { width:100%; height:100%; }
-.detail-panel { border-top:1px solid var(--border); background:var(--bg1); padding:10px 16px; min-height:80px; max-height:200px; overflow-y:auto; }
-.detail-panel.empty { opacity:.4; }
-.detail-month { font-size:22px; font-weight:600; line-height:1; }
-.detail-sub { font-size:10px; color:var(--text2); margin-top:3px; }
-.detail-tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
-.dtag { background:var(--bg3); border:1px solid var(--border); border-radius:3px; padding:3px 10px; font-size:11px; color:var(--text1); min-width:80px; line-height:1.5; }
-.dtag.high { border-color:var(--red); color:var(--red); background:var(--red-dim); }
-.off-name { font-weight:600; color:var(--text0); display:block; margin-bottom:2px; }
-.off-grade { font-size:10px; color:var(--text2); }
-.off-title { font-size:10px; color:var(--text1); margin-top:1px; }
-.off-status { font-size:9px; padding:1px 4px; border-radius:2px; background:rgba(245,166,35,0.15); color:var(--amber); }
-.personnel-section { margin-top:8px; padding-top:8px; border-top:1px solid var(--border); }
-.personnel-title { font-size:11px; color:var(--amber); font-weight:600; margin-bottom:4px; }
-.personnel-item { font-size:10px; color:var(--text1); margin-bottom:3px; padding:4px; background:var(--bg2); border-radius:2px; }
-.personnel-item .name { color:var(--text0); font-weight:600; }
-.personnel-item .change { color:var(--blue); }
-.personnel-item .status { margin-left:4px; padding:1px 4px; border-radius:2px; font-size:9px; }
-.personnel-item .status.high { background:rgba(46,204,138,0.2); color:#2ecc8a; }
-.personnel-item .status.medium { background:rgba(245,166,35,0.2); color:#f5a623; }
-.personnel-item .status.low { background:rgba(232,76,76,0.2); color:#e84c4c; }
-::-webkit-scrollbar { width:4px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:var(--border2); border-radius:2px; }
+html,body{height:100%;background:var(--bg);color:var(--text0);font-family:var(--font);font-size:13px;-webkit-font-smoothing:antialiased;}
+.shell{display:grid;grid-template-rows:52px 1fr;grid-template-columns:260px 1fr;height:100vh;overflow:hidden}
+
+header{grid-column:1/-1;display:flex;align-items:center;padding:0 20px;background:rgba(20,24,29,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);gap:16px;z-index:10}
+.logo{font-size:15px;font-weight:700;letter-spacing:-0.3px;white-space:nowrap}
+.logo span{background:linear-gradient(135deg,var(--red),#ff6b81);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-stat{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text1);padding:4px 10px;background:var(--card);border-radius:20px}
+.header-stat b{color:var(--text0);font-weight:600}
+.header-spacer{flex:1}
+.nav-links{display:flex;gap:4px}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:12px;padding:6px 12px;border-radius:var(--radius-sm);transition:all .2s}
+.nav-links a:hover{color:var(--text0);background:var(--card)}
+
+aside{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;gap:1px}
+.panel{padding:16px 16px 12px;border-bottom:1px solid var(--border)}
+.panel-label{font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px}
+.year-row{display:flex;gap:6px;flex-wrap:wrap}
+.year-pill{background:var(--card);border:1px solid var(--border);color:var(--text1);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s}
+.year-pill:hover{border-color:var(--border-active);color:var(--text0)}
+.year-pill.active{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.stat-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;text-align:center}
+.stat-item .n{font-size:22px;font-weight:700;line-height:1.2}
+.stat-item .l{font-size:10px;color:var(--text2);margin-top:3px;letter-spacing:.02em}
+.stat-item.red .n{color:var(--red)}
+.stat-item.green .n{color:var(--green)}
+.stat-item.amber .n{color:var(--amber)}
+
+.bar-list{display:flex;flex-direction:column;gap:7px}
+.bar-row{display:flex;align-items:center;gap:8px}
+.bar-type{font-size:11px;color:var(--text1);width:52px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar-track{flex:1;height:6px;background:var(--card);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.bar-val{font-size:10px;color:var(--text2);width:26px;text-align:left}
+
+main{display:grid;grid-template-rows:44px 1fr auto;overflow:hidden}
+.toolbar{display:flex;align-items:center;gap:8px;padding:0 16px;background:var(--surface);border-bottom:1px solid var(--border)}
+.mode-group{display:flex;background:var(--card);border-radius:var(--radius-sm);padding:2px}
+.mode-btn{padding:5px 12px;border:none;background:transparent;color:var(--text1);font-family:var(--font);font-size:11px;font-weight:500;border-radius:4px;cursor:pointer;transition:all .15s}
+.mode-btn.active{background:var(--card-hover);color:var(--text0)}
+.tb-sep{width:1px;height:16px;background:var(--border);margin:0 4px}
+
+.chart-wrap{position:relative;overflow:hidden}
+#main-chart{width:100%;height:100%}
+
+.detail{background:var(--surface);border-top:1px solid var(--border);padding:14px 20px;min-height:72px;max-height:180px;overflow-y:auto;transition:opacity .2s}
+.detail.empty{opacity:.4}
+.detail-header{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.detail-month{font-size:20px;font-weight:700;color:var(--text0);line-height:1}
+.detail-change{font-size:13px;font-weight:600}
+.detail-stats{font-size:11px;color:var(--text2);margin-bottom:8px}
+.detail-events{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:6px}
+.event-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;transition:all .15s}
+.event-card:hover{border-color:var(--border-active)}
+.event-card.high{border-left:2px solid var(--red)}
+.event-card.mid{border-left:2px solid var(--amber)}
+.event-title{font-size:12px;font-weight:600;color:var(--text0);margin-bottom:4px;line-height:1.35}
+.event-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.event-type{font-size:10px;padding:2px 6px;border-radius:3px;font-weight:500}
+.event-type.反腐通报{background:var(--red-bg);color:var(--red)}
+.event-type.重大事故{background:var(--amber-bg);color:var(--amber)}
+.event-type.人事动向{background:var(--blue-bg);color:var(--blue)}
+.event-type.外事活动{background:var(--green-bg);color:var(--green)}
+.event-impact{font-size:10px;color:var(--text2)}
+.event-summary{font-size:10px;color:var(--text1);margin-top:4px;line-height:1.4}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-active);border-radius:2px}
 </style>
 </head>
 <body>
 <div class="shell">
-  <header>
-    <div class="logo"><span>中</span>纪委 · K线监控</div>
-    <div class="hbar-sep"></div>
-    <div class="nav-links">
-      <a href="/">← 返回主页</a>
-    </div>
-    <div class="clock" id="clock"></div>
-  </header>
-  <aside>
-    <div class="side-section"><div class="side-label">年份</div><div class="year-grid" id="year-grid"></div></div>
-    <div class="side-section">
-      <div class="side-label">级别筛选</div>
-      <div class="filter-row">
-        <button class="chip active" data-grade="all" onclick="setGrade(this)">全部级别</button>
-        <button class="chip" data-grade="high" onclick="setGrade(this)">副部级+</button>
-      </div>
-    </div>
-    <div class="side-section">
-      <div class="side-label">汇总统计</div>
-      <div class="stat-grid">
-        <div class="stat-card red"><div class="s-label">数据库总人数</div><div class="s-val" id="s-total">—</div></div>
-        <div class="stat-card amber"><div class="s-label">单月最高纪录</div><div class="s-val" id="s-peak-cnt">—</div><div class="s-sub" id="s-peak-month">—</div></div>
-        <div class="stat-card"><div class="s-label">最高级别被查</div><div class="s-val" id="s-top-grade">—</div></div>
-      </div>
-    </div>
-    <div class="side-section" style="flex:1;"><div class="side-label">级别分布</div><div class="grade-bar-wrap" id="grade-bars"></div></div>
-  </aside>
-  <main>
-    <div class="toolbar">
-      <span class="toolbar-label">展示方式</span>
-      <div class="seg-group">
-        <button class="seg-btn active" data-mode="kline" onclick="setMode(this)">K线</button>
-        <button class="seg-btn" data-mode="bar" onclick="setMode(this)">柱状</button>
-        <button class="seg-btn" data-mode="line" onclick="setMode(this)">折线</button>
-      </div>
-      <div class="toolbar-sep"></div>
-      <span class="toolbar-label">对比年份</span>
-      <div class="seg-group">
-        <button class="seg-btn active" data-compare="off" onclick="setCompare(this)">关闭</button>
-        <button class="seg-btn" data-compare="on" onclick="setCompare(this)">开启</button>
-      </div>
-    </div>
-    <div class="chart-wrap"><div id="main-chart"></div></div>
-    <div class="detail-panel empty" id="detail-panel">
-      <div class="detail-month" id="d-month">点击K线查看详情</div>
-      <div class="detail-sub" id="d-sub">—</div>
-      <div class="detail-tags" id="d-tags"></div>
-    </div>
-  </main>
-</div>
-<script>
-var state={ year:2026, grade:'all', mode:'kline', compare:false, klineData:[], prevData:[] };
-var chart=null;
-var API_TOKEN=document.querySelector('meta[name="api-auth-token"]')?.content||'';
+<header>
+  <div class="logo"><span>CCDI</span> Market Monitor</div>
+  <div class="header-stat"><b id="h-total">—</b> events</div>
+  <div class="header-stat" style="color:var(--green)"><b id="h-month">—</b> this month</div>
+  <div class="header-spacer"></div>
+  <nav class="nav-links"><a href="/">← 返回主页</a></nav>
+</header>
 
-function af(url,opts){ opts=opts||{}; if(API_TOKEN){ opts.headers=opts.headers||{}; opts.headers['x-api-key']=API_TOKEN; } return fetch(url,opts).then(function(r){ if(!r.ok)throw Error(r.status); return r.json(); }); }
+<aside>
+  <div class="panel"><div class="panel-label">Year</div><div class="year-row" id="year-row"></div></div>
+  <div class="panel">
+    <div class="panel-label">Stats</div>
+    <div class="stat-row">
+      <div class="stat-item red"><div class="n" id="s-total">—</div><div class="l">事件总数</div></div>
+      <div class="stat-item amber"><div class="n" id="s-peak">—</div><div class="l">峰值月份</div></div>
+      <div class="stat-item"><div class="n" id="s-top">—</div><div class="l">最严重类型</div></div>
+    </div>
+  </div>
+  <div class="panel" style="flex:1"><div class="panel-label">事件类型</div><div class="bar-list" id="type-bars"></div></div>
+</aside>
+
+<main>
+  <div class="toolbar">
+    <div class="mode-group">
+      <button class="mode-btn active" data-mode="kline" onclick="setMode(this)">K 线</button>
+      <button class="mode-btn" data-mode="bar" onclick="setMode(this)">柱状图</button>
+      <button class="mode-btn" data-mode="line" onclick="setMode(this)">趋势线</button>
+    </div>
+    <div class="tb-sep"></div>
+    <span style="font-size:11px;color:var(--text2)">点击蜡烛查看事件详情</span>
+  </div>
+  <div class="chart-wrap"><div id="main-chart"></div></div>
+  <div class="detail empty" id="detail">
+    <div style="color:var(--text2);font-size:12px">点击上方图表月份查看该月事件详情</div>
+  </div>
+</main>
+</div>
+
+<script>
+var state={year:2026,mode:'kline',klineData:[],sentimentData:[]};
+var chart,API_TOKEN=document.querySelector('meta[name="api-auth-token"]')?.content||'';
+function af(url,opts){opts=opts||{};if(API_TOKEN){opts.headers=opts.headers||{};opts.headers['x-api-key']=API_TOKEN}return fetch(url,opts).then(function(r){if(!r.ok)throw Error(r.status);return r.json()})}
 
 function init(){
   chart=echarts.init(document.getElementById('main-chart'),null,{renderer:'canvas'});
-  window.addEventListener('resize',function(){ chart.resize(); });
-  tickClock(); setInterval(tickClock,1000);
-  loadYears(); loadStats(); loadKline();
+  window.addEventListener('resize',function(){chart.resize()});
+  loadYears();loadStats();loadKline()
 }
-function tickClock(){ document.getElementById('clock').textContent=new Date().toLocaleString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'}); }
 
 function loadYears(){
   af('/api/kline/years').then(function(data){
-    var years=data.map(function(r){ return r.year; });
-    if(years.length && years.indexOf(state.year)===-1) state.year=years[0];
-    var grid=document.getElementById('year-grid');
-    grid.innerHTML=years.map(function(y){ return '<button class="year-btn'+(y===state.year?' active':'')+'" onclick="selectYear('+y+')">'+y+'</button>'; }).join('');
-    if(!years.length){ grid.innerHTML='<button class="year-btn active">—</button>'; }
-  }).catch(function(){});
+    var years=data.map(function(r){return r.year});
+    if(years.length&&years.indexOf(state.year)===-1)state.year=years[0];
+    document.getElementById('year-row').innerHTML=years.map(function(y){return'<button class="year-pill'+(y===state.year?' active':'')+'" onclick="selectYear('+y+')">'+y+'年</button>'}).join('')||'<button class="year-pill active">—</button>'
+  }).catch(function(){})
 }
 
 function loadStats(){
-  var qs='grade='+state.grade;
-  af('/api/kline/stats?'+qs).then(function(s){
-    document.getElementById('s-total').textContent=s.total.toLocaleString();
-    document.getElementById('s-peak-cnt').textContent=s.peakCount;
-    document.getElementById('s-peak-month').textContent=s.peakMonth;
-    document.getElementById('s-top-grade').textContent=s.topGrade;
-    var maxCnt=Math.max.apply(null,(s.byGrade||[]).map(function(r){ return Number(r.cnt); }));
-    document.getElementById('grade-bars').innerHTML=(s.byGrade||[]).map(function(r){
-      return '<div class="grade-row"><div class="grade-name">'+r.grade+'</div><div class="grade-bar-outer"><div class="grade-bar-inner" style="width:'+Math.round(Number(r.cnt)/maxCnt*100)+'%"></div></div><div class="grade-cnt">'+r.cnt+'</div></div>';
-    }).join('');
-  }).catch(function(){});
+  af('/api/kline/stats').then(function(s){
+    document.getElementById('s-total').textContent=s.total;
+    document.getElementById('s-peak').textContent=s.peakCount;
+    document.getElementById('s-top').textContent=s.topGrade;
+    document.getElementById('h-total').textContent=s.total;
+    var peakM=s.peakMonth,now=new Date(),nowM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+    var cur=s.byGrade.reduce(function(a,r){return a+Number(r.cnt)},0);
+    document.getElementById('h-month').textContent=cur;
+    var maxCnt=Math.max.apply(null,(s.byGrade||[]).map(function(r){return Number(r.cnt)}));
+    var colors={反腐通报:'#ff4757',重大事故:'#ffa502',人事动向:'#70a1ff',外事活动:'#2ed573',传闻轶事:'#a55eea',政治作秀:'#ff6b81',经济动向:'#ffa502',澄清传闻:'#2ed573'};
+    document.getElementById('type-bars').innerHTML=(s.byGrade||[]).map(function(r,i){var c=colors[r.grade]||'#8895a7';return'<div class="bar-row"><div class="bar-type" style="color:'+c+'">'+r.grade+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(Number(r.cnt)/maxCnt*100)+'%;background:'+c+'"></div></div><div class="bar-val">'+r.cnt+'</div></div>'}).join('')
+  }).catch(function(){})
 }
 
 function loadKline(){
-  var qs='grade='+state.grade;
-  af('/api/kline/'+state.year+'?'+qs).then(function(res){
-    state.klineData=res.data||[];
-    if(state.compare){
-      af('/api/kline/'+(state.year-1)+'?'+qs).then(function(res2){ state.prevData=res2.data||[]; renderChart(); }).catch(function(){ renderChart(); });
-    } else { state.prevData=[]; renderChart(); }
-  }).catch(function(e){ console.error(e); });
+  af('/api/kline/'+state.year).then(function(res){state.klineData=res.data||[];return af('/api/kline/sentiment/'+state.year).catch(function(){return{data:[]}})}).then(function(s){state.sentimentData=s.data||[];renderChart()}).catch(function(e){})
 }
 
 function renderChart(){
-  var data=state.klineData;
-  if(!data.length) return;
-  var labels=data.map(function(d){ return d.month.slice(5)+'月'; });
-  var series=[];
-  
-  // 计算均线
-  function calculateMA(dayCount, data) {
-    var result=[];
-    for(var i=0, len=data.length; i<len; i++){
-      if(i<dayCount){
-        result.push('-');
-        continue;
-      }
-      var sum=0;
-      for(var j=0; j<dayCount; j++){
-        sum+=data[i-j].close;
-      }
-      result.push((sum/dayCount).toFixed(2));
-    }
-    return result;
+  var data=state.klineData;if(!data.length)return;
+  var labels=data.map(function(d){return d.month.slice(5)+'月'});
+  function ma(n,arr){var r=[];for(var i=0;i<arr.length;i++){if(i<n-1){r.push('-');continue}var s=0;for(var j=0;j<n;j++)s+=arr[i-j].close;r.push((s/n).toFixed(2))}return r}
+  var series=[],isK=state.mode==='kline';
+  if(isK){
+    series.push({name:'K',type:'candlestick',data:data.map(function(d){return[d.open,d.close,d.low,d.high]}),itemStyle:{color:'none',color0:'none',borderColor:'#ff4757',borderColor0:'#2ed573',borderWidth:1.5},emphasis:{itemStyle:{borderWidth:2.5}}});
+    series.push({name:'MA5',type:'line',data:ma(3,data),smooth:!0,lineStyle:{opacity:.5,width:1,color:'#ffa502'},symbol:'none'});
+    if(data.length>=5)series.push({name:'MA10',type:'line',data:ma(5,data),smooth:!0,lineStyle:{opacity:.5,width:1,color:'#70a1ff'},symbol:'none'});
+    var sm={};state.sentimentData.forEach(function(s){sm[s.month]=s});
+    series.push({name:'情绪',type:'bar',xAxisIndex:1,yAxisIndex:1,data:data.map(function(d){var s=sm[d.month]||{yes:0,no:0},n=s.yes-s.no;return{value:Math.abs(n||0),itemStyle:{color:n>=0?'rgba(255,71,87,0.55)':'rgba(46,213,115,0.45)'}}})});
+  }else if(state.mode==='bar'){
+    series.push({name:'事件数',type:'bar',data:data.map(function(d){return{value:d.count,itemStyle:{color:d.close>=d.open?'#ff4757':'#2ed573'}}}),barWidth:'60%',label:{show:!0,position:'top',color:'#8895a7',fontSize:10,formatter:'{c}'}})
+  }else{
+    series.push({name:'严重度',type:'line',data:data.map(function(d){return d.close}),lineStyle:{color:'#ff4757',width:2},itemStyle:{color:'#ff4757'},areaStyle:{color:'rgba(255,71,87,0.06)'},symbol:'circle',symbolSize:3,smooth:.3});
+    series.push({name:'MA3',type:'line',data:ma(3,data),smooth:!0,lineStyle:{opacity:.5,width:1,color:'#ffa502'},symbol:'none'})
   }
-  
-  var ma5=calculateMA(5, data);
-  var ma10=calculateMA(10, data);
-  
-  if(state.mode==='kline'){
-    var kData=data.map(function(d){ return [d.open,d.close,d.low,d.high]; });
-    series.push({ name:'K线', type:'candlestick', data:kData,
-      itemStyle:{ color:'#ef5350', color0:'#26a69a', borderColor:'#ef5350', borderColor0:'#26a69a', borderWidth:1 },
-      emphasis:{ itemStyle:{ borderWidth:2 } } });
-    
-    // 添加均线
-    series.push({ name:'MA5', type:'line', data:ma5, smooth:true, lineStyle:{ opacity:0.5, width:1, color:'#ff9800' }, symbol:'none' });
-    series.push({ name:'MA10', type:'line', data:ma10, smooth:true, lineStyle:{ opacity:0.5, width:1, color:'#2196f3' }, symbol:'none' });
-    
-    // 成交量
-    series.push({ name:'成交量', type:'bar', xAxisIndex:1, yAxisIndex:1,
-      data:data.map(function(d,i){ return { 
-        value:d.count, 
-        itemStyle:{ color:d.close>=d.open?'rgba(239,83,80,0.5)':'rgba(38,166,154,0.5)' } 
-      }; }) });
-    
-    if(state.prevData.length){
-      series.push({ name:(state.year-1)+'年', type:'candlestick', data:state.prevData.map(function(d){ return [d.open,d.close,d.low,d.high]; }),
-        itemStyle:{ color:'rgba(74,158,255,0.4)', color0:'rgba(74,158,255,0.2)', borderColor:'#4a9eff', borderColor0:'#4a9eff', borderWidth:1 } });
-    }
-  } else if(state.mode==='bar'){
-    series.push({ name:state.year+'年', type:'bar', data:data.map(function(d){ return { value:d.count, itemStyle:{ color:d.close>=d.open?'#ef5350':'#26a69a' } }; }),
-      label:{ show:true, position:'top', color:'#9aa3b2', fontSize:10, formatter:'{c}' } });
-    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'bar', data:state.prevData.map(function(d){ return d.count; }), itemStyle:{ color:'rgba(74,158,255,0.5)' } });
-  } else {
-    series.push({ name:state.year+'年', type:'line', data:data.map(function(d){ return d.close; }), lineStyle:{ color:'#ef5350', width:2 }, itemStyle:{ color:'#ef5350' }, areaStyle:{ color:'rgba(239,83,80,0.1)' }, symbol:'circle', symbolSize:4, smooth:0.3 });
-    series.push({ name:'MA5', type:'line', data:ma5, smooth:true, lineStyle:{ opacity:0.7, width:1, color:'#ff9800' }, symbol:'none' });
-    series.push({ name:'MA10', type:'line', data:ma10, smooth:true, lineStyle:{ opacity:0.7, width:1, color:'#2196f3' }, symbol:'none' });
-    if(state.prevData.length) series.push({ name:(state.year-1)+'年', type:'line', data:state.prevData.map(function(d){ return d.close; }), lineStyle:{ color:'#4a9eff', width:1, type:'dashed' }, itemStyle:{ color:'#4a9eff' }, symbol:'none', smooth:0.3 });
-  }
-  
-  var isK=state.mode==='kline';
-  chart.setOption({
-    backgroundColor:'transparent', animation:true, animationDuration:500,
-    title:{ text:'中纪委审查调查 · 严重度指数', left:'center', textStyle:{ color:'#e8eaf0', fontSize:14, fontWeight:'normal' } },
-    tooltip:{ trigger:'axis', axisPointer:{ type:'cross' }, backgroundColor:'rgba(17,20,24,0.9)', borderColor:'#2a3040', textStyle:{ color:'#e8eaf0' } },
-    legend:{ data:['K线','MA5','MA10','成交量'], top:30, textStyle:{ color:'#9aa3b2', fontSize:11 } },
-    grid:isK?[{ left:60,right:50,top:70,bottom:100 },{ left:60,right:50,top:'75%',bottom:20 }]:[{ left:60,right:50,top:70,bottom:40 }],
-    xAxis:isK?[{ type:'category',data:labels,gridIndex:0,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}},{ type:'category',data:labels,gridIndex:1,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{show:false},axisTick:{show:false},splitLine:{show:false}}]:[{ type:'category',data:labels,axisLine:{lineStyle:{color:'#2a3040'}},axisLabel:{color:'#5c6578',fontSize:11},axisTick:{show:false},splitLine:{show:false}}],
-    yAxis:isK?[{ gridIndex:0,scale:true,splitLine:{lineStyle:{color:'#1e242c',type:'dashed'}},axisLabel:{color:'#5c6578',fontSize:10},min:0},{ gridIndex:1,scale:true,splitLine:{show:false},axisLabel:{show:false}}]:[{ scale:true,splitLine:{lineStyle:{color:'#1e242c',type:'dashed'}},axisLabel:{color:'#5c6578',fontSize:10},min:0}],
-    dataZoom:[{ type:'inside',xAxisIndex:[0,isK?1:0],start:0,end:100 },{ type:'slider',xAxisIndex:[0,isK?1:0],start:0,end:100,bottom:isK?25:5,height:20,borderColor:'#2a3040',backgroundColor:'transparent',fillerColor:'rgba(239,83,80,0.1)',handleStyle:{color:'#374050'},textStyle:{color:'#5c6578',fontSize:10},showDetail:false}],
-    series:series
-  },true);
-  chart.off('click');
-  chart.on('click',function(p){
-    var d=state.klineData[p.dataIndex];
-    if(!d||d.count===0) return;
-    var panel=document.getElementById('detail-panel'); panel.classList.remove('empty');
-    document.getElementById('d-month').textContent=d.month;
-    var change=d.open?((d.close-d.open)/d.open*100).toFixed(2):0;
-    var changeColor=change>=0?'#ef5350':'#26a69a';
-    var changeSymbol=change>=0?'+':'';
-    document.getElementById('d-sub').innerHTML='严重度指数：<span style="color:#e8eaf0">'+d.severity.toFixed(2)+'</span> · 涨跌：<span style="color:'+changeColor+'">'+changeSymbol+change+'%</span> · 反腐'+d.anti_corruption+' · 事故'+d.major_accident+' · 人事'+d.personnel_move;
-    var typeColors={ '反腐通报':'#ef5350','重大事故':'#ff9800','人事动向':'#4a9eff','外事活动':'#26a69a','传闻轶事':'#9c27b0' };
-    document.getElementById('d-tags').innerHTML=d.events.map(function(e){
-      var tc=typeColors[e.type]||'var(--text2)';
-      var ic=e.impact==='高'?'high':e.impact==='中'?'mid':'';
-      return '<div class="dtag '+ic+'">'+
-        '<span class="off-name" style="border-left:3px solid '+tc+';padding-left:6px;">'+e.title+'</span>'+
-        '<span class="off-grade"> · '+e.type+'</span>'+
-        (e.impact?'<span class="off-status">'+e.impact+'影响</span>':'')+
-        (e.summary?'<div class="off-title">'+e.summary.slice(0,60)+(e.summary.length>60?'…':'')+'</div>':'')+
-        '</div>';
-    }).join('')||'<div class="dtag">暂无详细数据</div>';
-  });
+  var gOpt=isK?{grid:[{left:55,right:20,top:8,bottom:80},{left:55,right:20,top:'78%',bottom:20}],xAxis:[{type:'category',data:labels,gridIndex:0,axisLine:{lineStyle:{color:'rgba(255,255,255,0.06)'}},axisLabel:{color:'#505a6b',fontSize:10},axisTick:{show:0},splitLine:{show:0}},{type:'category',data:labels,gridIndex:1,axisLine:{show:0},axisLabel:{show:0},axisTick:{show:0},splitLine:{show:0}}],yAxis:[{gridIndex:0,scale:!0,splitLine:{lineStyle:{color:'#1a1f26'}},axisLabel:{color:'#505a6b',fontSize:9},min:function(v){return v.min-5}},{gridIndex:1,scale:!0,splitLine:{show:0},axisLabel:{show:0}}],dataZoom:[{type:'inside',xAxisIndex:[0,1],start:0,end:100},{type:'slider',xAxisIndex:[0,1],start:0,end:100,bottom:22,height:14,borderColor:'rgba(255,255,255,0.06)',backgroundColor:'transparent',fillerColor:'rgba(255,71,87,0.06)',handleStyle:{color:'#505a6b'},textStyle:{color:'#505a6b',fontSize:9},showDetail:0}]}:{grid:[{left:50,right:20,top:8,bottom:28}],xAxis:[{type:'category',data:labels,axisLine:{lineStyle:{color:'rgba(255,255,255,0.06)'}},axisLabel:{color:'#505a6b',fontSize:10},axisTick:{show:0}}],yAxis:[{scale:!0,splitLine:{lineStyle:{color:'#1a1f26'}},axisLabel:{color:'#505a6b',fontSize:9}}],dataZoom:[{type:'inside',start:0,end:100}]};
+  chart.setOption({backgroundColor:'transparent',animation:!0,animationDuration:400,...gOpt,series:series},!0);
+  chart.off('click');chart.on('click',function(p){var d=data[p.dataIndex];if(!d||!d.count)return;showDetail(d)})
 }
 
-function selectYear(y){ state.year=y; document.querySelectorAll('.year-btn').forEach(function(b){ b.classList.toggle('active',parseInt(b.textContent)===y); }); loadKline(); }
-function setGrade(b){ state.grade=b.dataset.grade; document.querySelectorAll('.chip').forEach(function(c){ c.classList.toggle('active',c.dataset.grade===state.grade); }); loadStats(); loadKline(); }
-function setMode(b){ state.mode=b.dataset.mode; document.querySelectorAll('[data-mode]').forEach(function(c){ c.classList.toggle('active',c.dataset.mode===state.mode); }); renderChart(); }
-function setCompare(b){ state.compare=b.dataset.compare==='on'; document.querySelectorAll('[data-compare]').forEach(function(c){ c.classList.toggle('active',c.dataset.compare===b.dataset.compare); }); loadKline(); }
+function showDetail(d){
+  var panel=document.getElementById('detail');panel.classList.remove('empty');
+  var ch=d.open?((d.close-d.open)/d.open*100):0,cc=ch>=0?'#ff4757':'#2ed573',cs=ch>=0?'+':'';
+  var types={反腐通报:'#ff4757',重大事故:'#ffa502',人事动向:'#70a1ff',外事活动:'#2ed573',传闻轶事:'#a55eea'};
+  panel.innerHTML='<div class="detail-header"><div class="detail-month">'+d.month+'</div><div class="detail-change" style="color:'+cc+'">'+cs+ch.toFixed(1)+'%</div></div><div class="detail-stats">严重度 <b style="color:var(--text0)">'+d.severity+'</b> · 事件 <b style="color:var(--text0)">'+d.count+'</b> 条 · 反腐 '+d.anti_corruption+' · 事故 '+d.major_accident+' · 人事 '+d.personnel_move+'</div><div class="detail-events">'+d.events.map(function(e){var tc=types[e.type]||'#8895a7',ic=e.impact==='高'?'high':e.impact==='中'?'mid':'';return'<div class="event-card '+ic+'"><div class="event-title">'+e.title+'</div><div class="event-meta"><span class="event-type '+e.type+'">'+e.type+'</span>'+(e.impact?'<span class="event-impact">'+e.impact+'影响</span>':'')+'</div>'+(e.summary?'<div class="event-summary">'+e.summary.slice(0,80)+(e.summary.length>80?'…':'')+'</div>':'')+'</div>'}).join('')||'<div style="color:var(--text2);font-size:12px">暂无事件记录</div>'+'</div>'
+}
+
+function selectYear(y){state.year=y;document.querySelectorAll('.year-pill').forEach(function(b){b.classList.toggle('active',parseInt(b.textContent)===y)});loadKline()}
+function setMode(b){state.mode=b.dataset.mode;document.querySelectorAll('.mode-btn').forEach(function(c){c.classList.toggle('active',c.dataset.mode===state.mode)});renderChart()}
 
 init();
 </script>

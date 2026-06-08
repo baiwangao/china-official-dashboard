@@ -1,5 +1,27 @@
 [
   {
+    "id": 33,
+    "person_name": "姜宏伟",
+    "original_position": "黑龙江省纪委副书记、省监委副主任",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-07T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-08T07:17:53.000Z"
+  },
+  {
+    "id": 34,
+    "person_name": "李涛",
+    "original_position": "河南省人民政府副省长、党组成员兼任省政府国资委党委书记",
+    "new_position": "河南省委常委秘书长",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-07T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-08T07:17:53.000Z"
+  },
+  {
     "id": 31,
     "person_name": "胡帆",
     "original_position": "广西壮族自治区党委委员、自治区人民政府副主席、党组成员、自治区财政厅厅长、党组书记",

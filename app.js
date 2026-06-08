@@ -1569,6 +1569,7 @@ function renderMarketPanel() {
           userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid, event: eventDesc || '' };
         }
         userState.positions[posKey].amount += 10;
+        apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:name, side:side, amount:10 }) }).catch(function(){});
 
         var mkt = getMarketData(pid);
         // 根据买入量调整概率，初始为50%

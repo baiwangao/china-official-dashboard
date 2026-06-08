@@ -481,6 +481,33 @@ cron.schedule('0 2 * * *', async () => {
   }
 });
 
+// ===== 预测市场交易记录 =====
+app.post('/api/market/trade', async (req, res) => {
+  try {
+    const { marketId, personName, side, amount } = req.body;
+    if (!marketId || !personName || !side || !amount) return res.status(400).json({ error: '参数不完整' });
+    await dataManager.getPool().execute(
+      'INSERT INTO market_trades (market_id, person_name, side, amount) VALUES (?, ?, ?, ?)',
+      [marketId, personName, side, amount]);
+    res.json({ ok: true });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.get('/api/kline/sentiment/:year', async (req, res) => {
+  try {
+    const year = parseInt(req.params.year);
+    const [rows] = await dataManager.getPool().execute(`
+      SELECT DATE_FORMAT(created_at, '%Y-%m') AS month,
+             SUM(CASE WHEN side = 'yes' THEN amount ELSE 0 END) AS yes_total,
+             SUM(CASE WHEN side = 'no' THEN amount ELSE 0 END) AS no_total,
+             COUNT(*) AS trade_count
+      FROM market_trades WHERE YEAR(created_at) = ?
+      GROUP BY month ORDER BY month
+    `, [year]);
+    res.json({ year, data: rows.map(r => ({ month: r.month, yes: Number(r.yes_total), no: Number(r.no_total), count: Number(r.trade_count) })) });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // ===== 中纪委 K线监控 API =====
 const GRADE_CASE = `
   CASE grade
