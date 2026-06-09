@@ -913,6 +913,26 @@ function startDailySummaryAutoRefresh() {
 }
 startDailySummaryAutoRefresh();
 
+let pageSectionTimer = null;
+function startPageSectionAutoRefresh() {
+  if (pageSectionTimer) return;
+  pageSectionTimer = setInterval(() => {
+    renderHuairentangPanel();
+    renderSourcesPanel();
+    if (userState.loggedIn) renderMarketPanel();
+  }, 30000); // 每30秒刷新
+}
+startPageSectionAutoRefresh();
+
+let settlementTimer = null;
+function startSettlementPolling() {
+  if (settlementTimer) return;
+  settlementTimer = setInterval(() => {
+    if (userState.loggedIn) checkMarketResults();
+  }, 60000);
+}
+startSettlementPolling();
+
 function buildEventFeedFromProfiles(profileList) {
   const items = [];
   for (const profile of profileList) {

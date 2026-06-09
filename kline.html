@@ -121,6 +121,10 @@ main{display:grid;grid-template-rows:44px 1fr auto;overflow:hidden}
     </div>
     <div class="tb-sep"></div>
     <span style="font-size:11px;color:var(--text2)">点击蜡烛查看事件详情</span>
+    <div class="tb-sep"></div>
+    <span style="font-size:10px;color:var(--text2)" id="refresh-hint">每30秒自动更新</span>
+    <div class="tb-sep"></div>
+    <button class="mode-btn" onclick="refresh()" style="font-size:11px">↻ 立即刷新</button>
   </div>
   <div class="chart-wrap"><div id="main-chart"></div></div>
   <div class="detail empty" id="detail">
@@ -137,8 +141,10 @@ function af(url,opts){opts=opts||{};if(API_TOKEN){opts.headers=opts.headers||{};
 function init(){
   chart=echarts.init(document.getElementById('main-chart'),null,{renderer:'canvas'});
   window.addEventListener('resize',function(){chart.resize()});
-  loadYears();loadStats();loadKline()
+  loadYears();loadStats();loadKline();
+  setInterval(function(){loadStats();loadKline()},30000)
 }
+function refresh(){loadStats();loadKline();var h=document.getElementById('refresh-hint');h.textContent='刷新完成';setTimeout(function(){h.textContent='每30秒自动更新'},1500)}
 
 function loadYears(){
   af('/api/kline/years').then(function(data){
