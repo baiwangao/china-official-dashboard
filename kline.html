@@ -157,12 +157,9 @@ function loadYears(){
 function loadStats(){
   af('/api/kline/stats').then(function(s){
     document.getElementById('s-total').textContent=s.total;
-    document.getElementById('s-peak').textContent=s.peakCount;
+    document.getElementById('s-peak').textContent=s.peakMonth;
     document.getElementById('s-top').textContent=s.topGrade;
     document.getElementById('h-total').textContent=s.total;
-    var peakM=s.peakMonth,now=new Date(),nowM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
-    var cur=s.byGrade.reduce(function(a,r){return a+Number(r.cnt)},0);
-    document.getElementById('h-month').textContent=cur;
     var maxCnt=Math.max.apply(null,(s.byGrade||[]).map(function(r){return Number(r.cnt)}));
     var colors={反腐通报:'#ff4757',重大事故:'#ffa502',人事动向:'#70a1ff',外事活动:'#2ed573',传闻轶事:'#a55eea',政治作秀:'#ff6b81',经济动向:'#ffa502',澄清传闻:'#2ed573'};
     document.getElementById('type-bars').innerHTML=(s.byGrade||[]).map(function(r,i){var c=colors[r.grade]||'#8895a7';return'<div class="bar-row"><div class="bar-type" style="color:'+c+'">'+r.grade+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(Number(r.cnt)/maxCnt*100)+'%;background:'+c+'"></div></div><div class="bar-val">'+r.cnt+'</div></div>'}).join('')
@@ -170,7 +167,12 @@ function loadStats(){
 }
 
 function loadKline(){
-  af('/api/kline/'+state.year).then(function(res){state.klineData=res.data||[];return af('/api/kline/sentiment/'+state.year).catch(function(){return{data:[]}})}).then(function(s){state.sentimentData=s.data||[];renderChart()}).catch(function(e){})
+  af('/api/kline/'+state.year).then(function(res){state.klineData=res.data||[];return af('/api/kline/sentiment/'+state.year).catch(function(){return{data:[]}})}).then(function(s){state.sentimentData=s.data||[];updateHeaderMonth();renderChart()}).catch(function(e){})
+}
+function updateHeaderMonth(){
+  var now=new Date(),nowM=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  var cur=(state.klineData||[]).filter(function(d){return d.month===nowM}).reduce(function(a,d){return a+d.count},0);
+  document.getElementById('h-month').textContent=cur||0
 }
 
 function renderChart(){

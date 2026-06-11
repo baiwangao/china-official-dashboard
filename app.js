@@ -1647,7 +1647,6 @@ async function renderTablePlus() {
       ).join('') || '<div class="empty-state">暂无数据</div>';
     }
 
-    const feedEl = document.querySelector('#eventRadarFeed');
     if (dsRes.ok) {
       const ds = await dsRes.json();
       document.querySelector('#dailyCount').textContent = ds.length + ' 条';
@@ -1661,15 +1660,12 @@ async function renderTablePlus() {
             '</div>'
           ).join('')
         : '<div class="empty-state">暂无每日摘要数据</div>';
-      // 同时写入独立的每日摘要区块和事件雷达 feed 区域
       document.querySelector('#dailyGrid').innerHTML = dailyHtml;
-      if (feedEl) feedEl.innerHTML = dailyHtml;
     } else {
-      if (feedEl) feedEl.innerHTML = '<div class="empty-state">每日摘要暂不可用</div>';
+      document.querySelector('#dailyGrid').innerHTML = '<div class="empty-state">每日摘要暂不可用</div>';
     }
   } catch(e) {
-    const feedEl = document.querySelector('#eventRadarFeed');
-    if (feedEl) feedEl.innerHTML = '<div class="empty-state">加载失败，请检查服务是否运行</div>';
+    document.querySelector('#dailyGrid').innerHTML = '<div class="empty-state">加载失败</div>';
   }
 }
 
