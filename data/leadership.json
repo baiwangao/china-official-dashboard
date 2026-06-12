@@ -127,6 +127,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 习近平系列重要讲话数据库",
+        "date": "2026-04-22",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9kZVVYdGx1U2MtSUE4dlIwNHJMeW5zYmlrbFQ0UUgybUZwZ3d3cGlsUlVzZzlmSFFxMjE0YzdocU4yd0ktc0FOaE54c3F2TUVaeGc?oc=5",
+        "source": "习近平系列重要讲话数据库",
+        "fetchedAt": "2026-06-11T10:00:19.231Z"
+      },
+      {
+        "type": "任免动向",
         "title": "国家主席习近平任免驻外大使 - capetown.china-consulate.gov.cn",
         "date": "2026-04-21",
         "impact": "中",
@@ -303,6 +314,28 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 新华网",
+        "date": "2022-09-08",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBjcmhfbDBuZHlJNHFXZzU3Unpnc2RiV21wOTlnMjhtUEp5VVB3SW1CSzk4MzNvYVY5ZjBxTHdGaER1UW1JeHNyM2pIQzBKUjZpVldpUFpyeUsxZ3JJbjdocFVvUUtYYWdnVHNSNDBPczJidw?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-06-11T10:00:19.231Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 新华网",
+        "date": "2022-07-19",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5nUHBRRlk3X0l4X1BhT0xoRDFjN2MyVUJiTnAyNVU1VU1ESnJQWjlnbHQyYnVYMGVudEM4U24yNFpYR2NZN1E5Z19EMVRhZ2Vvd1JtVWNEckZkVDRtRTJ0NmdxSmdhYlJ4TmhkOWxrZXI4UQ?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-06-11T10:00:19.231Z"
+      },
+      {
+        "type": "任免动向",
         "title": "专栏 | 夜话中南海：沈德咏是因晋升无望愤而辞职惹毛习近平– 普通话主页 - Radio Free Asia",
         "date": "2022-06-13",
         "impact": "高",
@@ -311,6 +344,17 @@
         "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxORjNnbGVjOGF4SEpVYVg4N0dlR2dqLUlldm1HakJXakp0TXRxNW5XdFhFeF9uT0hzejFkWHRaNGQyS3g3dWJZWXp0MFVabG1YUm5UbHhQb2tTaDFVY3drTjVxREVmOHdRVnZFaDFHbThJRFhfQkxITEViMXN6WC12YzFvZw?oc=5",
         "source": "Radio Free Asia",
         "fetchedAt": "2026-05-24T11:54:08.314Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 新华网",
+        "date": "2022-04-29",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE50b0FKNlRYcE1uZ3ZTcnQ5Y1lwSy04X2tKc1dINjJSR1g2TzNyVHJjbE5xT3dYUkcxQXNvdm9lZUJsVFFQN2VIYS1uRjgybDBDb3FQLXQxUU1ONEVVeFBlTzFma19TWVNvdDJMZ1lBWDYzdw?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-06-11T10:00:19.231Z"
       },
       {
         "type": "任免动向",
@@ -339,7 +383,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.046Z"
+    "updatedAt": "2026-06-11T10:06:28.255Z"
   },
   {
     "id": "li-qiang",
@@ -555,6 +599,17 @@
         "fetchedAt": "2026-05-28T10:00:24.876Z"
       },
       {
+        "type": "任免动向",
+        "title": "李强主持召开国务院第六次全体会议 决定任命岑浩辉为澳门特别行政区第六任行政长官 - 中央政府驻澳门联络办公室",
+        "date": "2024-10-25",
+        "impact": "中",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFBvV2FVTG5qOHJobnB6ZktYOU5kcUpOY0VMWVo1UmRGNEhraHJSdERiRzFVRVJqU2RVYzAzY2hDQzFBVGIyY2hjY1pWT3RadFk4UE9VRmlkQURKV1k0akJlMUdOaEV5TzNUYU02a1FKVXd4cE4zTGtmQzgySQ?oc=5",
+        "source": "中央政府驻澳门联络办公室",
+        "fetchedAt": "2026-06-11T10:00:36.044Z"
+      },
+      {
         "type": "媒体报道",
         "title": "李强签署国务院令 公布《国有企业管理人员处分条例》 - 云南省卫健委",
         "date": "2024-05-29",
@@ -680,7 +735,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.062Z"
+    "updatedAt": "2026-06-11T10:06:28.280Z"
   },
   {
     "id": "zhao-leji",
@@ -736,6 +791,17 @@
         "impact": "低",
         "confidence": "人民日报",
         "relation": "在俄出席中俄议会合作委员会第十一次会议。路程较近故坐A330而非747。"
+      },
+      {
+        "type": "外事活动",
+        "title": "赵乐际会见塔吉克斯坦总统拉赫蒙 - 中华人民共和国驻新潟总领事馆",
+        "date": "2026-05-13",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9JbHpwZFJpOE1HX3JUVzNnM1dqbTNVbV94UlVzTTBETFhCTHZYVzd6S2RVcFJRcFpoMXdlMW1pZTNaR1lsa2Q3UE5KdUFvSVhPaUlXbk9lalB5MmtvMUM0d0tBNnA5MEhJenZiMjZZOHd3bXozSU5Pa2xlUXBOUQ?oc=5",
+        "source": "中华人民共和国驻新潟总领事馆",
+        "fetchedAt": "2026-06-11T10:00:54.612Z"
       },
       {
         "type": "媒体报道",
@@ -995,7 +1061,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.072Z"
+    "updatedAt": "2026-06-11T10:06:28.291Z"
   },
   {
     "id": "wang-huning",
@@ -1068,6 +1134,17 @@
         "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOaEM3UWNEVUVXSnZFa1NiRFFzNjdfRHlNcFdXck5RUDRGMmg0ZWtmQkpNMHcyRFdlVFNXcDIwQ21zUkxNT2pRRkFjTy1JcDduMGNtT2tYdWg2QXlpSWpTWjRSaE45UXE0UDF1NVR1MTB0bW55Rnk0VW05YVM2WlItSQ?oc=5",
         "source": "人民日报",
         "fetchedAt": "2026-05-28T10:00:45.880Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "王沪宁会见格鲁吉亚议长帕普阿什维利 - 中华人民共和国驻新潟总领事馆",
+        "date": "2026-05-18",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1FMHdCcXdha005eHA4RnZOdG45U19ycERTNVdBOVJ3M0wtU194UUhCZ25GZE9WZkRVbXVNcTdaY1hrTUNXdG8tdzgwUHFwc1YxR0w4Q0p1aGI4V0kwRzNLMzRMZGtOQm1saUNTUUNRWG5BUUdEdTlJN1BGNUw0Zw?oc=5",
+        "source": "中华人民共和国驻新潟总领事馆",
+        "fetchedAt": "2026-06-11T10:01:13.420Z"
       },
       {
         "type": "外事活动",
@@ -1271,8 +1348,8 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 84,
-    "updatedAt": "2026-06-06T10:05:51.192Z"
+    "eventRisk": 88,
+    "updatedAt": "2026-06-11T10:06:28.305Z"
   },
   {
     "id": "cai-qi",
@@ -1806,6 +1883,17 @@
       },
       {
         "type": "外事活动",
+        "title": "丁薛祥会见美国华特迪士尼公司首席执行官艾格 - 中华人民共和国驻新潟总领事馆",
+        "date": "2026-01-09",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE1VQ2gzNjJkTnRxTVZ0Ylh0eDlLSTAwSC1RV1JKZlZYbGphRng2SlJsdjl4NEJTY3lfRWpzcG5pZFJuZlRLQ0pVSDU0TUQ2RHNtaDlDQlh6dzIxSjRRRzVzU2J3VGJxXzBOVlZxdlNPelFMNlV4Zk5mUzJMQllHQQ?oc=5",
+        "source": "中华人民共和国驻新潟总领事馆",
+        "fetchedAt": "2026-06-11T10:02:02.091Z"
+      },
+      {
+        "type": "外事活动",
         "title": "丁薛祥会见巴基斯坦副总理兼外长达尔 - mfa.gov.cn",
         "date": "2026-01-04",
         "impact": "低",
@@ -1858,6 +1946,17 @@
         "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE53RzAwY242THRWdm16Qk5xTUNEYTZhaURGOEcwbWw0SXNDYXd1MEtWR3lwWGdQRmFoWkczc0c1UzdwXy1WWVg1OUVNN0t0cC1tOTd1dGgzRTk3bDBaUVdZcnZfcG5KdjRWb2J6SEFB?oc=5",
         "source": "fmprc.gov.cn",
         "fetchedAt": "2026-06-05T10:01:04.348Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "丁薛祥出席贝伦气候峰会并致辞 - fmprc.gov.cn",
+        "date": "2025-11-07",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNTnFtRnNHZ1JsandvZXlQYS1nd1ZVUWpXRmZOaUV0Nk91a1oyS1VWU29BU0NwUGh3MkFZVzE0bGJoUENKazRpWjk2VjJPVkE4TXVteDJqcjNWU3psUjQzVk5fTzI3UlJNeXJWcUZDY0lQQ0tndkNvNk9KTlM3TnBUUzRaaXlPWXBManpF?oc=5",
+        "source": "fmprc.gov.cn",
+        "fetchedAt": "2026-06-11T10:02:02.091Z"
       },
       {
         "type": "外事活动",
@@ -1996,7 +2095,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-06T10:05:52.346Z"
+    "updatedAt": "2026-06-11T10:06:28.319Z"
   },
   {
     "id": "li-xi",
@@ -2047,6 +2146,17 @@
         "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPMVpITjVHNzY0VEk5MFpyMmJyc09kcXNCUzFmRGNESEhIWVJxZ2ptd2RfOUs1OGdNWkhrdzV1ZkxaYkdoNENEUDFFQlE4d2RVMEFqdzJrRXgwRDRjazRVTzBqdzdrWkZYTmVvYUZMR3phdl9JRGRzMm5pLXRVMkFrazk2UWRGOEMwWG53MFN3?oc=5",
         "source": "mfa.gov.cn",
         "fetchedAt": "2026-05-24T11:55:02.236Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "李希会见白俄罗斯总统办公厅代表团 - mfa.gov.cn",
+        "date": "2026-04-27",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1yMWpDRkdPbWFJcWY0b0ZYOGlibUJfMXdZUGhOV0VwVlRKS1BBeWZseWE0QzhpNUNLS1oyRWIzUUxKUzY1LThJN3VqMS1aSHJoQnlrWFcyYlVOTzVES3lrbjcyS2VVU0hiejlR?oc=5",
+        "source": "mfa.gov.cn",
+        "fetchedAt": "2026-06-11T10:02:19.771Z"
       },
       {
         "type": "媒体报道",
@@ -2339,7 +2449,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.096Z"
+    "updatedAt": "2026-06-11T10:06:28.330Z"
   },
   {
     "id": "wang-yi",
@@ -2901,6 +3011,17 @@
         "fetchedAt": "2026-05-24T11:55:15.949Z"
       },
       {
+        "type": "媒体报道",
+        "title": "福建新一届省委常委简历(书记尹力 副书记赵龙、罗东川) - 中国经济网",
+        "date": "2021-11-30",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 尹力 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTFAzSk5fdmxaeF9VN3JDUzJJc3lBYXdLMnVXQnk2R3lXVWJXeXBpV2dnQU81Ynpxb3ZjTVVhc05Bb2luUWk3VDl0aWZyVFZIYV9jdS0yQUFaS0UzNXJUS0pnb3g5WnRmUUhxNjRtaVl2OVZaY0lvTHpTcDMwNA?oc=5",
+        "source": "中国经济网",
+        "fetchedAt": "2026-06-11T10:03:21.991Z"
+      },
+      {
         "type": "任免动向",
         "title": "尹力当选福建省人大常委会主任 - 中国共产党员网",
         "date": "2021-01-27",
@@ -3004,7 +3125,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.128Z"
+    "updatedAt": "2026-06-11T10:06:28.339Z"
   },
   {
     "id": "shi-taifeng",
