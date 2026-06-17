@@ -9,6 +9,37 @@
   <body>
     <!-- 烟花粒子层 -->
     <div class="fireworks-stage" id="fireworksStage"></div>
+    <div id="toast-container"></div>
+    <div class="market-modal" id="marketModal" style="display:none">
+      <div class="modal-overlay" onclick="closeMarketDetail()"></div>
+      <div class="modal-content">
+        <div class="modal-head">
+          <div class="modal-title" id="md-title">—</div>
+          <button class="modal-close" onclick="closeMarketDetail()">✕</button>
+        </div>
+        <div class="modal-body" id="md-body">
+          <div class="md-prob-row">
+            <div class="md-prob-side yes" id="md-yes"><span class="md-prob-label">YES</span><span class="md-prob-val">50%</span></div>
+            <div class="md-prob-side no" id="md-no"><span class="md-prob-label">NO</span><span class="md-prob-val">50%</span></div>
+          </div>
+          <div class="md-bar"><div class="md-bar-fill" style="width:50%"></div></div>
+          <div class="md-trade-area">
+            <div class="md-input-row">
+              <div class="trade-amount-wrap"><input class="trade-amount" id="md-amt-yes" type="number" value="10" min="1" placeholder="10"/></div>
+              <button class="btn-yes" id="md-btn-yes">YES</button>
+            </div>
+            <div class="md-input-row">
+              <div class="trade-amount-wrap"><input class="trade-amount" id="md-amt-no" type="number" value="10" min="1" placeholder="10"/></div>
+              <button class="btn-no" id="md-btn-no">NO</button>
+            </div>
+          </div>
+          <div class="md-history">
+            <div class="md-history-title">交易记录</div>
+            <div class="md-trade-list" id="md-trade-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="app-shell">
       <aside class="sidebar" aria-label="筛选">

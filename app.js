@@ -400,6 +400,16 @@ function escapeHtml(text) {
     .replace(/"/g, "&quot;");
 }
 
+function showToast(title, msg, success) {
+  var container = document.querySelector('#toast-container');
+  if (!container) return;
+  var el = document.createElement('div');
+  el.className = 'toast' + (success ? ' success' : ' error');
+  el.innerHTML = '<div class="toast-icon">' + (success ? '✓' : '✗') + '</div><div><strong>' + title + '</strong><div class="toast-msg">' + msg + '</div></div>';
+  container.appendChild(el);
+  setTimeout(function() { el.style.opacity = '0'; el.style.transform = 'translateX(120%)'; setTimeout(function() { el.remove(); }, 300); }, 3000);
+}
+
 function aiTrendClass(trend) {
   if (trend === "上升") return "jade";
   if (trend === "危险" || trend === "下降") return "rose";
@@ -1552,80 +1562,133 @@ function renderMarketPanel() {
         }
         var statusTag = statusTags.join(' ');
 
-        return '<div class="mkt-card' + (isLost ? ' lost' : '') + (hasResult || isSettled ? ' settled' : '') + '" data-pid="pc-' + r.id + '" data-name="' + escapeHtml(r.person_name) + '">' +
-          '<div class="mkt-question">' + escapeHtml(r.person_name) + '：' + escapeHtml(r.original_position) + ' → ' + escapeHtml(r.new_position) + '</div>' +
-          '<div class="mkt-subtitle" style="font-size:12px;color:var(--muted);margin-top:2px">' + escapeHtml(r.remarks || r.status || '') + (hasResult ? ' · ' + resultText : '') + (isSettled && !hasResult ? ' · ' + settledText : '') + '</div>' +
-          (hasResult || isSettled ? '' : (isLost ? '' : '<div class="mkt-bar-wrap"><div class="mkt-bar" style="--pct:' + pct + '%"></div><span class="mkt-pct">' + pct + '%</span></div>' +
-          '<div class="mkt-prices">' +
-            '<div class="mkt-price yes' + (pct >= 50 ? ' lead' : '') + '"><span class="mkt-label">YES</span><span class="mkt-val">' + pct + '%</span></div>' +
-            '<div class="mkt-price no' + (pct < 50 ? ' lead' : '') + '"><span class="mkt-label">NO</span><span class="mkt-val">' + (100 - pct) + '%</span></div>' +
-          '</div>')) +
-          '<div class="mkt-meta">' +
-            '<span>👥 ' + mkt.traders + '</span><span>Vol ' + (mkt.volume / 1000).toFixed(1) + 'K</span>' +
-            statusTag +
+        return '<div class="trade-card' + (isLost ? ' lost' : '') + (hasResult || isSettled ? ' settled' : '') + '" data-pid="pc-' + r.id + '" data-name="' + escapeHtml(r.person_name) + '">' +
+          '<div class="trade-header">' +
+            '<div class="trade-person">' + escapeHtml(r.person_name) + '</div>' +
+            '<div class="trade-cred">可信度：' + escapeHtml(r.credibility || '中') + '</div>' +
           '</div>' +
-          (hasResult || isSettled ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算</span></div>' :
-          (isLost ? '<div class="mkt-btns"><span style="font-size:12px;color:var(--muted)">已结算 - 猜错归零</span></div>' :
-          '<div class="mkt-btns">' +
-            '<button class="mkt-btn yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">Buy YES</button>' +
-            '<button class="mkt-btn no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">Buy NO</button>' +
+          '<div class="trade-body">' +
+            '<span class="trade-from">' + escapeHtml(r.original_position || '') + '</span>' +
+            '<span class="trade-arrow">→</span>' +
+            '<span class="trade-to">' + escapeHtml(r.new_position || '') + '</span>' +
+          '</div>' +
+          (hasResult || isSettled ? '<div class="trade-settled">已结算' + (resultText ? ' · ' + resultText : '') + '</div>' :
+          (isLost ? '<div class="trade-settled">已结算</div>' :
+          '<div class="trade-order">' +
+            '<div class="trade-prob">' +
+              '<div class="prob-side yes' + (pct >= 50 ? ' lead' : '') + '">' +
+                '<span class="prob-label">YES</span><span class="prob-val">' + pct + '%</span>' +
+              '</div>' +
+              '<div class="prob-side no' + (pct < 50 ? ' lead' : '') + '">' +
+                '<span class="prob-label">NO</span><span class="prob-val">' + (100 - pct) + '%</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="trade-bar"><div class="trade-bar-fill" style="width:' + pct + '%"></div></div>' +
+            '<div class="trade-inputs">' +
+              '<div class="trade-input-row">' +
+                '<div class="trade-amount-wrap"><input class="trade-amount" type="number" value="10" min="1" step="1" data-pid="pc-' + r.id + '" placeholder="10"/></div>' +
+                '<button class="btn-yes" data-id="pc-' + r.id + '" data-side="yes" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">YES</button>' +
+              '</div>' +
+              '<div class="trade-input-row">' +
+                '<div class="trade-amount-wrap"><input class="trade-amount" type="number" value="10" min="1" step="1" data-pid="pc-' + r.id + '" placeholder="10"/></div>' +
+                '<button class="btn-no" data-id="pc-' + r.id + '" data-side="no" data-name="' + escapeHtml(r.person_name) + '" data-event="' + escapeHtml(r.new_position) + '">NO</button>' +
+              '</div>' +
+            '</div>' +
           '</div>')) +
+          '<div class="trade-meta">' + statusTag +
+            (hasPos ? '<span class="trade-vol">持仓 ' + (yesPos ? yesPos.amount : 0) + ' YES · ' + (noPos ? noPos.amount : 0) + ' NO</span>' : '') +
+          '</div>' +
         '</div>';
       }).join('') + '</div>';
 
     // 按钮事件
-    body.querySelectorAll('.mkt-btn').forEach(function (btn) {
+    body.querySelectorAll('.btn-yes, .btn-no').forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
         var pid = this.dataset.id, side = this.dataset.side, name = this.dataset.name, eventDesc = this.dataset.event;
-        var cost = 10;
-        if (userState.balance < cost) { alert('余额不足！当前: $' + userState.balance); return; }
+        var input = this.closest('.trade-input-row').querySelector('.trade-amount');
+        var amount = parseInt(input.value) || 10;
+        amount = Math.max(1, Math.min(amount, userState.balance));
+        var cost = amount;
+        if (userState.balance < cost) { return showToast('余额不足', '当前 $' + userState.balance.toLocaleString(), false); }
         userState.balance -= cost;
         if (!userState.positions) userState.positions = {};
 
-        // 修改持仓数据结构，允许同时持有YES和NO
         var posKey = pid + '_' + side;
         if (!userState.positions[posKey]) {
           userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid, event: eventDesc || '' };
         }
-        userState.positions[posKey].amount += 10;
-        apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:name, side:side, amount:10 }) }).catch(function(){});
+        userState.positions[posKey].amount += amount;
+        apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:name, side:side, amount:amount }) }).catch(function(){});
 
         var mkt = getMarketData(pid);
-        // 根据买入量调整概率，初始为50%
-        var yesAmount = 0;
-        var noAmount = 0;
-        // 统计所有用户的持仓量（这里简化为只统计当前用户）
+        var yesAmount = 0, noAmount = 0;
         for (var key in userState.positions) {
           if (key.startsWith(pid + '_yes')) yesAmount += userState.positions[key].amount;
           if (key.startsWith(pid + '_no')) noAmount += userState.positions[key].amount;
         }
         var totalAmount = yesAmount + noAmount;
-        if (totalAmount > 0) {
-          mkt.yesPrice = Math.max(0.01, Math.min(0.99, yesAmount / totalAmount));
-        } else {
-          mkt.yesPrice = 0.5;
-        }
+        mkt.yesPrice = totalAmount > 0 ? Math.max(0.01, Math.min(0.99, yesAmount / totalAmount)) : 0.5;
         mkt.noPrice = 1 - mkt.yesPrice;
         mkt.volume += 200 + randomInt(300); mkt.traders += 1; mkt.trend += (side === 'yes' ? 2 : -2);
         saveUser(); updateUserUI(); renderMarketPanel();
+        showToast(side.toUpperCase() + ' 下单成功', '您买了 ' + escapeHtml(name) + ' · ' + (eventDesc||'') + ' · $' + amount, true);
       });
     });
 
-    // 卡片点击搜索对应官员
-    body.querySelectorAll('.mkt-card').forEach(function (card) {
-      card.addEventListener('click', function () {
-        var n = this.dataset.name;
-        if (n) {
-          filterState.query = n;
-          render();
-          document.querySelector('#profiles')?.scrollIntoView({ behavior: 'smooth' });
-        }
+    // 卡片点击搜索对应官员（排除交易区域的点击）
+    body.querySelectorAll('.trade-card').forEach(function (card) {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.trade-order') || e.target.closest('.trade-meta')) return;
+        var pid = this.dataset.pid, name = this.dataset.name;
+        if (pid) openMarketDetail(pid, name);
       });
     });
   }).catch(function () {
     body.innerHTML = '<div class="market-header"><h3>📊 中纪委预测市场</h3></div><div class="empty-state">数据加载失败</div>';
   });
+}
+
+function openMarketDetail(pid, personName) {
+  var modal = document.querySelector('#marketModal');
+  var mkt = getMarketData(pid);
+  var pct = Math.round(mkt.yesPrice * 100);
+
+  document.querySelector('#md-title').textContent = personName || pid;
+  document.querySelector('#md-yes').className = 'md-prob-side yes' + (pct >= 50 ? ' lead' : '');
+  document.querySelector('#md-yes .md-prob-val').textContent = pct + '%';
+  document.querySelector('#md-no').className = 'md-prob-side no' + (pct < 50 ? ' lead' : '');
+  document.querySelector('#md-no .md-prob-val').textContent = (100 - pct) + '%';
+  document.querySelector('.md-bar-fill').style.width = pct + '%';
+  document.querySelector('#md-amt-yes').value = 10;
+  document.querySelector('#md-amt-no').value = 10;
+
+  var yesBtn = document.querySelector('#md-btn-yes');
+  var noBtn = document.querySelector('#md-btn-no');
+  var newYes = yesBtn.cloneNode(true), newNo = noBtn.cloneNode(true);
+  yesBtn.parentNode.replaceChild(newYes, yesBtn);
+  noBtn.parentNode.replaceChild(newNo, noBtn);
+  newYes.addEventListener('click', function(e){ e.stopPropagation(); submitMarketOrder(pid, 'yes', parseInt(document.querySelector('#md-amt-yes').value)||10, personName); });
+  newNo.addEventListener('click', function(e){ e.stopPropagation(); submitMarketOrder(pid, 'no', parseInt(document.querySelector('#md-amt-no').value)||10, personName); });
+
+  document.querySelector('#md-trade-list').innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px">暂无交易记录</div>';
+  modal.style.display = 'flex';
+}
+
+function closeMarketDetail() { document.querySelector('#marketModal').style.display = 'none'; }
+
+function submitMarketOrder(pid, side, amount, personName) {
+  var cost = amount;
+  if (userState.balance < cost) return showToast('余额不足', '当前 $' + userState.balance.toLocaleString(), false);
+  userState.balance -= cost;
+  if (!userState.positions) userState.positions = {};
+  var posKey = pid + '_' + side;
+  if (!userState.positions[posKey]) userState.positions[posKey] = { side: side, amount: 0, name: personName, pid: pid, event: '' };
+  userState.positions[posKey].amount += amount;
+  apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:personName, side:side, amount:amount }) }).catch(function(){});
+  saveUser(); updateUserUI(); renderMarketPanel();
+  showToast(side.toUpperCase() + ' 下单成功', personName + ' · $' + amount, true);
+  closeMarketDetail();
 }
 
 async function renderTablePlus() {
