@@ -1,5 +1,49 @@
 [
   {
+    "id": 39,
+    "person_name": "陈杰",
+    "original_position": "哈尔滨工业大学党委书记",
+    "new_position": "中国工程院“副”院长",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-11T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-12T09:19:53.000Z"
+  },
+  {
+    "id": 40,
+    "person_name": "付刚峰",
+    "original_position": "国家开发投资集团有限公司董事长、党组书记",
+    "new_position": "中国中信集团有限公司党委书记、董事长",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-11T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-12T09:21:53.000Z"
+  },
+  {
+    "id": 41,
+    "person_name": "孙道寻",
+    "original_position": "苏州市吴江区委副书记",
+    "new_position": "中共苏州市吴江区委书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-11T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-12T09:21:53.000Z"
+  },
+  {
+    "id": 42,
+    "person_name": "孙建江",
+    "original_position": "中共苏州市吴江区委书记",
+    "new_position": "常熟经济技术开发区党工委书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-11T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-12T09:21:53.000Z"
+  },
+  {
     "id": 35,
     "person_name": "熊茂平",
     "original_position": "辽宁省委副书记、大连市委书记、大连军分区党委第一书记",

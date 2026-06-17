@@ -2192,6 +2192,17 @@
         "fetchedAt": "2026-05-24T11:55:02.236Z"
       },
       {
+        "type": "媒体报道",
+        "title": "李希在二十届中央纪委五次全会上作工作报告_廉政要闻 - 中国甘肃网",
+        "date": "2026-01-15",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1MWVdqVnU1dmN0bkg2U2dSdXNyRkhWNVpIV0VrMzhfRElTOVZyQ05TT2lWRDQ5Wi1DTUVZWjhFaURkSTdac0VrckhRZjFpenU3dEtpQWdiQ1FtakZwVDFEM0VsWTR5SEl3QXFMS3d3?oc=5",
+        "source": "中国甘肃网",
+        "fetchedAt": "2026-06-12T10:07:37.137Z"
+      },
+      {
         "type": "外事活动",
         "title": "李希对白俄罗斯进行正式友好访问 - mfa.gov.cn",
         "date": "2025-09-23",
@@ -2449,7 +2460,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-11T10:06:28.330Z"
+    "updatedAt": "2026-06-12T10:08:53.113Z"
   },
   {
     "id": "wang-yi",
@@ -2689,6 +2700,17 @@
       },
       {
         "type": "任免动向",
+        "title": "秦刚久未露面后被免职，王毅再任中国外长 - 华尔街日报中文网",
+        "date": "2023-07-26",
+        "impact": "高",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 王毅 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxQNEE3UEJUNkhUemQyX1hKY3pEVnhQYS1vblBTbml4QV9XOXg5dDRRMmxkTVNkSmQ0UXZvTmhCMGx1MEFiRjdKcmRuWmJSdnhIdkk3eTZabFdwNGs4c2pKaFlQTFVPYXFYbDlXZVFMcTJBVmVLOW1DcEdQeDUtamN4Uzl3R2RyU2FOaV9BQ1lJYmlpX2FPSXF3bks5aUdnUkZ1ZVZ6M21pUG5rZ0hLNWFqTmtqTFl3RmxFcE51SEJHQWtYa0Jtd2ZZUWt4ckVkejF0RkJJUERrdFk0d0pQSlpUMlFOdnl4Q0N6dnlZRk1pS0NqdkJEVmhMTE1BMEhyRzBqYUZZ?oc=5",
+        "source": "华尔街日报中文网",
+        "fetchedAt": "2026-06-12T10:07:45.677Z"
+      },
+      {
+        "type": "任免动向",
         "title": "秦刚：中国人大常委会决定免去其外交部长一职，任命王毅为外长 - BBC",
         "date": "2023-07-25",
         "impact": "中",
@@ -2803,7 +2825,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-05T10:30:35.114Z"
+    "updatedAt": "2026-06-12T10:08:53.139Z"
   },
   {
     "id": "yin-li",
@@ -3863,6 +3885,17 @@
     "events": [
       {
         "type": "媒体报道",
+        "title": "李书磊：中国坚决反对将人权问题政治化、武器化 - 香港電台",
+        "date": "2026-06-11",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSTgyTDNGQm4xRFdDYlhtUUpycTk4U1dMQ29Jbi1KMi1OLVR0eExvZGVoRkdaWktMVkdXY0FmRnFWeU1BUGtvTGF6NzhPZVNHN25xUE9qcUxKWGdxWUhMUXczTnZPdE44TnFlckJqdnNWLWozNTg4eDh3d3dCa1VBWHZsOFJqWUJNTDBmNGR3WVd0ako1SFF6T1pKYjJ3WDdxaVEw?oc=5",
+        "source": "香港電台",
+        "fetchedAt": "2026-06-12T10:08:35.772Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "2026年中国网络文明大会在南宁举行 李书磊出席并发表主旨演讲 - 紫荆网",
         "date": "2026-05-19",
         "impact": "低",
@@ -4006,6 +4039,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "习近平的“大脑”李书磊回归北京 - 朝鮮日報中文版",
+        "date": "2016-01-05",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPUXFzRWxTcy1WQ1B5Z1c3WUF1ZE1UaHBKRXMxbC03NmxwWjhtRXJlNUNJd05KemhYVTNzMkFQQm1NZWMxMUNzOXc2YkdfTWtLTXR4M1NkRTlYYnJDOHRxVG0xQy0xaWRPdmlpN2ZzM0kyWUVoRGtHT1FQQkdqUUJCOHFxa3B4dm1sUFE4?oc=5",
+        "source": "朝鮮日報中文版",
+        "fetchedAt": "2026-06-12T10:08:35.772Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "原中央党校副校长李书磊任福建省委宣传部长(图) - chinanews.com.cn",
         "date": "2014-02-07",
         "impact": "低",
@@ -4052,8 +4096,8 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 92,
-    "updatedAt": "2026-06-06T10:05:52.356Z"
+    "eventRisk": 100,
+    "updatedAt": "2026-06-12T10:08:53.153Z"
   },
   {
     "id": "he-weidong",
@@ -4358,6 +4402,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "习之亲信何立峰被传将接续刘鹤，中国经济方向或持续左倾 - 美国之音",
+        "date": "2022-03-17",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNQjNOaElFN3hHdWtmeXRiUG5yV0RDQy0zUnBsT0xSZmFGRHQyUUJkZEJGbU9fR0Q5LThlTUFUVDR1VlNtZTBDaU5RQWUxN2VXbmJZQU1ueHZ2R2pvWnNjYXN4QWwzWlpUMXEwV0o3X1N0eTVLS0w5czJ4X3JmVjZjRW1zMzRTd1B2RlBCNnZUMGxyMm1fU0lKUzU5UklWeE9tQkR2OFRGRGgwT1E?oc=5",
+        "source": "美国之音",
+        "fetchedAt": "2026-06-12T10:08:51.899Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "习近平考虑让亲信何立峰掌管中国经济 - 华尔街日报中文网",
         "date": "2022-03-15",
         "impact": "低",
@@ -4515,7 +4570,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-06T10:05:52.367Z"
+    "updatedAt": "2026-06-12T10:08:53.163Z"
   },
   {
     "id": "zhang-guoqing",
