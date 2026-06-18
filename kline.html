@@ -87,6 +87,36 @@ main{display:grid;grid-template-rows:44px 1fr auto;overflow:hidden}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border-active);border-radius:2px}
+
+@media(max-width:768px){
+  .shell{grid-template-columns:1fr;grid-template-rows:48px auto 1fr}
+  aside{flex-direction:row;overflow-x:auto;max-height:120px;border-right:none;border-bottom:1px solid var(--border);gap:0}
+  .panel{border-bottom:none;border-right:1px solid var(--border);min-width:140px;flex-shrink:0}
+  .panel:last-child{border-right:none}
+  .stat-row{grid-template-columns:repeat(3,1fr);gap:4px}
+  .stat-item{padding:8px 6px}
+  .stat-item .n{font-size:16px}
+  .year-row{flex-wrap:nowrap;overflow-x:auto}
+  .year-pill{flex-shrink:0;font-size:11px;padding:4px 10px}
+  .detail-events{grid-template-columns:1fr}
+  .detail-header{flex-direction:column;gap:4px}
+}
+@media(max-width:480px){
+  header{padding:0 12px}
+  .logo{font-size:13px}
+  .header-stat{font-size:10px;padding:3px 8px}
+  aside{max-height:100px}
+  .panel{padding:8px 10px;min-width:120px}
+  .panel-label{font-size:9px;margin-bottom:6px}
+  .stat-row{grid-template-columns:repeat(3,1fr)}
+  .stat-item .n{font-size:14px}
+  .stat-item .l{font-size:9px}
+  .mode-btn{padding:4px 8px;font-size:10px}
+  .detail{padding:8px 12px}
+  .detail-month{font-size:16px}
+  .event-card{padding:8px}
+  .event-title{font-size:11px}
+}
 </style>
 </head>
 <body>

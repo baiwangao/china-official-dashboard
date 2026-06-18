@@ -1619,6 +1619,7 @@ function renderMarketPanel() {
           userState.positions[posKey] = { side: side, amount: 0, name: name, pid: pid, event: eventDesc || '' };
         }
         userState.positions[posKey].amount += amount;
+        addTradeHistory(pid, name, side, amount, 'buy');
         apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:name, side:side, amount:amount }) }).catch(function(){});
 
         var mkt = getMarketData(pid);
@@ -1671,7 +1672,23 @@ function openMarketDetail(pid, personName) {
   newYes.addEventListener('click', function(e){ e.stopPropagation(); submitMarketOrder(pid, 'yes', parseInt(document.querySelector('#md-amt-yes').value)||10, personName); });
   newNo.addEventListener('click', function(e){ e.stopPropagation(); submitMarketOrder(pid, 'no', parseInt(document.querySelector('#md-amt-no').value)||10, personName); });
 
-  document.querySelector('#md-trade-list').innerHTML = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px">暂无交易记录</div>';
+  var history = (userState.tradeHistory || []).filter(function(h){ return h.pid === pid; });
+  var histHtml = '';
+  if (history.length) {
+    histHtml = history.map(function(h){
+      var dt = new Date(h.time);
+      function pad(n){ return n<10?'0'+n:''+n; }
+      var timeStr = (dt.getMonth()+1)+'/'+dt.getDate()+' '+pad(dt.getHours())+':'+pad(dt.getMinutes());
+      return '<div class="md-trade-item"><span class="md-trade-user">我</span>' +
+        '<span class="md-trade-side ' + h.side + '">' + h.side.toUpperCase() + '</span>' +
+        '<span style="color:var(--muted);font-size:10px">' + (h.action==='sell'?'售出':'买入') + '</span>' +
+        '<span class="md-trade-amt">$' + h.amount + '</span>' +
+        '<span style="color:var(--muted);font-size:10px;margin-left:auto">' + timeStr + '</span></div>';
+    }).join('');
+  } else {
+    histHtml = '<div style="color:var(--muted);font-size:12px;text-align:center;padding:12px">暂无交易记录</div>';
+  }
+  document.querySelector('#md-trade-list').innerHTML = histHtml;
   modal.style.display = 'flex';
 }
 
@@ -1685,10 +1702,11 @@ function submitMarketOrder(pid, side, amount, personName) {
   var posKey = pid + '_' + side;
   if (!userState.positions[posKey]) userState.positions[posKey] = { side: side, amount: 0, name: personName, pid: pid, event: '' };
   userState.positions[posKey].amount += amount;
+  addTradeHistory(pid, personName, side, amount, 'buy');
   apiFetch('/api/market/trade', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({ marketId:pid, personName:personName, side:side, amount:amount }) }).catch(function(){});
   saveUser(); updateUserUI(); renderMarketPanel();
   showToast(side.toUpperCase() + ' 下单成功', personName + ' · $' + amount, true);
-  closeMarketDetail();
+  openMarketDetail(pid, personName);
 }
 
 async function renderTablePlus() {
@@ -2094,6 +2112,37 @@ function shootFireworks() {
     for (var j = 0; j < 20; j++) addSpark(rx, ry, 0.6 + k * 0.2);
   }
 }
+
+function toggleSellForm(posKey) {
+  var form = document.querySelector('#sell-' + posKey);
+  if (!form) return;
+  var visible = form.style.display === 'block';
+  document.querySelectorAll('.sell-form').forEach(function(f){ f.style.display = 'none'; });
+  form.style.display = visible ? 'none' : 'block';
+}
+
+function addTradeHistory(pid, personName, side, amount, action) {
+  if (!userState.tradeHistory) userState.tradeHistory = [];
+  userState.tradeHistory.unshift({ pid: pid, name: personName, side: side, amount: amount, action: action, time: new Date().toISOString() });
+  if (userState.tradeHistory.length > 200) userState.tradeHistory = userState.tradeHistory.slice(0, 200);
+  saveUser();
+}
+
+function sellPosition(posKey) {
+  var p = (userState.positions || {})[posKey];
+  if (!p || p.settled) return showToast('无法出售', '该仓位已结算', false);
+  var amtEl = document.querySelector('#sell-amt-' + posKey);
+  var amount = parseInt(amtEl.value) || 0;
+  if (amount <= 0 || amount > p.amount) return showToast('无效数量', '可出售 1-' + p.amount + ' 份', false);
+  p.amount -= amount;
+  userState.balance += amount;
+  if (p.amount <= 0) delete userState.positions[posKey];
+  document.querySelector('#sell-' + posKey).style.display = 'none';
+  addTradeHistory(p.pid, p.name, p.side, amount, 'sell');
+  saveUser(); updateUserUI();
+  showToast('出售成功', '已出售 $' + amount + ' · 余额 $' + userState.balance.toLocaleString(), true);
+}
+
 function updateUserUI() {
   var nl = document.querySelector('#userNotLoggedIn'), lg = document.querySelector('#userLoggedIn');
   if (userState.loggedIn) {
@@ -2114,11 +2163,13 @@ function updateUserUI() {
         var settledText = p.settled ? (p.settledResult === 'confirmed' ? ' ✓' : ' ✗') : '';
         var sideClass = p.side === 'yes' ? 'side-yes' : 'side-no';
         var eventLabel = p.event ? ' → ' + escapeHtml(p.event) : '';
-        return '<div class="user-position-item ' + settledClass + '">' +
+        return '<div class="user-position-item ' + settledClass + '" onclick="toggleSellForm(\'' + posKey + '\')" style="cursor:pointer">' +
           '<div class="upi-main">' + escapeHtml(p.name) + '<span style="font-size:10px;opacity:0.55">' + eventLabel + '</span>' + settledText + '</div>' +
-          '<div class="upi-side">' +
-            '<span class="' + sideClass + '">' + p.side.toUpperCase() + ' ' + p.amount + '份</span>' +
-          '</div>' +
+          '<div class="upi-side"><span class="' + sideClass + '">' + p.side.toUpperCase() + ' ' + p.amount + '份</span></div>' +
+        '</div>' +
+        '<div class="sell-form" id="sell-' + posKey + '" style="display:none">' +
+          '<div class="sell-row"><input class="sell-amt" id="sell-amt-' + posKey + '" type="number" value="' + p.amount + '" min="1" max="' + p.amount + '" placeholder="出售数量"/><button class="sell-btn" onclick="event.stopPropagation();sellPosition(\'' + posKey + '\')">出售</button></div>' +
+          (p.settled ? '' : '<div class="sell-hint">持有 ' + p.amount + ' 份 · 可全额出售</div>') +
         '</div>';
       }).filter(Boolean).join('');
 
