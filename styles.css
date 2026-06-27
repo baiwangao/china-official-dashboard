@@ -3007,6 +3007,19 @@ h1 {
 .toast.error .toast-icon { background: var(--rose); color: #fff; }
 @keyframes toast-in { from { opacity: 0; transform: translateX(120%); } to { opacity: 1; transform: translateX(0); } }
 
+.section-refresh {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.section-refresh:hover { border-color: var(--navy); color: var(--navy); }
+
 /* ===== Market Detail Modal ===== */
 .market-modal { position: fixed; inset: 0; z-index: 9998; display: flex; align-items: center; justify-content: center; }
 .modal-overlay { position: absolute; inset: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(4px); }

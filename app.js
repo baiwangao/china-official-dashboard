@@ -918,8 +918,11 @@ startEventRadarAutoRefresh();
 let dailySummaryTimer = null;
 function startDailySummaryAutoRefresh() {
   if (dailySummaryTimer) return;
-  renderTablePlus(); // 立即执行一次
-  dailySummaryTimer = setInterval(() => renderTablePlus(), 15000); // 每15秒刷新
+  renderTablePlus();
+  dailySummaryTimer = setInterval(() => {
+    var el = document.querySelector('#daily');
+    if (isInViewport(el)) renderTablePlus();
+  }, 30000);
 }
 startDailySummaryAutoRefresh();
 
@@ -927,12 +930,18 @@ let pageSectionTimer = null;
 function startPageSectionAutoRefresh() {
   if (pageSectionTimer) return;
   pageSectionTimer = setInterval(() => {
-    renderHuairentangPanel();
-    renderSourcesPanel();
-    if (userState.loggedIn) renderMarketPanel();
-  }, 30000); // 每30秒刷新
+    if (isInViewport(document.querySelector('#huairentang'))) renderHuairentangPanel();
+    if (isInViewport(document.querySelector('#sources'))) renderSourcesPanel();
+    if (isInViewport(document.querySelector('#market')) && userState.loggedIn) renderMarketPanel();
+  }, 60000);
 }
 startPageSectionAutoRefresh();
+
+function isInViewport(el) {
+  if (!el) return false;
+  var rect = el.getBoundingClientRect();
+  return rect.top < window.innerHeight && rect.bottom > 0;
+}
 
 let settlementTimer = null;
 function startSettlementPolling() {
@@ -1534,7 +1543,7 @@ function renderMarketPanel() {
 
     body.innerHTML =
       '<div class="market-header"><h3 style="margin:0;font-size:18px">📊 中纪委预测市场</h3>' +
-      '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · ' + rumorRows.length + ' 个市场</p></div>' +
+      '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · ' + rumorRows.length + ' 个市场 · <button class="section-refresh" onclick="event.stopPropagation();renderMarketPanel()">↻ 刷新</button></p></div>' +
       '<div class="market-grid">' + rumorRows.map(function (r) {
         var mkt = getMarketData('pc-' + r.id);
         var pct = Math.round(mkt.yesPrice * 100);

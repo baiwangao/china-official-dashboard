@@ -172,7 +172,7 @@ function init(){
   chart=echarts.init(document.getElementById('main-chart'),null,{renderer:'canvas'});
   window.addEventListener('resize',function(){chart.resize()});
   loadYears();loadStats();loadKline();
-  setInterval(function(){loadStats();loadKline()},30000)
+  setInterval(function(){loadStats();loadKline()},120000)
 }
 function refresh(){loadStats();loadKline();var h=document.getElementById('refresh-hint');h.textContent='刷新完成';setTimeout(function(){h.textContent='每30秒自动更新'},1500)}
 

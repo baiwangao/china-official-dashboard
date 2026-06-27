@@ -1,5 +1,82 @@
 [
   {
+    "id": 50,
+    "person_name": "盛秋平",
+    "original_position": "商务部党组成员、副部长",
+    "new_position": "南昌市委书记、党组成员",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-27T03:08:57.000Z"
+  },
+  {
+    "id": 51,
+    "person_name": "胡文容",
+    "original_position": "上海市政协主席胡文容",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-27T03:11:57.000Z"
+  },
+  {
+    "id": 52,
+    "person_name": "张灼华",
+    "original_position": "第十四届全国政协常委，湖南省政协副主席",
+    "new_position": "落马",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-27T03:16:57.000Z"
+  },
+  {
+    "id": 53,
+    "person_name": "齐心",
+    "original_position": "中国无产阶级革命家习仲勋的夫人、习近平的母亲",
+    "new_position": "去世",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-26T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-27T03:19:57.000Z"
+  },
+  {
+    "id": 47,
+    "person_name": "连小敏",
+    "original_position": "中国侨联党组成员、副主席，直属机关党委书记连小敏",
+    "new_position": "跳楼",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-21T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-22T05:55:57.000Z"
+  },
+  {
+    "id": 48,
+    "person_name": "陈新武",
+    "original_position": "重庆市委副书记",
+    "new_position": "重庆市委政法委书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-21T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-22T06:00:57.000Z"
+  },
+  {
+    "id": 49,
+    "person_name": "刘尚进",
+    "original_position": "重庆市委秘书长",
+    "new_position": "重庆市政府常务副市长、党组书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-06-21T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-06-22T06:03:57.000Z"
+  },
+  {
     "id": 46,
     "person_name": "陈希",
     "original_position": "前中组部部长、十九届中央政治局委员、中央书记处书记、中央党校校长",
@@ -493,16 +570,5 @@
     "date": "2026-01-29T16:00:00.000Z",
     "remarks": "已官宣",
     "created_at": "2026-05-23T04:52:14.000Z"
-  },
-  {
-    "id": 45,
-    "person_name": "Portugal",
-    "original_position": "未战胜刚果民主共和国",
-    "new_position": "WIN DR Congo",
-    "status": null,
-    "credibility": null,
-    "date": null,
-    "remarks": null,
-    "created_at": "2026-06-17T10:02:57.000Z"
   }
 ]
