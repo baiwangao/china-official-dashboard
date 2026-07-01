@@ -2024,16 +2024,17 @@ function checkMarketResults() {
       saveGlobalSettlement(pos.pid, result.result);
       if (won) {
         var profit = Math.round(pos.amount * (pos.credibilityRate || 0.5));
-        userState.balance += pos.amount + profit;
+        var totalReturn = pos.amount + profit;
+        userState.balance += totalReturn;
         shootFireworks();
         setTimeout(function () {
-          alert('🎉 猜中了！本金 $' + pos.amount + ' + 奖金 $' + profit + ' 到账');
+          showToast('🎉 猜中了！', '投资 $' + pos.amount + ' → 回报 $' + totalReturn + '（净赚 $' + profit + '）', true);
           saveUser(); renderMarketPanel(); updateUserUI();
         }, 4000);
       } else {
         setTimeout(function () {
-          alert('❌ 猜错了，持仓已锁定');
-          saveUser(); renderMarketPanel(); updateUserUI();
+        showToast('❌ 猜错了', '持仓已锁定 · 本金 $' + pos.amount + ' 无法赎回', false);
+        saveUser(); renderMarketPanel(); updateUserUI();
         }, 1000);
       }
     }
@@ -2169,7 +2170,14 @@ function updateUserUI() {
         var p = positions[posKey];
         if (!p || !p.name) return '';
         var settledClass = p.settled ? 'settled' : '';
-        var settledText = p.settled ? (p.settledResult === 'confirmed' ? ' ✓' : ' ✗') : '';
+        var settledText = '';
+        if (p.settled) {
+          if (p.settledResult === 'confirmed') {
+            settledText = p.side === 'yes' ? ' ✓ 赚$' + Math.round(p.amount * (p.credibilityRate || 0.5) + p.amount) : ' ✗ 亏$' + p.amount;
+          } else {
+            settledText = p.side === 'no' ? ' ✓ 赚$' + Math.round(p.amount * (p.credibilityRate || 0.5) + p.amount) : ' ✗ 亏$' + p.amount;
+          }
+        }
         var sideClass = p.side === 'yes' ? 'side-yes' : 'side-no';
         var eventLabel = p.event ? ' → ' + escapeHtml(p.event) : '';
         return '<div class="user-position-item ' + settledClass + '" onclick="toggleSellForm(\'' + posKey + '\')" style="cursor:pointer">' +
