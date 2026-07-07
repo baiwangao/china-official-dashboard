@@ -413,6 +413,29 @@ app.post('/api/huairentang/crawl', async (req, res) => {
   }
 });
 
+// 数据录入 API
+app.post('/api/huairentang/events', async (req, res) => {
+  try {
+    var e = req.body;
+    if (!e.title) return res.status(400).json({ error: '标题不能为空' });
+    await dataManager.getPool().execute(
+      'INSERT INTO huairentang_events (title, type, impact, summary, officials, date, source, url) VALUES (?,?,?,?,?,?,?,?)',
+      [e.title, e.type||'人事动向', e.impact||'中', e.summary||'', JSON.stringify(e.officials||[]), e.date||new Date().toISOString().slice(0,10), e.source||'手动录入', e.url||'']);
+    res.json({ ok: true, message: '事件已录入' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+app.post('/api/personnel-changes', async (req, res) => {
+  try {
+    var p = req.body;
+    if (!p.person_name) return res.status(400).json({ error: '人名不能为空' });
+    await dataManager.getPool().execute(
+      'INSERT INTO personnel_changes (person_name, original_position, new_position, status, credibility, date, remarks) VALUES (?,?,?,?,?,?,?)',
+      [p.person_name, p.original_position||'', p.new_position||'', p.status||'传闻', p.credibility||'中', p.date||new Date().toISOString().slice(0,10), p.remarks||'']);
+    res.json({ ok: true, message: '人事变动已录入' });
+  } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
 // Telegram 聊天记录导入（POST body 为 result.json 的内容）
 app.post('/api/telegram/import', express.json({ limit: "200mb" }), async (req, res) => {
   try {

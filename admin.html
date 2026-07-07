@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="api-auth-token" content=""/>
+<title>数据录入</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f172a;--muted:#64748b;--line:#e2e8f0;--panel:#fff;--teal:#14b8a6;--rose:#be123c}
+html,body{height:100%;background:#f1f5f9;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px}
+.container{max-width:680px;margin:0 auto;padding:24px 16px}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.header a{color:var(--muted);text-decoration:none;font-size:13px}
+.header a:hover{color:var(--ink)}
+h1{font-size:20px;font-weight:700}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.form-row{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.form-row label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.form-row input,.form-row select,.form-row textarea{width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:6px;font-size:14px;color:var(--ink);outline:none;transition:border-color .15s}
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(20,184,166,.1)}
+.form-row textarea{resize:vertical;min-height:60px}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn{width:100%;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#1e293b}
+.btn-teal{background:var(--teal);color:#fff;margin-top:8px}
+.btn-teal:hover{opacity:.9}
+.toast{position:fixed;top:20px;right:20px;z-index:9999;padding:14px 20px;border-radius:8px;background:var(--panel);box-shadow:0 8px 30px rgba(15,23,42,.15);border:1px solid var(--line);font-size:13px;max-width:320px;animation:in .3s ease}
+.toast.success{border-left:3px solid var(--teal)}
+.toast.error{border-left:3px solid var(--rose)}
+.toast strong{display:block;margin-bottom:4px}
+@keyframes in{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@media(max-width:480px){.form-2col,.form-3col{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <a href="/">← 返回主页</a>
+    <h1>数据录入</h1>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📰 新增事件</div>
+    <div class="form-row"><label>标题 *</label><input id="ev-title" placeholder="例：王沪宁会见英国代表团"/></div>
+    <div class="form-3col">
+      <div class="form-row">
+        <label>类型</label>
+        <select id="ev-type">
+          <option>人事动向</option><option>反腐通报</option><option>外事活动</option><option>重大事故</option><option>传闻轶事</option><option>政治作秀</option><option>经济动向</option><option>媒体报道</option>
+        </select>
+      </div>
+      <div class="form-row"><label>影响</label><select id="ev-impact"><option>中</option><option>高</option><option>低</option></select></div>
+      <div class="form-row"><label>日期</label><input id="ev-date" type="date" /></div>
+    </div>
+    <div class="form-row"><label>摘要</label><textarea id="ev-summary" placeholder="事件简述…"></textarea></div>
+    <div class="form-row"><label>涉及官员（逗号分隔）</label><input id="ev-officials" placeholder="例：王沪宁,李强,蔡奇"/></div>
+    <button class="btn btn-teal" onclick="submitEvent()">✓ 录入事件</button>
+    <div id="ev-msg" style="margin-top:8px;font-size:12px;color:var(--muted)"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">👤 新增人事变动</div>
+    <div class="form-row"><label>人名 *</label><input id="pc-name" placeholder="例：陈新武"/></div>
+    <div class="form-2col">
+      <div class="form-row"><label>原职务</label><input id="pc-from" placeholder="重庆市委副书记"/></div>
+      <div class="form-row"><label>新职务</label><input id="pc-to" placeholder="升任重庆市市长"/></div>
+    </div>
+    <div class="form-3col">
+      <div class="form-row"><label>状态</label><select id="pc-status"><option>传闻</option><option>叫停</option><option>调查中</option></select></div>
+      <div class="form-row"><label>可信度</label><select id="pc-cred"><option>中</option><option>高</option><option>低</option></select></div>
+      <div class="form-row"><label>日期</label><input id="pc-date" type="date" /></div>
+    </div>
+    <div class="form-row"><label>备注</label><input id="pc-remarks" placeholder="传闻中/高可信/待核实"/></div>
+    <button class="btn btn-teal" onclick="submitPersonnel()">✓ 录入人事</button>
+    <div id="pc-msg" style="margin-top:8px;font-size:12px;color:var(--muted)"></div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+var API_TOKEN=document.querySelector('meta[name="api-auth-token"]')?.content||'';
+function af(url,opts){opts=opts||{};if(API_TOKEN){opts.headers=opts.headers||{};opts.headers['x-api-key']=API_TOKEN}return fetch(url,opts).then(r=>r.ok?r.json():r.json().then(e=>Promise.reject(e)))}
+
+function toast(title,msg,ok){
+  var el=document.createElement('div');el.className='toast '+(ok?'success':'error');
+  el.innerHTML='<strong>'+title+'</strong>'+msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(function(){el.style.opacity='0';el.style.transform='translateX(40px)';setTimeout(function(){el.remove()},300)},3000)
+}
+
+function submitEvent(){
+  var title=document.getElementById('ev-title').value.trim();
+  if(!title) return toast('错误','标题不能为空',false);
+  var data={title:title,type:document.getElementById('ev-type').value,impact:document.getElementById('ev-impact').value,
+    date:document.getElementById('ev-date').value||'2026-06-01',summary:document.getElementById('ev-summary').value,
+    officials:document.getElementById('ev-officials').value.split(/[,，\s]+/).filter(Boolean)};
+  af('/api/huairentang/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+    .then(function(){toast('成功','事件已录入',true);document.getElementById('ev-title').value='';document.getElementById('ev-summary').value='';document.getElementById('ev-officials').value=''})
+    .catch(function(e){toast('失败',e.error||'录入错误',false)})
+}
+
+function submitPersonnel(){
+  var name=document.getElementById('pc-name').value.trim();
+  if(!name) return toast('错误','人名不能为空',false);
+  var data={person_name:name,original_position:document.getElementById('pc-from').value,new_position:document.getElementById('pc-to').value,
+    status:document.getElementById('pc-status').value,credibility:document.getElementById('pc-cred').value,
+    date:document.getElementById('pc-date').value||'2026-06-01',remarks:document.getElementById('pc-remarks').value};
+  af('/api/personnel-changes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+    .then(function(){toast('成功','人事变动已录入',true);document.getElementById('pc-name').value='';document.getElementById('pc-from').value='';document.getElementById('pc-to').value='';document.getElementById('pc-remarks').value=''})
+    .catch(function(e){toast('失败',e.error||'录入错误',false)})
+}
+
+var today=new Date().toISOString().slice(0,10);
+document.getElementById('ev-date').value=today;
+document.getElementById('pc-date').value=today;
+</script>
+</body>
+</html>
