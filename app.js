@@ -932,8 +932,8 @@ function startPageSectionAutoRefresh() {
   pageSectionTimer = setInterval(() => {
     if (isInViewport(document.querySelector('#huairentang'))) renderHuairentangPanel();
     if (isInViewport(document.querySelector('#sources'))) renderSourcesPanel();
-    if (isInViewport(document.querySelector('#market')) && userState.loggedIn) renderMarketPanel();
-  }, 60000);
+    if (userState.loggedIn) renderMarketPanel();
+  }, 30000);
 }
 startPageSectionAutoRefresh();
 
@@ -1514,10 +1514,12 @@ function renderMarketPanel() {
   // 同时加载 TablePlus 数据和结算结果
   Promise.all([
     apiFetch('/api/personnel-changes').then(function (r) { return r.json(); }),
-    fetch('./data/market-results.json').then(function (r) { return r.json(); }).catch(function(){return {};})
+    fetch('./data/market-results.json').then(function (r) { return r.json(); }).catch(function(){return {};}),
+    apiFetch('/api/market/volumes').then(function(r){return r;}).catch(function(){return {};})
   ]).then(function (results) {
     var rows = results[0];
     var marketResults = results[1];
+    var globalVolumes = results[2] || {};
     var globalSettlements = getGlobalSettlements();
     // 合并全局结算状态到 marketResults
     for (var mk in globalSettlements) {
@@ -1545,9 +1547,10 @@ function renderMarketPanel() {
       '<div class="market-header"><h3 style="margin:0;font-size:18px">📊 中纪委预测市场</h3>' +
       '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">💰 余额: <strong style="color:var(--jade)">$' + userState.balance.toLocaleString() + '</strong> · ' + rumorRows.length + ' 个市场 · <button class="section-refresh" onclick="event.stopPropagation();renderMarketPanel()">↻ 刷新</button></p></div>' +
       '<div class="market-grid">' + rumorRows.map(function (r) {
-        var mkt = getMarketData('pc-' + r.id);
-        var pct = Math.round(mkt.yesPrice * 100);
         var pid = 'pc-' + r.id;
+        var vol = globalVolumes[pid] || { yes: 0, no: 0 };
+        var totalVol = vol.yes + vol.no;
+        var pct = totalVol > 0 ? Math.round((vol.yes / totalVol) * 100) : 50;
         var yesPos = (userState.positions || {})[pid + '_yes'];
         var noPos = (userState.positions || {})[pid + '_no'];
         var hasPos = (yesPos && yesPos.amount > 0) || (noPos && noPos.amount > 0);
@@ -2236,8 +2239,10 @@ renderHuairentangPanel();
 // 侧栏导航点击
 document.querySelectorAll(".nav-item").forEach(function (item) {
   item.addEventListener("click", function (e) {
+    var href = this.getAttribute("href");
+    if (href.startsWith("/")) return; // 页面跳转链接正常导航
     e.preventDefault();
-    var target = document.querySelector(this.getAttribute("href"));
+    var target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       // 高亮当前项

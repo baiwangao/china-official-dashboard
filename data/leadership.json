@@ -55,6 +55,50 @@
     ],
     "events": [
       {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 人民日报",
+        "date": "2026-07-20",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFB4OHZNLUktb3gzdDJzaDE1aFN5R1ZrOTczbmVhbHNFRG1vWG4zQUV0T3RnVVE0MXkyekZueFRaRnFFMkdjdHE2ajlvUFlPcVM0a3RiUmdqWGp6YmF5Qm56eGQxRjhncWRia1pMQUk2bTlRS0d4S3JGOWt5YVhncEE?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-07-21T04:00:13.586Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 中华人民共和国驻大韩民国大使馆",
+        "date": "2026-07-20",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5nellwVlROcTJpSWhWZVNYb2hEOUdaN0hwLUJxM0lVbDVYVk5weHYtdDN3bC1fTjNnRGs1U1gwd3l0SW1RU2x2UUZuYkttSVp4eHhOcmp5TDV5ZFVuZy1fOURacVBWTEtWLW9sRGVuWVpoQnJw?oc=5",
+        "source": "中华人民共和国驻大韩民国大使馆",
+        "fetchedAt": "2026-07-21T04:00:13.586Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 手机网易网",
+        "date": "2026-07-20",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1iRzhBcncxQ1pMamE2SmxiaEdTNEdVSEVmSlNYMy1oVEFEWWZuZ0lvYzhYcGNDMDJ3NWhyekdsZ1VtdVVEV1Bib2FJYUZaZ19RWGpIOA?oc=5",
+        "source": "手机网易网",
+        "fetchedAt": "2026-07-21T04:00:13.586Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 搜狐网",
+        "date": "2026-07-20",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQR2Fha0NJY1ZXb2xwNjktSHMxb2hsTzRFX2FHZWI0amw0MDgwZHRfaEgwWmVnMGxiZzdNSVlka2diUmJkSE1hRUNmT0RtVlNhMjUya1czYlNsU3hiN2U5T3A5SV80dElHUjY5TV84c09zSXhBYWdPaU8tSDdhVDdwdWtBTWlJdU1OY0ZKYQ?oc=5",
+        "source": "搜狐网",
+        "fetchedAt": "2026-07-21T04:00:13.586Z"
+      },
+      {
         "type": "媒体报道",
         "title": "AI+ consumption; Xi Jinping Thought on Party Building; Network data security risk assessment",
         "date": "2026-06-18",
@@ -203,6 +247,17 @@
         "fetchedAt": "2026-05-28T10:00:10.997Z"
       },
       {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 中国经济网",
+        "date": "2026-03-18",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9CMUstR2xhOVJnSm5EakR5ZTkxSXpMRGdTZzE4NnFXcE1ucGNZVnFpa1ROWmtFTzlZSENYZTdoTi1TTWVqSVFGLWZ0cUJfOTc1d0dBLWJHVzdxNnEyTVVnT0txcjZGUWhNN0Rn?oc=5",
+        "source": "中国经济网",
+        "fetchedAt": "2026-07-10T04:00:15.407Z"
+      },
+      {
         "type": "媒体报道",
         "title": "习近平接受外国新任驻华大使递交国书 - fmprc.gov.cn",
         "date": "2026-01-16",
@@ -223,6 +278,17 @@
         "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNZnV5RUduX2xWalZxZ1pUUnZQOXliWjZNYTlEZVM0WDlnbDRNUzhYNGZ6azlybGRubjhPeGZUeHVVX1cyTml1dThOazQtdDNsSU9uV2pqeFNuZkZ5b1FXUjNOdXRxVUZDc19SQVMwWXdEblVZSTczV0lkc0FyMWZXbg?oc=5",
         "source": "人民日报",
         "fetchedAt": "2026-05-24T11:52:54.621Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 习近平系列重要讲话数据库",
+        "date": "2026-01-13",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBubmJqR0kyQjJvbFZPTzJlM0d4d2lIOEFkcVkzejVCeVVTcEVQWDRhdHdqRFd1Z2VvN0tNZ2x5cHpvUG1jX1hfeVF2U1hxcjlUUm9YRmQ5VDZTMUk1T2tB?oc=5",
+        "source": "习近平系列重要讲话数据库",
+        "fetchedAt": "2026-07-08T04:00:08.301Z"
       },
       {
         "type": "任免动向",
@@ -259,6 +325,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 中华人民共和国驻大韩民国大使馆",
+        "date": "2025-11-26",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBzdC1GYVRWUmZIeGgzbFBkTHBKckN4UWZyVnVVX3RDTnlPWlBGcy1IYTdFRFpxYU1rWlBoZW9laGxfRERUenVqV2ZWeTJ3NlZ6VFFmYVNDUFpha1BTYm1oWTJ4ZV9xcHA4UEMyNVIxUVUtSTRH?oc=5",
+        "source": "中华人民共和国驻大韩民国大使馆",
+        "fetchedAt": "2026-07-10T04:00:15.407Z"
+      },
+      {
+        "type": "任免动向",
         "title": "国家主席习近平任免驻外大使 - 习近平系列重要讲话数据库",
         "date": "2025-10-21",
         "impact": "中",
@@ -267,6 +344,17 @@
         "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFBqeTFiU3BCaFAycDR4aERlS1RXNEh6S0ZJRjFMUjNfTlE4SFoxUmxWSEYwcGZ6RWFWVGtXbzl2cWR2U1Q4UU5tVWlwZlhFSDdPQ01zUTgySWhuQTF0ZkNj?oc=5",
         "source": "习近平系列重要讲话数据库",
         "fetchedAt": "2026-05-24T11:52:54.621Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 人民日报",
+        "date": "2025-10-21",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxNa3NFU1VSM2ZWeHNacENXcHN4V1hrT1VvXzdmbllOU3REZkFZek5xVUVuS3FXdFF1YzVFSlZJcC1ObTZQLTdOU1ptUWZldnhwVUJrc0R0amJfVy0yWXZXS1RubmhReTI4dGZFVzAxR0piT3I0SjNaNDVUOFZKYm9qRA?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-07-19T16:00:12.083Z"
       },
       {
         "type": "任免动向",
@@ -289,6 +377,17 @@
         "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1FWGxuU2NnczNFSW15Wkp1WjlQM2xrcnFFLWxUZXpYeEU3djRTMkhINVZXYlVNT2cxazBNZ0h4dFJtbFdzS2VzaDBLMENSOGVJTXNtbXhqOVdCNWRwN1BLV0JR?oc=5",
         "source": "新京报",
         "fetchedAt": "2026-07-01T10:00:11.344Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 京报网",
+        "date": "2025-10-01",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1Bb2lLcDdLSHdRaFl4Rko3cDZyMWctUDVpaE1UZ3lTTDdCVWIxTndQX3FOYUIxd21sNGg5SENWQXVVTHlXeHdPS2ZCMDVZaldJVmJXMlVwTm1IZTdwSjJQU0pDSE1fSk5FaU00V0dScS1wUQ?oc=5",
+        "source": "京报网",
+        "fetchedAt": "2026-07-10T10:00:10.400Z"
       },
       {
         "type": "任免动向",
@@ -424,6 +523,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国家主席习近平任免驻外大使 - 新华网",
+        "date": "2019-06-12",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 习近平 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9JaldqblJKaU52VnZQZ3A3NE5INFBQbFpRY0VuS0JjdS1kZFFYNjFaa2J5bUxad0VFVHF5VFZ4V0c3X0l1cW5YYmR0S3M2Z0plS3Fha2NrVTBJbnAwSUdjNFNYQzV2THUwS0dROW9lU3EtVFNDWlEwdkRR?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-07-10T04:00:15.407Z"
+      },
+      {
+        "type": "任免动向",
         "title": "人事变动为加强“习核心”？ 习近平亲信蔡奇调任北京代理市长– 普通话主页 - Radio Free Asia",
         "date": "2016-11-01",
         "impact": "中",
@@ -449,7 +559,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-07T10:03:32.746Z"
+    "updatedAt": "2026-07-21T04:02:45.733Z"
   },
   {
     "id": "li-qiang",
@@ -512,6 +622,28 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE44T0Z0M282eHZaY094THdGaTIxRHBKZFpOZ1BkZUx5NFNwQ2NqblFwTnBFR3NOLUduX0wtNzMwOE5seGkxUmtLRnJ1WF80bGN0S0NteUxsODJlWjkwd2pZMlR3eXBwRlN5clRyWTEzT21Kclg3?oc=5",
         "source": "驻菲律宾使馆",
         "fetchedAt": "2026-06-29T16:00:57.239Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "国务院举行宪法宣誓仪式 李强总理监誓 - 新华网",
+        "date": "2026-06-09",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNcHRLMUdINVRVcDFpWmlITU55QnE0WXdQOXNEdktaODR1ZW1iLTdFaFVhcTVtVjMxbUlmSEVQeXF6TTl1S0pibHVYX0VxNWJmSG1EXzliUnZTYnJaR25Kay1BaVRBUldTWXVHWGhqTnRwSi1EYkJJc0tneWZYT044Nlh3QkpyZWFVcFF1bzNB?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-07-10T10:00:28.436Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "李强同巴基斯坦总理夏巴兹会谈 - 人民日报",
+        "date": "2026-05-26",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQcnhFQnpQMVpuaDhZek1HZkw5ZTk4Rk45dURkRl9xc25UZWI2V1d5V251T0xtVVQ3NnVNeTVldXB2Skttemg1a05LODVocEd2MW4zSG45bUhjQk16dXdwYXJxWUpZUDJnMmxZQXlROTBIdFpXVk9wTXdxamdsQ2NYQg?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-07-10T10:00:28.436Z"
       },
       {
         "type": "重大事故",
@@ -742,6 +874,17 @@
         "fetchedAt": "2026-05-25T00:20:39.970Z"
       },
       {
+        "type": "任免动向",
+        "title": "辽宁省人大常委会：任命李强为辽宁省副省长 - 大河财立方",
+        "date": "2024-03-30",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQV1VES1Z0QkVZdGl4YWpPZjJhS25DajJFS3ZwNjEwLVh4NDluRExwUUZfSlN3eU5PNVNUWWF4SUp3dkprckhLbmpNZ2xNdW5hWUVkLWQ3aGlaMGppY2c5ekFZdWpLOVJ6NHNLVkY1cFZwVGxaQ0MzQ2JVeHVxMUtrY0ROYXJfUQ?oc=5",
+        "source": "大河财立方",
+        "fetchedAt": "2026-07-19T16:00:19.689Z"
+      },
+      {
         "type": "媒体报道",
         "title": "李强任教育部教育考试院党委书记、院长 - 新京报",
         "date": "2023-12-13",
@@ -797,6 +940,17 @@
         "fetchedAt": "2026-05-25T00:20:39.970Z"
       },
       {
+        "type": "媒体报道",
+        "title": "根据国家主席习近平的提名决定李强为国务院总理 - moe.gov.cn",
+        "date": "2023-03-12",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 李强 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNc2dsNTN3T3RYUE5ELTRZZldMTFFoWHFrcnRhekRqZ0c3TXZ5U01VRy1WcTMtZkl2TDltUnhiSm4wR085LWtfd1V4SV9fTWI5UUJXbXhLMXdFTUMyVXpQNzlJZTE4QXBOOGtIV1pmRWxiaGJYakNmSE1UclhBM250bzBmN3BmWlZ6T3FiNzhhbk5oVEhhMXNJ?oc=5",
+        "source": "moe.gov.cn",
+        "fetchedAt": "2026-07-19T16:00:19.689Z"
+      },
+      {
         "type": "任免动向",
         "title": "新华社快讯：国家主席习近平签署主席令，任命李强为中华人民共和国国务院总理 - 新华网",
         "date": "2023-03-11",
@@ -845,7 +999,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-06T04:02:11.278Z"
+    "updatedAt": "2026-07-19T16:03:22.415Z"
   },
   {
     "id": "zhao-leji",
@@ -894,6 +1048,17 @@
       ]
     ],
     "events": [
+      {
+        "type": "外事活动",
+        "title": "赵乐际会见泰国总理阿努廷 - 人民日报",
+        "date": "2026-07-20",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5ydEZxTm5odWVtbHliNUxSXzlSemFJbmZyb3hLd0dPSUVZOVkxREVuc0Z1VXYzbHA1ZXBwTG9MYXAwNG5ualRGbTdsZWdPaU5PNkpYSzNYS3BXU2NUR2pkalRTYzlKYTJpNWlrdU5SN2dhMVVWQU1uNXNvdVhSbm8?oc=5",
+        "source": "人民日报",
+        "fetchedAt": "2026-07-21T04:00:31.112Z"
+      },
       {
         "type": "外事活动",
         "title": "乘A330专机出访哈萨克斯坦、俄罗斯",
@@ -1000,6 +1165,28 @@
         "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1fNURYQkhPVWllN1BUNFNIRnRQNEs2dHN3cnJ3eTJVNFhiSGw1a1NPb3c0TUpKc1lIOFQ0QWtjUjU1eUZiSUxuODBSMDR0c0d5c1FDalRLVGdGLVJjQ0w1VnMtMVRhaTA2WXRIUXBzNA?oc=5",
         "source": "Sin Chew Daily",
         "fetchedAt": "2026-05-25T00:20:46.770Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "赵乐际：保证人大年会风清气正、务实高效 - 早晨报",
+        "date": "2026-02-27",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBJcjc5NDFFMF9tTkZZM0VPZkJlYTM5dGR4SVdoMEJ2RTBQaXQ0UktBRkxJY3NFZG5tNXBoRFhlRUVXdHROdDEyckxvQlRSSE1Mb2MyTzNpY2Y5MzlQaTFRbkxETVg5TVFQ?oc=5",
+        "source": "早晨报",
+        "fetchedAt": "2026-07-11T16:00:35.599Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "十四届全国人大常委会第二十一次会议在京闭幕 习近平签署主席令 赵乐际主持会议 - rmhb.com.cn",
+        "date": "2026-02-27",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 赵乐际 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9xOG5MdWtHclVVaGZ3N0lJZVFhbnZRVkQ1N2VDQ3VpUTRjaFI2dF9GSmt0YnFxQ0MwSmFkNHRhamlLcEFscVlDVEd3Z3B6amlrV3dNZ1hGVExGLVV6UGdTRGNJTDg0Y05oSHNWT2hZQUQwUQ?oc=5",
+        "source": "rmhb.com.cn",
+        "fetchedAt": "2026-07-21T04:00:31.112Z"
       },
       {
         "type": "媒体报道",
@@ -1226,7 +1413,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-29T16:07:25.348Z"
+    "updatedAt": "2026-07-21T04:02:45.757Z"
   },
   {
     "id": "wang-huning",
@@ -1277,6 +1464,17 @@
         "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9PRlRaVm5BYXhLNmdZWk5jWVhWWVBXeU1tb2QwTEVfUVlUMWRFWHJQcUI3QnFUY2xVbVhRbGVxeFdiYzVsOEVGVjMwdW8yajRXNjBUOGVTSTRmLWxVYURWTTlNbWxfbG53UHlsMkk3bkhxb05tX0VhU0lYQ2N2Zw?oc=5",
         "source": "中华人民共和国驻新潟总领事馆",
         "fetchedAt": "2026-06-20T16:01:29.273Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "王沪宁在新疆了解“疆电外送”通道建设运行和新能源产业发展情况 - 能源界",
+        "date": "2026-06-10",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9UdUpMZ3RrQzZkdE5uV3FXTUdXTDBmV1ZqRWV0T2xMMzhwaGg5ZlkzbmJ5S3JyTkpGSkpkQmpobjdLbmhPRU80QjctT3V1dVRwaEMzMUJxQlBOcEU?oc=5",
+        "source": "能源界",
+        "fetchedAt": "2026-07-10T04:00:40.723Z"
       },
       {
         "type": "外事活动",
@@ -1368,6 +1566,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "2026年对台工作会议在京召开 王沪宁出席并讲话 - thepaper.cn",
+        "date": "2026-02-12",
+        "impact": "低",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5RX05vUm5oWG9QWXhtWHBDNUExdWl1LS1lRVB1WTMyU1FNRHZyRzV1clh0QzhORGk4Ulc3bHE2MmZlUG5xWjFjRllVRWlzSW1DRDQxN1dBeTZ5NUNGWFE?oc=5",
+        "source": "thepaper.cn",
+        "fetchedAt": "2026-07-19T16:00:42.130Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "王沪宁“复旦帮”成员出事 引发猜测 - 万维读者网",
         "date": "2025-12-03",
         "impact": "低",
@@ -1456,6 +1665,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "全国政协十四届常委会第十次会议闭幕 王沪宁主持并讲话 - moj.gov.cn",
+        "date": "2025-03-03",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOaEk1QlE4ZzJULUxtQlVBaVpsOFF6NHlXSi11OWlLaEJJQWM5Wnc2Tl8xdXRmMEZmVl9RcTV6QkRZMEVhNk1ubmFEdTlQUXJ2Z0tibTVfLUF4S3U5Z2x4WDNSSjMxeFY2NktZbVJuVUtIVlphR1BFUEtkeE5OYVRWNzNaTzB0M0FPSnFhekpKSGRyNlJwa0ExUzJraFA4Vm91WHBZeDFjWUFhN3ROZmpaVlcyQ2RvQUQ1MWk4VVRyblR2bzJyM1k2bg?oc=5",
+        "source": "moj.gov.cn",
+        "fetchedAt": "2026-07-19T16:00:42.130Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "全国政协十四届常委会第十次会议闭幕 王沪宁主持并讲话 - 新华网",
         "date": "2025-03-02",
         "impact": "低",
@@ -1486,6 +1706,17 @@
         "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFBUWDY5cl9NelR1bW10dkp0VWc0ejROYXRGeWpMV0RoUmgxTGQ1ZXpVSFdxUEF1N3cwdi1CNlc2T0gxbEttUEpTdmFBdFhQeERjTXJLc2M1OG9Da3lKTUtSb0tMaEJpbjNuM2ZMcTJBeXoySFBf?oc=5",
         "source": "cppcc.gov.cn",
         "fetchedAt": "2026-06-05T10:00:43.624Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "（两会受权发布）十四届全国人大一次会议举行第二次全体会议习近平李强赵乐际王沪宁韩正蔡奇丁薛祥李希等在主席台就座栗战书作全国人大常委会工作报告听取和审议最高人民法院工作报告和最高人民检察院工作报告听取关于国务院机构改革方案的说明 - 新华网",
+        "date": "2023-03-07",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 王沪宁 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFA4WUNmWVVkaUVYbjVEWEhSdzZKMXVmRHBBcHpkenZSRmNxVVZnVVUtMk9XTjdfVkR4YUoxQjBtLXItMTBfcXZGOEk3d21GSnNhZWJQRmxkT3BYMnhLSVF2cWpLYUR2eGM0c2Etdmk4eVI?oc=5",
+        "source": "新华网",
+        "fetchedAt": "2026-07-10T04:00:40.723Z"
       },
       {
         "type": "媒体报道",
@@ -1558,7 +1789,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-30T10:02:29.408Z"
+    "updatedAt": "2026-07-19T16:03:22.428Z"
   },
   {
     "id": "cai-qi",
@@ -1774,6 +2005,28 @@
         "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTFA3emVLVndhZy1FZGtsX08tUl9yR1RqUlpoLXl5QktBU0wteGFjQzM5OFc5aFlZVDV1dDhOQk83UVd3Z1BmOUJ2VXZFQ0FMRHozeWNHcENMc0ZyOUNGbHpv?oc=5",
         "source": "华声在线",
         "fetchedAt": "2026-07-07T10:01:00.807Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "蔡奇兼任国家行政学院院长 - 51ldb.com",
+        "date": "2026-06-18",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPU3V2LVEyUWpfdmlmVUdCM1ZkNXNXTGk0LVZrQmRKaUlpRnRtNTlFcGtldWRndWdhY1Fod3NqWFo3Q1h1ZGZ4SW1WT2RITmNHUHdqdHRrakNnZ0FlNmZHbmNyaDJNa0JHQWxQSVprY0hqOUdsU3V5Z0Q4YUVUTE9FMjlwTmpvSk5K?oc=5",
+        "source": "51ldb.com",
+        "fetchedAt": "2026-07-10T04:00:49.262Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "国务院任免国家工作人员：蔡奇兼任国家行政学院院长 - 星岛环球",
+        "date": "2026-06-18",
+        "impact": "中",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1ORTZaQ1hsUVRHZ2piX21zVFJycXlkVkFfY0c1V2hJWGw4a3QyQnBNZDRnYl8zNXZHSGRvMGdCY1p5QkNIUTJfWldyWS1FNEptOVJnSw?oc=5",
+        "source": "星岛环球",
+        "fetchedAt": "2026-07-21T10:04:01.738Z"
       },
       {
         "type": "媒体报道",
@@ -2049,6 +2302,17 @@
       },
       {
         "type": "任免动向",
+        "title": "国务院任免郑富芝、刘大为、唐登杰、侍俊、蔡奇、陈吉宁等职务 - 中国经济网",
+        "date": "2017-06-09",
+        "impact": "中",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 蔡奇 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE0wa094OGFGMzFuWFRuUTBzZGZkRmRoSmhXVUdUVVVzYkk5cGp3aGM4SE83SUNJakp3aUtjd19xdDhwcGNWbHNaTk9rT3RLZnBkRk16cnZmRnVjTmlpMkVPVFZmcVM1bzJOMmtCUVlQUU9McFZkX3NFQm1pbw?oc=5",
+        "source": "中国经济网",
+        "fetchedAt": "2026-07-19T16:00:57.463Z"
+      },
+      {
+        "type": "任免动向",
         "title": "蔡奇当选北京市长 张硕辅当选北京市监察委主任 - chinanews.com.cn",
         "date": "2017-01-20",
         "impact": "中",
@@ -2173,7 +2437,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-07T10:03:32.777Z"
+    "updatedAt": "2026-07-21T10:13:36.727Z"
   },
   {
     "id": "ding-xuexiang",
@@ -2333,6 +2597,17 @@
         "fetchedAt": "2026-07-07T10:01:28.679Z"
       },
       {
+        "type": "媒体报道",
+        "title": "丁薛祥出席2026中关村论坛年会开幕式并致辞 - mfa.gov.cn",
+        "date": "2026-03-25",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9SeFcyVFR3b2Jxd1ZrdklObG42bG5sWWVsMVFUcGRXNnBETWtBZjRzaE1Jb0YxN0pVbXNOMlV3UllaM1V4anVxRGY2cE5ka19ZWE81NklCYlNUVXJRSDFXd3VhU2l4WU1qemJnUjlQbk1fUQ?oc=5",
+        "source": "mfa.gov.cn",
+        "fetchedAt": "2026-07-19T16:01:27.214Z"
+      },
+      {
         "type": "外事活动",
         "title": "丁薛祥会见阿联酋总统中国事务特使哈勒敦 - fmprc.gov.cn",
         "date": "2026-03-18",
@@ -2443,6 +2718,17 @@
         "fetchedAt": "2026-06-20T16:02:12.048Z"
       },
       {
+        "type": "媒体报道",
+        "title": "丁薛祥出席第二届中欧班列国际合作论坛开幕式并致辞 - mfa.gov.cn",
+        "date": "2025-11-18",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNbUVxaFA0cGhyY0pBYkRMeUZvYVpJSTBpZTlLOHhTLVl1UkRScWc0M3FwTERIeURndk0zZXA0aGdXR2FiWlJ1UXBVaFp5QVJRTXJqOTZmbmpseWpYMFBvSDJWYkVfRUJzeDR4NW8yMUtYQ3FYS2FJTXhUbGxJQTZ4S2twcWdtOVdJaXZLVTZB?oc=5",
+        "source": "mfa.gov.cn",
+        "fetchedAt": "2026-07-10T04:00:57.880Z"
+      },
+      {
         "type": "外事活动",
         "title": "丁薛祥会见挪威外交大臣艾德 - mfa.gov.cn",
         "date": "2025-11-11",
@@ -2496,6 +2782,17 @@
         "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE53eUs0MkdlZm1BU2ktUUpHRVlIanhTSFpVa05zdkU4eEZ6anUzYkpSaWw5eHNMTlR5ZjFIMzJSZEt5LTRVZEtnZTFOQ1lrNUtON1JJMjhpRXlwei0yQkxpbDhqMEhIRFMzUE0w?oc=5",
         "source": "中国共产党新闻网",
         "fetchedAt": "2026-05-24T11:54:55.190Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "丁薛祥访问乌拉圭 - mfa.gov.cn",
+        "date": "2025-11-05",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNUzNIbV9xblRJRTBWQVhMNzdLdlhLbDRsYkQwcGdsSTFvNDE2V0lSS01pb29WSUM0Zk0tRzdNTFZHNnlsVkMxY2xHR0FFVWU0c09JWUhsRXNvdmwxTE05WTlOVm9BWjdLWHY5d0g4bkRScS01OFp0d2dWZUZXX1I1Y3BsMFV6MUhLUEF6bGd1aHNRS2FsYU0ybHQyWGVkZDh6dEs2eEN6ZzRPSzFmem05ZW9qY2xTNjg?oc=5",
+        "source": "mfa.gov.cn",
+        "fetchedAt": "2026-07-10T04:00:57.880Z"
       },
       {
         "type": "外事活动",
@@ -2598,6 +2895,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "全国政协十四届常委会第七次会议开幕王沪宁主持丁薛祥作报告 - cppcc.gov.cn",
+        "date": "2024-06-04",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5OdnBVR3NKU1IwZTZrWmgwLUdwYlZvRlZBZWZoS3pNdG5weHJxem93ZDlnX1pXQlVDU2tKbURsT1YwNUlXRnhwdGd1SmxtLUwtUWZaWDFKd2JlZXVnNEtjU0JBMl9OXy00cmJsMTVoUi1xSkJ6?oc=5",
+        "source": "cppcc.gov.cn",
+        "fetchedAt": "2026-07-19T16:01:27.214Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "丁薛祥出席2024 年全国科技活动周暨北京科技周主场活动时强调大力弘扬科学家精神为建设科技强国汇聚智慧和力量 - 中国科学院",
         "date": "2024-05-26",
         "impact": "低",
@@ -2620,6 +2928,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "全国政协十四届二次会议闭幕习近平李强赵乐际蔡奇丁薛祥李希韩正出席王沪宁发表讲话 - 共产党员网",
+        "date": "2024-03-11",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9BcWVudHA4cVg4aktzQ2FhY0VkQi1ESzVxSV9BVWV6RXY5Um5qWE9FQk5ZYWNKY3EtcUNwRDdCbjVNNVRROU1wVi1vWkwyWW00YmRmVGtIR3gzTmVqZ05mUmRnSzVrNXhaSHc?oc=5",
+        "source": "共产党员网",
+        "fetchedAt": "2026-07-19T16:01:27.214Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "两会受权发布| 全国政协十四届二次会议在京开幕习近平李强赵乐际蔡奇丁薛祥李希韩正到会祝贺王沪宁作政协常委会工作报告石泰峰主持高云龙作提案工作情况报告_2024全国两会大型融媒体专题 - 新华网",
         "date": "2024-03-04",
         "impact": "低",
@@ -2628,6 +2947,17 @@
         "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQZGNMcnNSa3kyR3BfODVFc3R4TFdEOTZoOEZyS29rOEVnMVVDMDJGX2RCaTBhT3NvQ3ZRZWVibVBtMHV6VmpZWDdyU183Z3hiekQ1dGhhVDEydEhYMWtlR3FDMWZuU2RnenRmeThxUzlleVU5RjZVRHFTSy1aV2lPd3k2Yw?oc=5",
         "source": "新华网",
         "fetchedAt": "2026-05-24T11:54:55.191Z"
+      },
+      {
+        "type": "外事活动",
+        "title": "丁薛祥出席“77国集团和中国”气候变化领导人峰会并致辞 - 中国共产党新闻网",
+        "date": "2023-12-03",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 丁薛祥 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1QVEUxYnFGYzF3a19ta19EbTBhd2pPMlRpblJiVmd0cXdqRU0yTUg0cjdHZjc1cUdJb3E2RGplcUlIT0kxZ2pfam9nX2dWLV9JUmdWdmx6ZWh5MDcyRVVvS0tiZmJHWEFTUEE?oc=5",
+        "source": "中国共产党新闻网",
+        "fetchedAt": "2026-07-19T16:01:27.214Z"
       },
       {
         "type": "任免动向",
@@ -2678,7 +3008,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-07T10:03:32.790Z"
+    "updatedAt": "2026-07-19T16:03:22.449Z"
   },
   {
     "id": "li-xi",
@@ -3029,6 +3359,17 @@
       },
       {
         "type": "任免动向",
+        "title": "李希当选辽宁省人民政府省长(图/简历) - 中国新闻网",
+        "date": "2014-10-17",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李希 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1vRXpQU1Bhb3o5bDhwTDRmR19ScnIzMkFEWklkVVdGMmRkUzY5bTVzWTZPeG93eTJLYTB2RkN4TDVtM2ZQWktsU19icERwbVpUanNJY2ZsaThJWXhtMC15U080bw?oc=5",
+        "source": "中国新闻网",
+        "fetchedAt": "2026-07-19T16:01:42.825Z"
+      },
+      {
+        "type": "任免动向",
         "title": "上海市委原副书记李希被任命为辽宁省副省长、代省长 - thepaper.cn",
         "date": "2014-05-05",
         "impact": "中",
@@ -3076,7 +3417,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-06T04:02:11.320Z"
+    "updatedAt": "2026-07-19T16:03:22.458Z"
   },
   {
     "id": "wang-yi",
@@ -3448,6 +3789,17 @@
       },
       {
         "type": "任免动向",
+        "title": "秦刚消失满月被免职王毅回任中国外交部部长– 普通话主页 - Radio Free Asia",
+        "date": "2023-07-25",
+        "impact": "高",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 王毅 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1iQldfOWY4Y0ZSUmlvNUh5eWVPR3hrYXNDeTBISlQ0YXo4ZmNaWEtPOXloUVkxaE5DajJIaTRzSHc3cFFpSXdNYW8yU0YwUG5xM2tHZ0RUVmlJV2FMTl82aWFLRjF5cUxoNGhfcA?oc=5",
+        "source": "Radio Free Asia",
+        "fetchedAt": "2026-07-08T04:01:00.786Z"
+      },
+      {
+        "type": "任免动向",
         "title": "秦刚接替王毅出任中国外长 - dw.com",
         "date": "2022-12-30",
         "impact": "中",
@@ -3496,7 +3848,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-06T10:02:50.046Z"
+    "updatedAt": "2026-07-08T04:02:18.991Z"
   },
   {
     "id": "yin-li",
@@ -3660,6 +4012,17 @@
         "fetchedAt": "2026-05-31T04:02:09.040Z"
       },
       {
+        "type": "任免动向",
+        "title": "医学博士尹力兼任北京市委委员、常委、书记，曾任国家食品药品监督管理总局副局长-MedSci.cn - 梅斯医学 MedSci",
+        "date": "2022-11-13",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 尹力 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTFB3djlveThQdzlzRVhMSFZfOXFvOVhrUnRvTE9KMXZqcHEyQThZa3Y0Z3IxMkFWY25nWTJZNnJaT1V1UEdKVXVRXzdIS0FfbUpVSG5oMW9ZbWZXaXR3MHlzcWtnVWhPTWJwM0ZTOUhR?oc=5",
+        "source": "梅斯医学 MedSci",
+        "fetchedAt": "2026-07-19T16:02:13.239Z"
+      },
+      {
         "type": "媒体报道",
         "title": "省委人大工作会议召开，​尹力部署六个方面重点工作任务 - 福建省人民政府",
         "date": "2021-12-28",
@@ -3818,7 +4181,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-06-11T10:06:28.339Z"
+    "updatedAt": "2026-07-19T16:03:22.467Z"
   },
   {
     "id": "shi-taifeng",
@@ -3971,6 +4334,17 @@
         "fetchedAt": "2026-07-06T04:01:34.072Z"
       },
       {
+        "type": "任免动向",
+        "title": "自治区十三届人大常委会召开第三十二次会议 石泰峰主持并颁发任命书 决定刘爽为内蒙古自治区监察委员会代理主任 - 内蒙古新闻网",
+        "date": "2021-12-14",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1WaGtOZHNaWU92VDNVTHJJR2s0MXluZ3gzaDhablNJUFlVekVCd1ZkS1NOT2dwMndvRlh1aTF6UUc2LWlLaDJDY0RzSG5sUThabzl1YkNnZ0t0c2FCM3E3bS1QVy1sakNQa1hUZElnOA?oc=5",
+        "source": "内蒙古新闻网",
+        "fetchedAt": "2026-07-10T04:01:51.453Z"
+      },
+      {
         "type": "媒体报道",
         "title": "自治区十三届人大常委会召开第二十八次会议 石泰峰主持 - 人民网",
         "date": "2021-08-05",
@@ -3980,6 +4354,28 @@
         "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9RR1lWZW8wMDFiQ2JjRklNWW9JdklfUXlIQTI5bmpFQnU1eVNxeXdYU215ZmlkZEQ1SzV1WVpmR1Y5MjZ5bXZRZUMtNGljeGhUZ2xwakgzSjA0bVlRZzN5SlFudXVBdUpZVFE?oc=5",
         "source": "人民网",
         "fetchedAt": "2026-05-31T04:02:21.476Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "内蒙古自治区十三届人大常委会第二十三次会议举行第三次全体会议 石泰峰主持讲话并颁发任命书 - 共产党新闻网",
+        "date": "2020-11-27",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFBpVGZ3Y0hLNm1oNXZWeHB4Yl9SbGtieUx6TTZYZzhMUkV2ZkJ4UnFKaUE2RnhlSm5kWG1Lc3FibUNtaXJaSG1ZWkN2ZWk0b2pnMl9xcTFxTGpoUGI1NkgyZWp0MUY2b0VZRm9F?oc=5",
+        "source": "共产党新闻网",
+        "fetchedAt": "2026-07-10T04:01:51.453Z"
+      },
+      {
+        "type": "媒体报道",
+        "title": "内蒙古自治区十三届人大常委会第二十二次会议举行第三次全体会议 石泰峰主持并讲话 - 中国共产党新闻网",
+        "date": "2020-09-24",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE5QM2lQMjRqTkJuVUc0QmNwZHp6N3FvWkI3QmJTRjFQZEt2WEY4RmJRS05HZWNrX21jbFNPV28tdnJXWEVrUEhUZi1ITC1MSmZ4OWJGeWxtRUNVak9BX09hWm5yWkxXRldKQU5R?oc=5",
+        "source": "中国共产党新闻网",
+        "fetchedAt": "2026-07-19T16:02:37.020Z"
       },
       {
         "type": "媒体报道",
@@ -4071,6 +4467,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "石泰峰任江苏省代理省长 承诺不空谈不作秀 - 新浪新闻_手机新浪网",
+        "date": "2015-12-04",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBlelBYZ2ozWVN3SXZrZEZ6dG12LXRlLXoxbDBzN3ljMC0xM2ozQ1d4dU9haXZEckVuVE5HT0J0Qi1sckViZ2NpQmtxNHU5NUVxbEoybW5icy1iV3RkelRneG90QkpER1k2UE5jMDlOekZIQ0NvWkdIUA?oc=5",
+        "source": "新浪新闻_手机新浪网",
+        "fetchedAt": "2026-07-19T10:10:29.608Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "李学勇请辞江苏省省长 石泰峰获副省长、代理省长提名 - 人民网",
         "date": "2015-11-30",
         "impact": "低",
@@ -4115,6 +4522,17 @@
       },
       {
         "type": "任免动向",
+        "title": "江苏省长李学勇辞职 揭空降后又提拔石泰峰有何背景？ - 闽南网",
+        "date": "2015-11-30",
+        "impact": "高",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 石泰峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9ZWUxGQ09XRGllRnpGV0tORWp3amYxRlR3Um9iQVhqZTZCT05LQTdCWkVNUS1QU3BiTVVIVGtGaEJUVTlmRE1hQzFfRmFub3ho?oc=5",
+        "source": "闽南网",
+        "fetchedAt": "2026-07-10T04:01:51.453Z"
+      },
+      {
+        "type": "任免动向",
         "title": "石泰峰履新苏州1个月整，调研行程透露了哪些信号？ - thepaper.cn",
         "date": "2014-07-24",
         "impact": "中",
@@ -4129,7 +4547,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-06T04:02:11.335Z"
+    "updatedAt": "2026-07-19T16:03:22.475Z"
   },
   {
     "id": "liu-guozhong",
@@ -4178,6 +4596,17 @@
       ]
     ],
     "events": [
+      {
+        "type": "媒体报道",
+        "title": "刘国中在吉林调研时强调 盯紧抓实洪涝灾害防御工作 切实做好农业防灾减灾 - 京报网",
+        "date": "2026-07-15",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 刘国中 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE0zUDVHMExULXRhUDRIOERrXzN2bjNReTFpRFFfdWZSXzZEUk0yd1lBbFhkZVd3Zkx1V2NzU1BqTDM4RmIyOWVvZTBaZVpfV0dTbUVDQzBScmdraE1CQzZWTGVnQjV1SzkzODVyN2FpMmdoQQ?oc=5",
+        "source": "京报网",
+        "fetchedAt": "2026-07-19T10:10:37.328Z"
+      },
       {
         "type": "媒体报道",
         "title": "刘国中调研强调培育脑机接口未来产业 - QQ News",
@@ -4325,8 +4754,8 @@
     "sources": [
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
-    "eventRisk": 64,
-    "updatedAt": "2026-06-29T10:05:37.966Z"
+    "eventRisk": 68,
+    "updatedAt": "2026-07-19T10:11:13.257Z"
   },
   {
     "id": "li-ganjie",
@@ -4582,6 +5011,17 @@
         "fetchedAt": "2026-05-24T11:55:37.491Z"
       },
       {
+        "type": "媒体报道",
+        "title": "李干杰：2017年涉嫌环境污染犯罪2700多件 - rmzxw.com.cn",
+        "date": "2018-03-17",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李干杰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9fcW1KTEM0aFVCa3lldkdDYU9tQjh0NkxxY0htTDNnVDJLYk5LcXJoU1A2ZWxtcmtxMVByRXdhbFFXRWxmSFdzLWNrU0lOUzdXdFBaX0dibXAyOUFlVlg4aHN3cjliNW5D?oc=5",
+        "source": "rmzxw.com.cn",
+        "fetchedAt": "2026-07-21T04:02:09.535Z"
+      },
+      {
         "type": "任免动向",
         "title": "李干杰任环保部部长 王蒙徽接替陈政高任住建部部长(图|简历) - 中国经济网",
         "date": "2017-06-27",
@@ -4630,7 +5070,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-02T10:02:31.861Z"
+    "updatedAt": "2026-07-21T04:02:45.779Z"
   },
   {
     "id": "li-shulei",
@@ -4831,6 +5271,17 @@
       },
       {
         "type": "任免动向",
+        "title": "李书磊兼任中央追逃办主任 这个新职务有多重要？ - 凤凰网",
+        "date": "2017-03-27",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE9EU0VyV1ZRTWZGMzY1d0dfUG05U1ViMzE0VU9qckhXTXRqYmdOODJvWkxQRnRLQXREM2c3b0VoTDk3eFVuaG1hRU5ZRHZiTy11QmlxWQ?oc=5",
+        "source": "凤凰网",
+        "fetchedAt": "2026-07-19T10:10:54.568Z"
+      },
+      {
+        "type": "任免动向",
         "title": "李书磊当选中纪委副书记 14岁考上北大 - 搜狐网",
         "date": "2017-01-09",
         "impact": "中",
@@ -4941,6 +5392,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "福建省委常委、宣传部长李书磊任北京市纪委书记，接棒叶青纯 - thepaper.cn",
+        "date": "2016-01-04",
+        "impact": "低",
+        "confidence": "国际主流媒",
+        "relation": "事件雷达抓取 · 与 李书磊 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5ldmpDUzNiU0xnUFU2RV9va29oUE9GNEZTb3pXX0tfSGVoMFpzQzJEX2dpMzFMVlEzYXZLQmxOTGpmUXZMS0xraThyM2xPUGQ1RzNmVF9aWlRTV0VscXZV?oc=5",
+        "source": "thepaper.cn",
+        "fetchedAt": "2026-07-19T10:10:54.568Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "原中央党校副校长李书磊任福建省委宣传部长(图) - chinanews.com.cn",
         "date": "2014-02-07",
         "impact": "低",
@@ -4999,7 +5461,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-01T10:02:30.814Z"
+    "updatedAt": "2026-07-19T10:11:13.268Z"
   },
   {
     "id": "he-weidong",
@@ -5160,6 +5622,17 @@
       },
       {
         "type": "媒体报道",
+        "title": "分析：何卫东失踪背后 习近平权力集团的裂痕与党内斗争加剧 - ABC News & Headlines – Australian Broadcasting Corporation",
+        "date": "2025-06-19",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何卫东 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQNzZnSTBVUW85VXJTZHlyVXZzX3l5dWxwNlZSY0VMX0lSaU1DcUVwRU8zR0ZQSk5SdTNmcW1UQ0s5WVNvS0lRZG4zc3EweUZYUktqMXJXdW5NWUtldGxSTTVGblhDRl9ybFFidUFyR3E0TGtvQ0dFVmE1Y2JvQlBiRFNoTXdndW9ITUl1bk0yeHRwTktOU3dFSGVERUE1OXVoal9wODlnZm1Ca19DS0xB?oc=5",
+        "source": "ABC News & Headlines – Australian Broadcasting Corporation",
+        "fetchedAt": "2026-07-10T10:02:41.064Z"
+      },
+      {
+        "type": "媒体报道",
         "title": "习再整官场？军委副主席何卫东疑落马；政治局委员李干杰仕途堪忧｜Whatsnew - 端傳媒Initium Media",
         "date": "2025-04-15",
         "impact": "低",
@@ -5175,7 +5648,7 @@
       "http://www.mod.gov.cn/"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-01T10:02:30.825Z"
+    "updatedAt": "2026-07-10T10:03:01.436Z"
   },
   {
     "id": "he-lifeng",
@@ -5235,6 +5708,17 @@
         "impact": "低",
         "confidence": "新华社",
         "relation": "文森特逐帧分析会谈座位图，完成中方出席人员全列表。"
+      },
+      {
+        "type": "媒体报道",
+        "title": "经中美双方商定，中共中央政治局委员、国务院副总理何立峰将于5月12日—13日率团赴韩国与美方举行经贸磋商 - thepaper.cn",
+        "date": "2026-05-10",
+        "impact": "低",
+        "confidence": "官方发布",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE0xU1hXaGpBbEEzbFBNQ1A5blJ4aXEtVzhjczA1Z0FNOTNfTGxJdzBHUVVOa2RkQ0JKc21zZ3U5eU9vQlFTY0k4VkVrZlZCT2Fnb3RncjVTa0JvemJVVHc?oc=5",
+        "source": "thepaper.cn",
+        "fetchedAt": "2026-07-21T04:02:44.519Z"
       },
       {
         "type": "媒体报道",
@@ -5457,6 +5941,28 @@
         "fetchedAt": "2026-06-05T10:30:33.830Z"
       },
       {
+        "type": "媒体报道",
+        "title": "何立峰任国家发改委主任 徐绍史不再担任(图|简历) - 中国经济网",
+        "date": "2017-02-24",
+        "impact": "低",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTFBBNE9tS2RzcWRuLWxiQW9VeGhLeVFKVnZfZ1hra0ItckdFZ0x4NmVoSmRKZ0gzQnhyeVI3Ym13MEtvRDNodE1qTHNvOFlXM1pnZnNBempxMi1PZEVvU1R5cHVUWk9kaGNVQkxPaTNhT0FuZEVhYzhDSA?oc=5",
+        "source": "中国经济网",
+        "fetchedAt": "2026-07-19T10:11:11.988Z"
+      },
+      {
+        "type": "任免动向",
+        "title": "全国人大任命何立峰为发改委主任 张军为司法部长 钟山为商务部部长 - 央广网",
+        "date": "2017-02-24",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9ZMmlmR2Q3TU03RlZIby1JOVhjR2dyMFp3Z3ZnRFN6VFJrYkVINTBrd19EVUw2YXFzamVPdDROOXNwN1hRRmZPbWpac1Y0clRseThHSkdnZG8yeGp5Y1ZoYXU0Zm5HYVJuWEFORzZSUlQ?oc=5",
+        "source": "央广网",
+        "fetchedAt": "2026-07-21T04:02:44.519Z"
+      },
+      {
         "type": "任免动向",
         "title": "国务院任免国家工作人员 何立峰为发改委副主任 - rmzxw.com.cn",
         "date": "2014-07-17",
@@ -5513,6 +6019,17 @@
       },
       {
         "type": "任免动向",
+        "title": "香港党媒：厦门市委书记何立峰调任天津副书记 - aboluowang.com",
+        "date": "2009-05-06",
+        "impact": "中",
+        "confidence": "单源公开报道",
+        "relation": "事件雷达抓取 · 与 何立峰 相关的公开报道",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5GRy1BMlNfQVZEd0t3UUZ1aWtmRlBZQVQ3dWFpdkxvT2tNc3h3eHBvVHJRcVhJTDIyUnkzXzRhaWUzNmoyX2puNm1mZGtNMlNyc2lpNHZUa3R6WW9B0gFiQVVfeXFMTzdvV3JNREUxU2d4Si1uUnVZYzZ3c0gzd2NDVFBYaHphRFhINjhDODNVYjNsWC1fUE9VeWpxMlI1Z0xCekF0MVdzMWxSUzlVOGVPNEV6Y0kyYzExM3NvSUJXVlE?oc=5",
+        "source": "aboluowang.com",
+        "fetchedAt": "2026-07-10T04:02:44.455Z"
+      },
+      {
+        "type": "任免动向",
         "title": "刘赐贵当选厦门市市长 何立峰任职人大主任(图) - 搜狐网",
         "date": "2007-04-02",
         "impact": "中",
@@ -5560,7 +6077,7 @@
       "https://cpc.people.com.cn/GB/64162/394696/index.html"
     ],
     "eventRisk": 100,
-    "updatedAt": "2026-07-06T04:02:11.344Z"
+    "updatedAt": "2026-07-21T04:02:45.806Z"
   },
   {
     "id": "zhang-guoqing",

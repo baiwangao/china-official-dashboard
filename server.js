@@ -82,10 +82,21 @@ app.get('/', (req, res, next) => {
   const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
   res.send(html.replace('</head>', '<meta name="api-auth-token" content="' + (API_AUTH_TOKEN || '') + '">\n</head>'));
 });
-app.use(express.static(path.join(__dirname, '.')), (req, res, next) => {
-  if (req.path === '/' || req.path === '/index.html') return; // handled by route above
+// 给所有 HTML 页面注入 API token
+app.use((req, res, next) => {
+  if (API_AUTH_TOKEN && req.path.endsWith('.html') && req.path !== '/') {
+    const fs = require('fs');
+    const filePath = path.join(__dirname, req.path);
+    try {
+      const html = fs.readFileSync(filePath, 'utf8');
+      res.send(html.replace('content=""', 'content="' + API_AUTH_TOKEN + '"'));
+      return;
+    } catch { /* fall through */ }
+  }
   next();
 });
+
+app.use(express.static(path.join(__dirname, '.')));
 
 // API Routes
 app.get('/api/profiles', async (req, res) => {
@@ -434,6 +445,69 @@ app.post('/api/personnel-changes', async (req, res) => {
       [p.person_name, p.original_position||'', p.new_position||'', p.status||'传闻', p.credibility||'中', p.date||new Date().toISOString().slice(0,10), p.remarks||'']);
     res.json({ ok: true, message: '人事变动已录入' });
   } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// 全局市场成交量（用于计算真实概率）
+app.get('/api/market/volumes', async (req, res) => {
+  try {
+    const [rows] = await dataManager.getPool().execute(
+      "SELECT market_id, SUM(CASE WHEN side='yes' THEN amount ELSE 0 END) AS yes_vol, SUM(CASE WHEN side='no' THEN amount ELSE 0 END) AS no_vol FROM market_trades GROUP BY market_id");
+    var volumes = {};
+    rows.forEach(function(r){ volumes[r.market_id] = { yes: Number(r.yes_vol), no: Number(r.no_vol) }; });
+    res.json(volumes);
+  } catch (err) { res.json({}); }
+});
+
+// 结算管理 API（MySQL 优先，JSON 兜底）
+app.get('/api/market-results', async (req, res) => {
+  try {
+    const [rows] = await dataManager.getPool().execute('SELECT pid, result FROM market_results');
+    var data = {};
+    rows.forEach(function(r){ data[r.pid] = { result: r.result }; });
+    res.json(data);
+  } catch (err) {
+    try {
+      const fs = require('fs').promises;
+      const data = JSON.parse(await fs.readFile(path.join(__dirname, 'data/market-results.json'), 'utf8'));
+      res.json(data);
+    } catch { res.json({}); }
+  }
+});
+
+app.post('/api/market-results', async (req, res) => {
+  try {
+    var pid = req.body.pid, result = req.body.result;
+    if (!pid || !result) return res.status(400).json({ error: '缺少 pid 或 result' });
+    await dataManager.getPool().execute(
+      'INSERT INTO market_results (pid, result) VALUES (?, ?) ON DUPLICATE KEY UPDATE result = ?',
+      [pid, result, result]);
+    res.json({ ok: true, message: '结算已保存 ' + pid });
+  } catch (err) {
+    try {
+      const fs = require('fs').promises;
+      const fp = path.join(__dirname, 'data/market-results.json');
+      const data = JSON.parse(await fs.readFile(fp, 'utf8'));
+      data[pid] = { result: result };
+      await fs.writeFile(fp, JSON.stringify(data, null, 2));
+      res.json({ ok: true, message: '结算已保存(JSON) ' + pid });
+    } catch (e2) { res.status(500).json({ error: err.message }); }
+  }
+});
+
+app.delete('/api/market-results/:pid', async (req, res) => {
+  try {
+    await dataManager.getPool().execute('DELETE FROM market_results WHERE pid = ?', [req.params.pid]);
+    res.json({ ok: true, message: '已撤销 ' + req.params.pid });
+  } catch (err) {
+    try {
+      const fs = require('fs').promises;
+      const fp = path.join(__dirname, 'data/market-results.json');
+      const data = JSON.parse(await fs.readFile(fp, 'utf8'));
+      delete data[req.params.pid];
+      await fs.writeFile(fp, JSON.stringify(data, null, 2));
+      res.json({ ok: true, message: '已撤销(JSON) ' + req.params.pid });
+    } catch { res.status(500).json({ error: err.message }); }
+  }
 });
 
 // Telegram 聊天记录导入（POST body 为 result.json 的内容）

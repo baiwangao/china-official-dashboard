@@ -63,6 +63,19 @@ h1{font-size:20px;font-weight:700}
   </div>
 
   <div class="card">
+    <div class="card-title">⚖ 结算管理</div>
+    <div class="form-2col" style="margin-bottom:12px">
+      <div class="form-row" style="margin:0"><label>市场ID</label><input id="st-pid" placeholder="pc-24"/></div>
+      <div class="form-row" style="margin:0"><label>结果</label><select id="st-result"><option value="confirmed">confirmed（YES赢）</option><option value="cleared">cleared（NO赢）</option></select></div>
+    </div>
+    <button class="btn btn-teal" onclick="addSettlement()" style="margin-bottom:14px">✓ 添加结算</button>
+    <div id="settle-list" style="display:flex;flex-direction:column;gap:8px">
+      <div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">加载中…</div>
+    </div>
+    <button class="btn btn-teal" onclick="loadSettlements()">↻ 刷新结算列表</button>
+  </div>
+
+  <div class="card">
     <div class="card-title">👤 新增人事变动</div>
     <div class="form-row"><label>人名 *</label><input id="pc-name" placeholder="例：陈新武"/></div>
     <div class="form-2col">
@@ -118,6 +131,44 @@ function submitPersonnel(){
 var today=new Date().toISOString().slice(0,10);
 document.getElementById('ev-date').value=today;
 document.getElementById('pc-date').value=today;
+
+function loadSettlements(){
+  var list=document.getElementById('settle-list');
+  list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">加载中…</div>';
+  af('/api/market-results').then(function(data){
+    var keys=Object.keys(data);
+    if(!keys.length){list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">暂无结算记录</div>';return}
+    list.innerHTML=keys.map(function(pid){
+      var r=data[pid].result;
+      var tag=r==='confirmed'?'<span style="color:var(--teal);font-weight:600">YES赢</span>':'<span style="color:var(--rose);font-weight:600">NO赢</span>';
+      return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#f1f5f9;border-radius:8px">'+
+        '<span style="font-size:13px;font-weight:600">'+pid+'</span>'+
+        '<div style="display:flex;align-items:center;gap:10px">'+tag+
+        '<button onclick="deleteSettlement(\''+pid+'\')" style="border:none;background:var(--rose);color:#fff;padding:4px 12px;border-radius:5px;font-size:12px;cursor:pointer">撤销</button></div></div>';
+    }).join('');
+  }).catch(function(){list.innerHTML='<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">加载失败</div>'})
+}
+
+function deleteSettlement(pid){
+  if(!confirm('确定撤销 '+pid+' 的结算？')) return;
+  af('/api/market-results/'+pid,{method:'DELETE'}).then(function(){
+    toast('已撤销',pid+' 结算已删除，持仓恢复交易状态',true);
+    var s=localStorage.getItem('ccdi_market_settlements');
+    if(s){var gs=JSON.parse(s);delete gs[pid];localStorage.setItem('ccdi_market_settlements',JSON.stringify(gs))}
+    loadSettlements();
+  }).catch(function(e){toast('失败',e.error||'撤销错误',false)})
+}
+
+function addSettlement(){
+  var pid=document.getElementById('st-pid').value.trim();
+  var result=document.getElementById('st-result').value;
+  if(!pid) return toast('错误','请输入市场ID',false);
+  af('/api/market-results',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({pid:pid,result:result})})
+    .then(function(){toast('成功',pid+' 结算已保存',true);document.getElementById('st-pid').value='';loadSettlements()})
+    .catch(function(e){toast('失败',e.error||'保存错误',false)})
+}
+
+loadSettlements();
 </script>
 </body>
 </html>
