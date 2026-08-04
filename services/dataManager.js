@@ -12,18 +12,20 @@ class DataManager {
     this.dataDir = path.join(__dirname, '../data');
     this.profilesFile = path.join(this.dataDir, 'leadership.json');
     this.dbAvailable = null;
+    this.lastDbFail = 0;
   }
 
   // Returns `undefined` when DB is offline (fallback needed); otherwise returns fn() result (may be null).
   async tryDB(fn) {
     try {
-      if (this.dbAvailable === false) throw new Error('db-offline');
+      if (this.dbAvailable === false) { if (Date.now() - this.lastDbFail < 60000) return undefined; this.pool = null; console.log("[DataManager] 尝试重连数据库..."); }
       this.getPool();
       const result = await fn();
       this.dbAvailable = true;
       return result;
     } catch (e) {
       this.dbAvailable = false;
+      this.lastDbFail = Date.now();
       console.warn('[DataManager] DB异常，使用本地JSON:', e.message.substring(0, 50));
       return undefined;
     }
