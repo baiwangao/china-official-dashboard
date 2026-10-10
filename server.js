@@ -47,9 +47,14 @@ function normalizeHuairentangEvent(row) {
     row.impact ||
     (/严重违纪|违法|立案|留置/.test(title) ? '高' : '中');
 
+  const rawDate = row.date || row.event_date || row.created_at || '';
+  const date = rawDate instanceof Date
+    ? rawDate.toISOString().slice(0, 10)
+    : String(rawDate).slice(0, 10);
+
   return {
     id: row.id,
-    date: row.date || row.event_date || row.created_at || '',
+    date,
     title,
     summary: row.summary || row.description || row.content || '',
     officials,
@@ -406,10 +411,12 @@ app.get('/api/huairentang/events', async (req, res) => {
       const fs = require('fs').promises;
       fs.writeFile(path.join(__dirname, 'data/huairentang-events.json'), JSON.stringify(events, null, 2)).catch(()=>{});
     }
+    res.setHeader('X-Data-Source', 'db');
     res.json(events);
   } catch (error) {
     try {
       const cache = JSON.parse(await require('fs').promises.readFile(path.join(__dirname, 'data/huairentang-events.json'), 'utf8'));
+      res.setHeader('X-Data-Source', 'cache');
       return res.json(cache.map(normalizeHuairentangEvent));
     } catch { res.status(500).json({ error: error.message }); }
   }
@@ -445,6 +452,84 @@ app.post('/api/personnel-changes', async (req, res) => {
       [p.person_name, p.original_position||'', p.new_position||'', p.status||'传闻', p.credibility||'中', p.date||new Date().toISOString().slice(0,10), p.remarks||'']);
     res.json({ ok: true, message: '人事变动已录入' });
   } catch (err) { res.status(500).json({ error: err.message }); }
+});
+
+// 预测大厅：二十一大盘口 + 落马/人事传闻盘口
+app.get('/api/markets', async (req, res) => {
+  try {
+    const fs = require('fs').promises;
+    const congressPath = path.join(__dirname, 'data/congress-markets.json');
+    let congress = [];
+    try {
+      congress = JSON.parse(await fs.readFile(congressPath, 'utf8'));
+    } catch (_) {
+      congress = [];
+    }
+
+    let personnel = [];
+    try {
+      const [rows] = await dataManager.getPool().query('SELECT * FROM personnel_changes ORDER BY date DESC');
+      personnel = rows;
+      if (rows.length) {
+        fs.writeFile(path.join(__dirname, 'data/personnel-changes.json'), JSON.stringify(rows, null, 2)).catch(() => {});
+      }
+    } catch (_) {
+      try {
+        personnel = JSON.parse(await fs.readFile(path.join(__dirname, 'data/personnel-changes.json'), 'utf8'));
+      } catch {
+        personnel = [];
+      }
+    }
+
+    const rumorStatuses = new Set(['传闻', '叫停', '调查中', '']);
+    const purgeMarkets = personnel
+      .filter((r) => rumorStatuses.has(r.status || '') || !r.status)
+      .filter((r) => r.person_name && r.person_name !== 'test-user')
+      .map((r) => {
+        const isPurge = /落马|立案|调查|留置|带走|双开|审查/.test(
+          `${r.new_position || ''} ${r.remarks || ''} ${r.status || ''}`
+        );
+        return {
+          id: `pc-${r.id}`,
+          category: isPurge ? 'purge' : 'rumor',
+          title: isPurge
+            ? `${r.person_name} 是否在近期落马 / 被立案？`
+            : `${r.person_name}：${r.original_position || '现职'} → ${r.new_position || '传闻调动'}`,
+          subtitle: isPurge
+            ? `${r.original_position || '职务待核'} · 可信度 ${r.credibility || '中'}`
+            : `人事传闻 · 可信度 ${r.credibility || '中'}`,
+          question: isPurge
+            ? `${r.person_name} 是否会被中纪委立案或官宣落马？`
+            : `${r.person_name} 的人事变动传闻是否兑现？`,
+          yesLabel: isPurge ? '会落马' : '传闻属实',
+          noLabel: isPurge ? '不会' : '传闻澄清',
+          personName: r.person_name,
+          originalPosition: r.original_position || '',
+          newPosition: r.new_position || '',
+          credibility: r.credibility || '中',
+          status: r.status || '传闻',
+          date: r.date || '',
+          remarks: r.remarks || '',
+          tags: isPurge ? ['落马', '传闻'] : ['人事', '传闻'],
+          sourceRowId: r.id,
+        };
+      });
+
+    const congressMarkets = congress.map((m) => ({
+      ...m,
+      personName: m.title,
+    }));
+
+    res.json({
+      congress: congressMarkets,
+      purge: purgeMarkets.filter((m) => m.category === 'purge'),
+      rumor: purgeMarkets.filter((m) => m.category === 'rumor'),
+      all: [...congressMarkets, ...purgeMarkets],
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // 全局市场成交量（用于计算真实概率）

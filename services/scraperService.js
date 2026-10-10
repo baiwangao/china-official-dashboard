@@ -1,10 +1,4 @@
-let puppeteer;
-try {
-  puppeteer = require('puppeteer-core');
-} catch (error) {
-  console.log('Puppeteer not available, scraping with Puppeteer will be disabled');
-  puppeteer = null;
-}
+let puppeteer = null;
 
 const cheerio = require('cheerio');
 const { httpsFetch } = require('./httpsFetch');

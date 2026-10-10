@@ -1,0 +1,80 @@
+[
+  {
+    "id": "c21-timing",
+    "category": "congress",
+    "title": "二十一大是否于 2027 年如期召开",
+    "subtitle": "党代会时点 · 舆论与日程信号",
+    "question": "二十一大是否按惯例于 2027 年召开？",
+    "yesLabel": "如期召开",
+    "noLabel": "延期或改期",
+    "seedYes": 0.74,
+    "pool": 128400,
+    "status": "open",
+    "tags": ["二十一大", "日程"]
+  },
+  {
+    "id": "c21-pbsc-majority",
+    "category": "congress",
+    "title": "二十一大后政治局常委换届超过半数",
+    "subtitle": "最高层人事 · 换届幅度",
+    "question": "新一届政治局常委中，新人是否超过半数？",
+    "yesLabel": "超过半数",
+    "noLabel": "不超过半数",
+    "seedYes": 0.58,
+    "pool": 96200,
+    "status": "open",
+    "tags": ["二十一大", "常委"]
+  },
+  {
+    "id": "c21-gensec-continue",
+    "category": "congress",
+    "title": "二十一大总书记连任",
+    "subtitle": "核心人事 · 公开表态与惯例对照",
+    "question": "二十一大选举结果是否确认总书记连任？",
+    "yesLabel": "连任",
+    "noLabel": "不连任",
+    "seedYes": 0.81,
+    "pool": 210500,
+    "status": "open",
+    "tags": ["二十一大", "总书记"]
+  },
+  {
+    "id": "c21-ccdi-wave",
+    "category": "congress",
+    "title": "二十一大前出现副国级及以上落马",
+    "subtitle": "换届前反腐节奏",
+    "question": "二十一大召开前，是否出现副国级及以上官员落马通报？",
+    "yesLabel": "会出现",
+    "noLabel": "不会出现",
+    "seedYes": 0.46,
+    "pool": 87300,
+    "status": "open",
+    "tags": ["二十一大", "落马"]
+  },
+  {
+    "id": "c21-military-reshuffle",
+    "category": "congress",
+    "title": "二十一大前后中央军委组成大换血",
+    "subtitle": "军队人事 · 组成变化幅度",
+    "question": "新一届中央军委委员中新人是否占多数？",
+    "yesLabel": "新人过半",
+    "noLabel": "新人不过半",
+    "seedYes": 0.62,
+    "pool": 74100,
+    "status": "open",
+    "tags": ["二十一大", "军委"]
+  },
+  {
+    "id": "c21-premier-change",
+    "category": "congress",
+    "title": "二十一大后国务院总理换人",
+    "subtitle": "国务院人事",
+    "question": "二十一大相关换届后，国务院总理是否换人？",
+    "yesLabel": "换人",
+    "noLabel": "连任",
+    "seedYes": 0.39,
+    "pool": 110800,
+    "status": "open",
+    "tags": ["二十一大", "总理"]
+  }
+]

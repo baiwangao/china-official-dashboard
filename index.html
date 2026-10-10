@@ -3,38 +3,58 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>公开履历信号分析台</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <title>风声台 · 预测赌场</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./casino.css" />
   </head>
   <body>
-    <!-- 烟花粒子层 -->
+    <div class="felt-bg" aria-hidden="true"></div>
     <div class="fireworks-stage" id="fireworksStage"></div>
     <div id="toast-container"></div>
-    <div class="market-modal" id="marketModal" style="display:none">
-      <div class="modal-overlay" onclick="closeMarketDetail()"></div>
-      <div class="modal-content">
-        <div class="modal-head">
-          <div class="modal-title" id="md-title">—</div>
-          <button class="modal-close" onclick="closeMarketDetail()">✕</button>
-        </div>
-        <div class="modal-body" id="md-body">
-          <div class="md-prob-row">
-            <div class="md-prob-side yes" id="md-yes"><span class="md-prob-label">YES</span><span class="md-prob-val">50%</span></div>
-            <div class="md-prob-side no" id="md-no"><span class="md-prob-label">NO</span><span class="md-prob-val">50%</span></div>
+
+    <div class="market-modal" id="marketModal" hidden>
+      <div class="modal-overlay" data-close-modal></div>
+      <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="md-title">
+        <header class="modal-head">
+          <div>
+            <span class="chip-tag" id="md-cat">MARKET</span>
+            <h2 id="md-title">—</h2>
+            <p id="md-sub" class="modal-sub">—</p>
           </div>
-          <div class="md-bar"><div class="md-bar-fill" style="width:50%"></div></div>
-          <div class="md-trade-area">
-            <div class="md-input-row">
-              <div class="trade-amount-wrap"><input class="trade-amount" id="md-amt-yes" type="number" value="10" min="1" placeholder="10"/></div>
-              <button class="btn-yes" id="md-btn-yes">YES</button>
+          <button type="button" class="icon-btn" data-close-modal aria-label="关闭">✕</button>
+        </header>
+        <div class="modal-body">
+          <div class="odds-row">
+            <div class="odds-side yes" id="md-yes">
+              <span class="odds-label" id="md-yes-label">YES</span>
+              <strong class="odds-val">50%</strong>
             </div>
-            <div class="md-input-row">
-              <div class="trade-amount-wrap"><input class="trade-amount" id="md-amt-no" type="number" value="10" min="1" placeholder="10"/></div>
-              <button class="btn-no" id="md-btn-no">NO</button>
+            <div class="odds-side no" id="md-no">
+              <span class="odds-label" id="md-no-label">NO</span>
+              <strong class="odds-val">50%</strong>
             </div>
+          </div>
+          <div class="odds-bar"><div class="odds-bar-fill" id="md-bar" style="width:50%"></div></div>
+          <div style="display:flex;gap:12px;margin-bottom:16px;font-size:12px;color:var(--muted)">
+            <span>池子<strong id="md-volume" style="color:var(--gold-soft);margin-left:4px">$0</strong></span>
+            <span>交易者<strong id="md-traders" style="color:var(--gold-soft);margin-left:4px">0</strong></span>
+          </div>
+          <div class="bet-grid">
+            <label class="bet-slot yes">
+              <span>押 YES</span>
+              <input id="md-amt-yes" type="number" value="20" min="1" />
+              <button type="button" class="chip-btn yes" id="md-btn-yes">下注</button>
+            </label>
+            <label class="bet-slot no">
+              <span>押 NO</span>
+              <input id="md-amt-no" type="number" value="20" min="1" />
+              <button type="button" class="chip-btn no" id="md-btn-no">下注</button>
+            </label>
           </div>
           <div class="md-history">
-            <div class="md-history-title">交易记录</div>
+            <div class="md-history-title">本局记录</div>
             <div class="md-trade-list" id="md-trade-list"></div>
           </div>
         </div>
@@ -42,418 +62,138 @@
     </div>
 
     <div class="app-shell">
-      <aside class="sidebar" aria-label="筛选">
-        <div class="brand-block">
-          <div class="brand-mark" aria-hidden="true">政</div>
+      <aside class="rail" aria-label="侧栏">
+        <div class="brand">
+          <div class="brand-seal" aria-hidden="true">風</div>
           <div>
-            <h1>仕途情报评估台</h1>
-            <p>Public Career Review System</p>
+            <p class="brand-kicker">SIGNAL DESK</p>
+            <h1>风声台</h1>
           </div>
         </div>
 
-        <nav class="nav-stack" aria-label="主导航">
-          <a class="nav-item active" href="#overview"><span aria-hidden="true">⊞</span>总览面板</a>
-          <a class="nav-item" href="#profiles"><span aria-hidden="true">◈</span>领导档案</a>
-          <a class="nav-item" href="#events"><span aria-hidden="true">⚑</span>事件雷达</a>
-          <a class="nav-item" href="#opinion"><span aria-hidden="true">◎</span>舆论监测</a>
-          <a class="nav-item" href="#sources"><span aria-hidden="true">⚖</span>中纪委案件</a>
-          <a class="nav-item" href="#market"><span aria-hidden="true">📊</span>预测市场</a>
-          <a class="nav-item" href="#huairentang"><span aria-hidden="true">📰</span>怀仁堂日报</a>
-          <a class="nav-item" href="/kline.html"><span aria-hidden="true">📈</span>K线监控</a>
-          <a class="nav-item" href="/admin.html"><span aria-hidden="true">✚</span>数据录入</a>
+        <nav class="rail-nav" aria-label="大厅导航">
+          <a class="rail-link active" href="#floor" data-tab="all">预测大厅</a>
+          <a class="rail-link" href="#floor" data-tab="purge">落马盘</a>
+          <a class="rail-link" href="#floor" data-tab="congress">二十一大</a>
+          <a class="rail-link" href="#rumors">风声速报</a>
+          <a class="rail-link" href="#cases">案件结算窗</a>
+          <a class="rail-link" href="#winners">赢家榜</a>
+          <a class="rail-link" href="/admin.html">庄家录入</a>
         </nav>
 
-        <div class="user-panel" id="userPanel">
-          <div id="userNotLoggedIn" style="display:flex;flex-direction:column;gap:8px">
-            <input id="loginNameInput" type="text" placeholder="输入用户名" autocomplete="off" style="width:100%;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff">
-            <button id="loginBtn" style="width:100%;padding:8px;border-radius:6px;border:none;background:#40d6c9;color:var(--navy);font-weight:800;cursor:pointer">🚀 登入 / 注册</button>
+        <div class="wallet" id="userPanel">
+          <div id="userNotLoggedIn" class="wallet-guest">
+            <input id="loginNameInput" type="text" placeholder="玩家名" autocomplete="off" />
+            <button type="button" id="loginBtn" class="gold-btn">入场 · 领 $1000</button>
           </div>
-          <div id="userLoggedIn" style="display:none;flex-direction:column;gap:6px">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <span id="userDisplayName" style="font-weight:800;font-size:15px">—</span>
-              <button id="logoutBtn" style="background:none;border:none;color:rgba(255,255,255,0.6);cursor:pointer;font-size:12px">登出</button>
+          <div id="userLoggedIn" class="wallet-in" hidden>
+            <div class="wallet-top">
+              <strong id="userDisplayName">—</strong>
+              <button type="button" id="logoutBtn" class="text-btn">离场</button>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,0.7)">
-              <span>💰 余额</span>
-              <strong id="userBalance" style="color:#40d6c9">$0</strong>
+            <div class="wallet-stat">
+              <span>筹码</span>
+              <strong id="userBalance">$0</strong>
             </div>
-            <div style="display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,0.7)">
-              <span>📈 持仓</span>
+            <div class="wallet-stat">
+              <span>持仓</span>
               <span id="userPositions">0</span>
             </div>
-            <div id="userPositionList" class="user-position-list"></div>
+            <div id="userPositionList" class="position-list"></div>
           </div>
         </div>
 
-        <label class="search-box">
-          <span>搜索</span>
-          <input id="searchInput" type="search" placeholder="姓名、地区、岗位" autocomplete="off" />
-        </label>
-
-        <div class="filter-group">
-          <span class="filter-label">地区</span>
-          <div class="chip-row" id="regionFilters"></div>
-        </div>
-
-        <div class="filter-group">
-          <span class="filter-label">系统</span>
-          <div class="chip-row" id="systemFilters"></div>
-        </div>
-
-        <div class="filter-group">
-          <span class="filter-label">关注度</span>
-          <div class="chip-row" id="attentionFilters"></div>
-        </div>
-
-        <div class="method-note">
-          <strong>边界</strong>
-          <p>页面只表达公开报道和履历结构中的信号强弱，不对任何真实个人作违法违纪结论。</p>
-        </div>
+        <p class="rail-note">风声先行 · 盘口后开。仅供娱乐推演，不构成任何事实认定。</p>
       </aside>
 
-      <main class="workspace">
-        <header class="workspace-bar">
-          <div>
-            <strong>研判工作台</strong>
-            <span>本地原型 · 仅使用公开来源字段</span>
+      <main class="stage">
+        <section class="hero" id="overview">
+          <div class="hero-copy">
+            <p class="brand-wordmark">風聲台</p>
+            <h2>先听风声，再押落马与二十一大</h2>
+            <p class="hero-lead">传闻进场 → 概率开盘 → 结算兑现。赌场式盘口，情报式节奏。</p>
+            <div class="hero-cta">
+              <a class="gold-btn" href="#floor">进入大厅</a>
+              <a class="ghost-btn" href="#rumors">看最新风声</a>
+            </div>
           </div>
-          <div class="operator-chip">
-            <span class="status-dot"></span>
-            Analyst Online
-          </div>
-        </header>
-
-        <section class="top-strip" id="overview" aria-label="概览">
-          <div>
-            <span class="eyebrow">Signal Desk</span>
-            <h2>领导班子履历、事件与公开关注评估</h2>
-          </div>
-          <div class="summary-grid" id="summaryGrid"></div>
-        </section>
-
-        <section class="pipeline-grid" aria-label="数据流程">
-          <div class="pipeline-card">
-            <span>01</span>
-            <strong>采集公开名单</strong>
-            <p>政府官网、部门领导页、人大任免公告。</p>
-          </div>
-          <div class="pipeline-card">
-            <span>02</span>
-            <strong>抽取履历字段</strong>
-            <p>姓名、职务、分工、任职时间、来源链接。</p>
-          </div>
-          <div class="pipeline-card">
-            <span>03</span>
-            <strong>关联公共事件</strong>
-            <p>事故、通报、企业风险、媒体线索分层记录。</p>
-          </div>
-          <div class="pipeline-card">
-            <span>04</span>
-            <strong>生成评估状态</strong>
-            <p>待核验、持续观察、重点复核、低关注。</p>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="chip-stack">
+              <span class="chip c1">YES</span>
+              <span class="chip c2">NO</span>
+              <span class="chip c3">21</span>
+            </div>
+            <div class="ticker-strip" id="heroTicker">风声正在汇入盘口…</div>
           </div>
         </section>
 
-        <section class="tableplus-section" id="personnel" aria-label="人事变动">
-          <div class="tableplus-head">
+        <div class="hero-ticker-bar">
+          <div class="hero-ticker-track" id="tickerTrack">
+            <div class="hero-ticker-item"><span class="ti-dot" style="background:var(--gold)"></span><span class="ti-name">盘口加载中…</span></div>
+          </div>
+        </div>
+
+        <section class="floor" id="floor">
+          <header class="floor-head">
             <div>
-              <span class="eyebrow">Personnel Changes</span>
-              <h3>人事变动追踪</h3>
+              <span class="eyebrow">Prediction Floor</span>
+              <h3 id="floorTitle">全部盘口</h3>
             </div>
-            <span class="result-count" id="personnelCount"></span>
-          </div>
-          <div class="tableplus-grid" id="personnelGrid">
-            <div class="empty-state">加载中…</div>
+            <div class="floor-tabs" role="tablist">
+              <button type="button" class="tab active" data-tab="all">全部</button>
+              <button type="button" class="tab" data-tab="purge">落马</button>
+              <button type="button" class="tab" data-tab="congress">二十一大</button>
+              <button type="button" class="tab" data-tab="rumor">人事传闻</button>
+            </div>
+            <button type="button" class="ghost-btn" id="refreshMarketsBtn">刷新赔率</button>
+          </header>
+          <div class="floor-stats" id="floorStats"></div>
+          <div class="market-grid" id="marketBody">
+            <div class="empty-state">正在开盘…</div>
           </div>
         </section>
 
-        <section class="tableplus-section" id="daily" aria-label="每日摘要">
-          <div class="tableplus-head">
+        <section class="feed-section winners-board" id="winners">
+          <header class="section-head">
             <div>
-              <span class="eyebrow">Daily Summary</span>
-              <h3>每日摘要</h3>
+              <span class="eyebrow">Winner Board</span>
+              <h3>赢家榜</h3>
+              <p>结算兑现后的赢家流水 — 押中落马或二十一大，上榜留名。</p>
             </div>
-            <span class="result-count" id="dailyCount"></span>
-          </div>
-          <div class="tableplus-grid" id="dailyGrid">
-            <div class="empty-state">加载中…</div>
+          </header>
+          <div class="winners-grid" id="winnersBody">
+            <div class="empty-state">暂无中奖记录</div>
           </div>
         </section>
 
-        <section class="sources-section" id="sources" aria-label="中纪委案件">
-          <div class="sources-head">
+        <section class="feed-section" id="rumors">
+          <header class="section-head">
             <div>
-              <span class="eyebrow">CCDI Case Tracker</span>
-              <h3>中纪委案件追踪</h3>
-              <p class="section-desc">已立案、被带走、留置中的官员案件动态。点击可跳转查看完整档案。</p>
+              <span class="eyebrow">Rumor Wire</span>
+              <h3>风声速报</h3>
+              <p>怀仁堂与公开渠道先放出的动向——盘口的原料。</p>
             </div>
-          </div>
-          <div class="sources-body" id="sourcesBody">
-            <div class="empty-state">加载中…</div>
+          </header>
+          <div class="feed-list" id="huairentangBody">
+            <div class="empty-state">加载风声…</div>
           </div>
         </section>
 
-        <section class="sources-section" id="market" aria-label="预测市场">
-          <div class="sources-head">
+        <section class="feed-section" id="cases">
+          <header class="section-head">
             <div>
-              <span class="eyebrow">Prediction Market</span>
-              <h3>中纪委预测市场</h3>
-              <p class="section-desc">基于 TablePlus 人事变动表进行 YES / NO 研判标记。</p>
+              <span class="eyebrow">Settlement Window</span>
+              <h3>案件结算窗</h3>
+              <p>立案 / 留置 / 通报出现后，对应盘口可对照结算。</p>
             </div>
+          </header>
+          <div class="feed-list" id="sourcesBody">
+            <div class="empty-state">加载案件…</div>
           </div>
-          <div class="sources-body" id="marketBody">
-            <div class="empty-state">请先登录后查看预测市场</div>
-          </div>
-        </section>
-
-        <section class="sources-section" id="huairentang" aria-label="怀仁堂日报">
-          <div class="sources-head">
-            <div>
-              <span class="eyebrow">Huairentang Daily</span>
-              <h3>怀仁堂日报</h3>
-              <p class="section-desc">来自怀仁堂日报的最新政治人物动态和事件报道。</p>
-            </div>
-          </div>
-          <div class="sources-body" id="huairentangBody">
-            <div class="empty-state">加载中…</div>
-          </div>
-        </section>
-
-        <section class="event-radar-section" id="events" aria-label="事件雷达">
-          <div class="event-radar-head">
-            <div>
-              <span class="eyebrow">Event Radar</span>
-              <h3>事件雷达 · 官员变迁新闻</h3>
-              <p class="section-desc">从 Google 新闻、NewsAPI、海外媒体抓取与官员姓名相关的任免、调任、辞职等公开报道。本列表显示<strong>全部官员</strong>的事件，不受左侧地区筛选影响。</p>
-            </div>
-            <div class="event-radar-stats" id="eventRadarStats">
-              <div class="radar-stat"><small>事件总数</small><strong id="eventTotalCount">—</strong></div>
-              <div class="radar-stat"><small>任免动向</small><strong id="eventTransitionCount">—</strong></div>
-              <div class="radar-stat"><small>上次扫描</small><strong id="eventLastScan">未扫描</strong></div>
-            </div>
-          </div>
-
-          <div class="event-radar-toolbar">
-            <button type="button" class="btn-primary" id="scanCurrentProfileBtn">扫描当前官员</button>
-            <button type="button" class="btn-ghost" id="scanBatchBtn">批量扫描（前 15 人）</button>
-            <label class="btn-ghost" style="cursor:pointer;">
-              ⊞ 导入群聊记录
-              <input type="file" id="telegramImportFile" accept=".json" style="display:none;">
-            </label>
-            <label class="radar-filter">
-              <span>筛选</span>
-              <select id="eventRadarFilter">
-                <option value="all">全部事件</option>
-                <option value="任免动向">任免动向</option>
-                <option value="媒体报道">媒体报道</option>
-                <option value="反腐通报">反腐通报</option>
-                <option value="外事活动">外事活动</option>
-              </select>
-            </label>
-          </div>
-
-          <div class="chain-status-bar" id="chainStatusBar">
-            <div class="chain-stat"><span>⛓ 待上链</span><strong id="chainPendingCount">—</strong></div>
-            <div class="chain-stat"><span>✓ 已上链</span><strong id="chainSubmittedCount">—</strong></div>
-            <div class="chain-stat"><span>怀仁堂事件</span><strong id="huairentangCount">—</strong></div>
-            <button type="button" class="btn-chain" id="submitChainBtn">立即上链</button>
-          </div>
-
-          <p class="event-radar-status" id="eventRadarStatus" aria-live="polite"></p>
-
-          <div class="chain-pipeline" id="chainPipeline" aria-hidden="true">
-            <div class="pipeline-label">链上存证流水线</div>
-            <div class="pipeline-track">
-              <div class="pipeline-stage" id="stageQueue">
-                <span class="stage-icon">📋</span>
-                <span class="stage-name">队列</span>
-              </div>
-              <div class="pipeline-arrow" id="arrow1"><span class="flow-hash"></span></div>
-              <div class="pipeline-stage" id="stageHash">
-                <span class="stage-icon">🔐</span>
-                <span class="stage-name">哈希</span>
-              </div>
-              <div class="pipeline-arrow" id="arrow2"><span class="flow-hash"></span></div>
-              <div class="pipeline-stage" id="stageSign">
-                <span class="stage-icon">✍️</span>
-                <span class="stage-name">签名</span>
-              </div>
-              <div class="pipeline-arrow" id="arrow3"><span class="flow-hash"></span></div>
-              <div class="pipeline-stage" id="stageChain">
-                <span class="stage-icon">⛓️</span>
-                <span class="stage-name">上链</span>
-              </div>
-              <div class="pipeline-arrow" id="arrow4"><span class="flow-hash"></span></div>
-              <div class="pipeline-stage" id="stageDone">
-                <span class="stage-icon">✅</span>
-                <span class="stage-name">确认</span>
-              </div>
-            </div>
-            <div class="pipeline-tx" id="pipelineTxHash"></div>
-          </div>
-
-          <div class="event-radar-feed" id="eventRadarFeed">
-            <div class="empty-state">加载中…</div>
-          </div>
-        </section>
-
-        <section class="opinion-overview" id="opinion" aria-label="舆论监测">
-          <div class="opinion-overview-head">
-            <div>
-              <span class="eyebrow">Opinion Monitor</span>
-              <h3>舆论风向与事件影响评估</h3>
-            </div>
-            <span class="result-count" id="opinionCount"></span>
-          </div>
-          <div class="opinion-overview-grid" id="opinionOverviewGrid">
-            <div class="empty-state">请选择档案后查看舆论分析</div>
-          </div>
-        </section>
-
-        <section class="content-grid" id="profiles">
-          <div class="list-pane">
-            <div class="pane-head">
-              <div>
-                <span class="eyebrow">Profiles</span>
-                <h3>官员档案</h3>
-              </div>
-              <div class="pane-head-actions">
-                <button type="button" class="btn-primary" id="openAddProfileBtn">＋ 添加官员</button>
-                <span class="result-count" id="resultCount"></span>
-              </div>
-            </div>
-            <div class="profile-list" id="profileList"></div>
-          </div>
-
-          <article class="detail-pane" id="detailPane" aria-live="polite"></article>
         </section>
       </main>
     </div>
 
-    <dialog class="add-profile-dialog" id="addProfileDialog" aria-labelledby="addProfileTitle">
-      <form id="addProfileForm" class="add-profile-form">
-        <header class="dialog-header">
-          <div>
-            <span class="eyebrow">Manual Entry</span>
-            <h3 id="addProfileTitle">手动添加官员档案</h3>
-            <p class="dialog-subtitle">填写公开履历信息后保存，系统将自动调用 AI 进行升迁分析。</p>
-          </div>
-          <button type="button" class="dialog-close" id="closeAddProfileBtn" aria-label="关闭">×</button>
-        </header>
-
-        <div class="form-section">
-          <span class="form-section-label">基本信息</span>
-          <div class="form-grid">
-            <label class="form-field">
-              <span>姓名 <em>*</em></span>
-              <input name="name" type="text" required placeholder="例如：张某某" autocomplete="off" />
-            </label>
-            <label class="form-field">
-              <span>年龄 <em>*</em></span>
-              <input name="age" type="number" min="18" max="100" required placeholder="58" />
-            </label>
-            <label class="form-field form-field-wide">
-              <span>现任职务 <em>*</em></span>
-              <input name="title" type="text" required placeholder="例如：某省委书记、省长" />
-            </label>
-            <label class="form-field">
-              <span>职级</span>
-              <select name="rank">
-                <option value="正国级">正国级</option>
-                <option value="副国级">副国级</option>
-                <option value="正部级" selected>正部级</option>
-                <option value="副部级">副部级</option>
-                <option value="正厅级">正厅级</option>
-                <option value="副厅级">副厅级</option>
-                <option value="职级待核验">职级待核验</option>
-              </select>
-            </label>
-            <label class="form-field">
-              <span>地区</span>
-              <input name="region" type="text" list="regionOptions" placeholder="华东" value="未分类" />
-            </label>
-            <label class="form-field">
-              <span>系统</span>
-              <input name="system" type="text" list="systemOptions" placeholder="地方党政" value="地方党政" />
-            </label>
-            <label class="form-field">
-              <span>关注度</span>
-              <select name="attention">
-                <option value="低">低</option>
-                <option value="中" selected>中</option>
-                <option value="高">高</option>
-              </select>
-            </label>
-          </div>
-        </div>
-
-        <datalist id="regionOptions">
-          <option value="中央"></option>
-          <option value="华北"></option>
-          <option value="东北"></option>
-          <option value="华东"></option>
-          <option value="华南"></option>
-          <option value="华中"></option>
-          <option value="西南"></option>
-          <option value="西北"></option>
-        </datalist>
-        <datalist id="systemOptions">
-          <option value="中共中央"></option>
-          <option value="全国人大"></option>
-          <option value="国务院"></option>
-          <option value="全国政协"></option>
-          <option value="地方党政"></option>
-          <option value="军队"></option>
-          <option value="司法机关"></option>
-        </datalist>
-
-        <div class="form-section">
-          <span class="form-section-label">履历与信号</span>
-          <label class="form-field">
-            <span>仕途轨迹</span>
-            <textarea name="path" rows="3" placeholder="例如：某大学 → 部委司长 → 副省长 → 省委书记"></textarea>
-          </label>
-          <label class="form-field">
-            <span>履历时间线</span>
-            <textarea name="timeline" rows="4" placeholder="每行一条，格式：年份|事件&#10;2015|任某部副部长&#10;2020|任某省省长"></textarea>
-          </label>
-          <label class="form-field">
-            <span>补充说明 / 公开信号</span>
-            <textarea name="notes" rows="2" placeholder="可选：近期公开活动、任免背景、需关注事项等"></textarea>
-          </label>
-        </div>
-
-        <details class="form-advanced">
-          <summary>高级：初始评分（可选，默认由规则引擎估算）</summary>
-          <div class="form-grid form-grid-4">
-            <label class="form-field">
-              <span>升迁窗口 <output id="promotionOut">50</output></span>
-              <input name="promotion" type="range" min="0" max="100" value="50" data-output="promotionOut" />
-            </label>
-            <label class="form-field">
-              <span>岗位变动 <output id="mobilityOut">50</output></span>
-              <input name="mobility" type="range" min="0" max="100" value="50" data-output="mobilityOut" />
-            </label>
-            <label class="form-field">
-              <span>事件风险 <output id="eventRiskOut">0</output></span>
-              <input name="eventRisk" type="range" min="0" max="100" value="0" data-output="eventRiskOut" />
-            </label>
-            <label class="form-field">
-              <span>舆论信号 <output id="publicSignalOut">30</output></span>
-              <input name="publicSignal" type="range" min="0" max="100" value="30" data-output="publicSignalOut" />
-            </label>
-          </div>
-        </details>
-
-        <p class="form-error" id="addProfileError" hidden></p>
-
-        <footer class="dialog-footer">
-          <button type="button" class="btn-ghost" id="cancelAddProfileBtn">取消</button>
-          <button type="submit" class="btn-primary" id="submitAddProfileBtn">保存并 AI 分析</button>
-        </footer>
-      </form>
-    </dialog>
-
-    <script src="./app.js"></script>
+    <script src="./market-app.js"></script>
   </body>
 </html>

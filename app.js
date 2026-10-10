@@ -835,8 +835,9 @@ function renderOpinionOverview(filtered) {
   container.innerHTML = ranked
     .map(function (p, idx) {
       const op = p._opinion;
-      const trendCls = op.trend === "上升" ? "rose" : op.trend === "下降" ? "jade" : "amber";
-      const trendIcon = op.trend === "上升" ? "↑" : op.trend === "下降" ? "↓" : "→";
+      const trendCls = op.trend === "上升" || op.trend === "危险" ? "rose" : op.trend === "下降" ? "jade" : "amber";
+      const trendIcon = op.trend === "上升" ? "↑" : op.trend === "下降" ? "↓" : op.trend === "危险" ? "!" : "→";
+      const barCls = op.score >= 65 ? "high" : op.score >= 35 ? "medium" : "low";
       return '<div class="opinion-rank-card" data-profile-id="' + escapeHtml(p.id) + '">' +
         '<div class="or-rank">#' + (idx + 1) + '</div>' +
         '<div class="or-body">' +
@@ -845,10 +846,15 @@ function renderOpinionOverview(filtered) {
             '<span class="tag ' + attentionClass(p.attention) + '">' + escapeHtml(p.attention) + '关注</span>' +
           '</div>' +
           '<p class="or-title">' + escapeHtml(p.title) + '</p>' +
-          '<div class="or-scores">' +
-            '<span>舆论风险 <b style="color:' + scoreColor(op.score) + '">' + op.score + '</b></span>' +
-            '<span class="tag ' + trendCls + '">' + trendIcon + ' ' + escapeHtml(op.trend) + '</span>' +
-            '<span>事件 ' + p.events.length + ' 条</span>' +
+          '<div class="or-score-row">' +
+            '<div class="or-score">' +
+              '<span class="or-score-num">' + op.score + '</span>' +
+              '<span class="or-score-label">舆论风险</span>' +
+            '</div>' +
+            '<span class="or-trend ' + trendCls + '">' + trendIcon + ' ' + escapeHtml(op.trend) + '</span>' +
+          '</div>' +
+          '<div class="or-bar">' +
+            '<div class="or-bar-fill ' + barCls + '" style="width:' + op.score + '%"></div>' +
           '</div>' +
           (op.affectedEvents.length ? '<div class="or-affected">' +
             '<span class="eyebrow">可能受影响事件</span>' +
@@ -1445,16 +1451,25 @@ function renderHuairentangPanel() {
 
   body.innerHTML = '<div class="empty-state">加载中…</div>';
 
-  apiFetch('/api/huairentang/events?limit=100').then(function (r) { return r.json(); }).then(function (events) {
+  apiFetch('/api/huairentang/events?limit=100').then(function (r) {
+    var dataSource = r.headers.get('X-Data-Source') || 'db';
+    return r.json().then(function (events) { return { events: events, source: dataSource }; });
+  }).then(function (result) {
+    var events = result.events;
     if (!Array.isArray(events) || !events.length) {
       body.innerHTML = '<div class="empty-state">暂无怀仁堂日报数据</div>';
       return;
     }
 
+    var sourceNote = result.source === 'cache'
+      ? '<p style="margin:4px 0 0;font-size:13px;color:var(--rose)">⚠ 数据库连接失败，当前显示本地缓存（非实时表数据）</p>'
+      : '';
+
     body.innerHTML =
       '<div class="market-header">' +
         '<h3 style="margin:0;font-size:18px">怀仁堂日报</h3>' +
         '<p style="margin:4px 0 0;font-size:13px;color:var(--muted)">TablePlus · huairentang_events · ' + events.length + ' 条</p>' +
+        sourceNote +
       '</div>' +
       '<div class="case-list">' + events.map(function (event) {
         var officials = Array.isArray(event.officials)
