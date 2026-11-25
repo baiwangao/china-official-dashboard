@@ -16,7 +16,7 @@ const queueManager = require('./blockchain/queueManager');
 const chainWriter = require('./blockchain/chainWriter');
 const huairentangCrawler = require('./huairentang/crawler');
 const { parseExport } = require('./telegram/parseExport');
-
+const {generateToken,authRequired } = require('./services/authMiddleware');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -70,36 +70,7 @@ function normalizeHuairentangEvent(row) {
 app.use(cors());
 app.use(express.json({ limit: '200mb' }));
 
-// API 鉴权中间件：GET 放行读操作，写操作需要 x-api-key
-const API_AUTH_TOKEN = process.env.API_AUTH_TOKEN;
-function apiAuth(req, res, next) {
-  if (req.method === 'GET') return next();
-  if (!API_AUTH_TOKEN) return next(); // 未配置则放行
-  const key = req.headers['x-api-key'];
-  if (key !== API_AUTH_TOKEN) return res.status(401).json({ error: 'Unauthorized' });
-  next();
-}
-app.use('/api', apiAuth);
 
-// 静态文件路由：注入 token 到页面
-app.get('/', (req, res, next) => {
-  const fs = require('fs');
-  const html = fs.readFileSync(path.join(__dirname, 'index.html'), 'utf8');
-  res.send(html.replace('</head>', '<meta name="api-auth-token" content="' + (API_AUTH_TOKEN || '') + '">\n</head>'));
-});
-// 给所有 HTML 页面注入 API token
-app.use((req, res, next) => {
-  if (API_AUTH_TOKEN && req.path.endsWith('.html') && req.path !== '/') {
-    const fs = require('fs');
-    const filePath = path.join(__dirname, req.path);
-    try {
-      const html = fs.readFileSync(filePath, 'utf8');
-      res.send(html.replace('content=""', 'content="' + API_AUTH_TOKEN + '"'));
-      return;
-    } catch { /* fall through */ }
-  }
-  next();
-});
 
 app.use(express.static(path.join(__dirname, '.')));
 
@@ -125,7 +96,7 @@ app.get('/api/profiles/:id', async (req, res) => {
   }
 });
 
-app.post('/api/profiles', async (req, res) => {
+app.post('/api/profiles',authRequired, async (req, res) => {
   try {
     const body = req.body || {};
     if (!body.name || !String(body.name).trim()) {
@@ -280,6 +251,11 @@ app.post('/api/update/scrape', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+app.get('/api/auth/token',(req,res)=>{
+  const payload = {role:'client',iat:Math.floor(Date.now()/1000)};
+  const token = generateToken(payload);
+  res.json({token,expiresIn:7200});
 });
 
 // Health check
@@ -486,23 +462,53 @@ app.get('/api/markets', async (req, res) => {
       .filter((r) => rumorStatuses.has(r.status || '') || !r.status)
       .filter((r) => r.person_name && r.person_name !== 'test-user')
       .map((r) => {
-        const isPurge = /落马|立案|调查|留置|带走|双开|审查/.test(
-          `${r.new_position || ''} ${r.remarks || ''} ${r.status || ''}`
-        );
+        const text = `${r.new_position || ''} ${r.remarks || ''} ${r.status || ''}`;
+        const isPurge = /落马|立案|调查|留置|带走|双开|审查/.test(text);
+        const isDeath = !isPurge && /去世|逝世|病逝|身后/.test(text);
+        const isPromo = !isPurge && !isDeath && /升任|晋升|擢升|擢拔|升为/.test(text);
+        const category = isPurge ? 'purge' : isDeath ? 'death' : isPromo ? 'promotion' : 'rumor';
+        const meta = {
+          purge: {
+            title: `${r.person_name} 是否在近期落马 / 被立案？`,
+            subtitle: `${r.original_position || '职务待核'} · 可信度 ${r.credibility || '中'}`,
+            question: `${r.person_name} 是否会被中纪委立案或官宣落马？`,
+            yesLabel: '会落马',
+            noLabel: '不会',
+            tags: ['落马', '传闻'],
+          },
+          death: {
+            title: `${r.person_name} 是否在近期去世？`,
+            subtitle: `${r.original_position || '元老'} · 可信度 ${r.credibility || '中'}`,
+            question: `${r.person_name} 是否会在近期（官方讣告）去世？`,
+            yesLabel: '会',
+            noLabel: '不会',
+            tags: ['去世', '元老'],
+          },
+          promotion: {
+            title: `${r.person_name}：${r.original_position || '现职'} → ${r.new_position || '传闻升迁'}？`,
+            subtitle: `升迁传闻 · 可信度 ${r.credibility || '中'}`,
+            question: `${r.person_name} 是否会升任${(r.new_position || '').replace(/^升任/, '')}？`,
+            yesLabel: '会升',
+            noLabel: '不升',
+            tags: ['升迁', '传闻'],
+          },
+          rumor: {
+            title: `${r.person_name}：${r.original_position || '现职'} → ${r.new_position || '传闻调动'}`,
+            subtitle: `人事传闻 · 可信度 ${r.credibility || '中'}`,
+            question: `${r.person_name} 的人事变动传闻是否兑现？`,
+            yesLabel: '传闻属实',
+            noLabel: '传闻澄清',
+            tags: ['人事', '传闻'],
+          },
+        }[category];
         return {
           id: `pc-${r.id}`,
-          category: isPurge ? 'purge' : 'rumor',
-          title: isPurge
-            ? `${r.person_name} 是否在近期落马 / 被立案？`
-            : `${r.person_name}：${r.original_position || '现职'} → ${r.new_position || '传闻调动'}`,
-          subtitle: isPurge
-            ? `${r.original_position || '职务待核'} · 可信度 ${r.credibility || '中'}`
-            : `人事传闻 · 可信度 ${r.credibility || '中'}`,
-          question: isPurge
-            ? `${r.person_name} 是否会被中纪委立案或官宣落马？`
-            : `${r.person_name} 的人事变动传闻是否兑现？`,
-          yesLabel: isPurge ? '会落马' : '传闻属实',
-          noLabel: isPurge ? '不会' : '传闻澄清',
+          category,
+          title: meta.title,
+          subtitle: meta.subtitle,
+          question: meta.question,
+          yesLabel: meta.yesLabel,
+          noLabel: meta.noLabel,
           personName: r.person_name,
           originalPosition: r.original_position || '',
           newPosition: r.new_position || '',
@@ -510,7 +516,7 @@ app.get('/api/markets', async (req, res) => {
           status: r.status || '传闻',
           date: r.date || '',
           remarks: r.remarks || '',
-          tags: isPurge ? ['落马', '传闻'] : ['人事', '传闻'],
+          tags: meta.tags,
           sourceRowId: r.id,
         };
       });

@@ -1,80 +1,190 @@
 [
   {
-    "id": 63,
-    "person_name": "江金权",
-    "original_position": "中共中央政策研究室主任",
-    "new_position": "落马",
+    "id": 80,
+    "person_name": "崔永辉",
+    "original_position": "厦门市委书记",
+    "new_position": "落马传闻",
     "status": "传闻",
-    "credibility": "高",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
-  },
-  {
-    "id": 64,
-    "person_name": "刘国周",
-    "original_position": "广东省副省长、省公安厅长",
-    "new_position": "落马",
-    "status": "传闻",
-    "credibility": "高",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
-  },
-  {
-    "id": 65,
-    "person_name": "胡学明",
-    "original_position": "天津市政府秘书长",
-    "new_position": "天津市委常委、常务副市长",
-    "status": "传闻",
-    "credibility": "高",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
-  },
-  {
-    "id": 66,
-    "person_name": "谭炯",
-    "original_position": "国家开发银行党委副书记、副董事长、行长",
-    "new_position": "中国人保党委书记",
-    "status": "传闻",
-    "credibility": "高",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
+    "credibility": "中",
+    "date": "2026-10-24T16:00:00.000Z",
+    "remarks": "网传崔永辉或被立案调查",
+    "created_at": "2026-10-25T15:21:50.000Z"
   },
   {
     "id": 67,
-    "person_name": "周海兵",
-    "original_position": "国家发改委副主任",
-    "new_position": "合肥市委书记",
+    "person_name": "李鸿忠",
+    "original_position": "全国人大常委会第一副委员长",
+    "new_position": "落马传闻",
     "status": "传闻",
-    "credibility": "高",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "网传李鸿忠可能近期被立案调查",
+    "created_at": "2026-10-21T14:57:05.000Z"
   },
   {
     "id": 68,
-    "person_name": "隋洪波",
-    "original_position": "退役部部长",
-    "new_position": "河南省委书记",
+    "person_name": "田纪云",
+    "original_position": "原全国人大常委会副委员长",
+    "new_position": "去世传闻",
     "status": "传闻",
     "credibility": "中",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "传闻中",
-    "created_at": "2026-07-22T01:28:15.000Z"
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "网传田纪云健康状况恶化，近期可能去世",
+    "created_at": "2026-10-21T14:57:05.000Z"
   },
   {
     "id": 69,
-    "person_name": "test-user",
-    "original_position": "",
-    "new_position": "",
+    "person_name": "唐山1",
+    "original_position": "唐山市委书记",
+    "new_position": "冀3（河北省委三把手）",
     "status": "传闻",
     "credibility": "中",
-    "date": "2026-07-21T16:00:00.000Z",
-    "remarks": "",
-    "created_at": "2026-07-22T02:00:43.000Z"
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "网传唐山市委书记将升任河北省委三把手",
+    "created_at": "2026-10-21T14:57:05.000Z"
+  },
+  {
+    "id": 70,
+    "person_name": "夏林茂",
+    "original_position": "北京市委副书记",
+    "new_position": "落马传闻",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "小道消息，夏林茂或被带走调查",
+    "created_at": "2026-10-21T14:57:05.000Z"
+  },
+  {
+    "id": 71,
+    "person_name": "韩胜延",
+    "original_position": "中部战区司令员",
+    "new_position": "落马传闻",
+    "status": "传闻",
+    "credibility": "低",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传言中部战区司令员韩胜延可能被立案审查",
+    "created_at": "2026-10-21T14:57:05.000Z"
+  },
+  {
+    "id": 72,
+    "person_name": "国办常务",
+    "original_position": "国办常务副主任（分管日常工作）",
+    "new_position": "升任湖南省委书记（湘1）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻：国办常务 → 湘1",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 73,
+    "person_name": "鄂2",
+    "original_position": "湖北省省长",
+    "new_position": "升任云南省委书记（云1）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻：鄂2 → 云1",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 74,
+    "person_name": "闽3",
+    "original_position": "福建省委专职副书记",
+    "new_position": "升任天津市市长（津2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻：闽3 → 津2",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 75,
+    "person_name": "黑常务",
+    "original_position": "黑龙江省常务副省长",
+    "new_position": "升任河北省省长（冀2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻路线：黑常务 → 冀常务（河北省常务副省长） → 冀2（河北省长）",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 76,
+    "person_name": "武汉1",
+    "original_position": "武汉市委书记",
+    "new_position": "升任福建省省长（闽2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻路线：武汉1 → 鄂3（湖北省委专职副书记） → 闽2（福建省长）",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 77,
+    "person_name": "京常委副",
+    "original_position": "北京市委常委、常务副市长",
+    "new_position": "升任湖南省省长（湘2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻路线：京常委副 → 湘3（湖南省委专职副书记） → 湘2（湖南省长）",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 78,
+    "person_name": "赣3",
+    "original_position": "江西省委专职副书记",
+    "new_position": "升任江西省省长（赣2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻：赣3 → 赣2",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 79,
+    "person_name": "青3",
+    "original_position": "青海省委专职副书记",
+    "new_position": "升任云南省省长（云2）",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-20T16:00:00.000Z",
+    "remarks": "传闻：青3 → 云2",
+    "created_at": "2026-10-21T15:03:16.000Z"
+  },
+  {
+    "id": 66,
+    "person_name": "黄奇帆",
+    "original_position": "原重庆市市长",
+    "new_position": "落马传闻",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-12T16:00:00.000Z",
+    "remarks": "网传黄奇帆可能被立案调查",
+    "created_at": "2026-10-13T05:58:34.000Z"
+  },
+  {
+    "id": 65,
+    "person_name": "王忠林",
+    "original_position": "湖北省委书记",
+    "new_position": "落马传闻",
+    "status": "传闻",
+    "credibility": "高",
+    "date": "2026-10-11T16:00:00.000Z",
+    "remarks": "网传王忠林可能于10月12日前被立案调查",
+    "created_at": "2026-10-12T04:55:15.000Z"
+  },
+  {
+    "id": 64,
+    "person_name": "王刚",
+    "original_position": "交通运输部副部长",
+    "new_position": "石家庄市委书记",
+    "status": "传闻",
+    "credibility": "中",
+    "date": "2026-10-08T16:00:00.000Z",
+    "remarks": "传闻中",
+    "created_at": "2026-10-09T15:29:53.000Z"
   },
   {
     "id": 62,
@@ -715,17 +825,6 @@
     "created_at": "2026-05-26T11:38:34.000Z"
   },
   {
-    "id": 1,
-    "person_name": "郑栅洁",
-    "original_position": "发改委主任",
-    "new_position": "政治局/超龄服役",
-    "status": "传闻",
-    "credibility": "中",
-    "date": "2026-05-17T16:00:00.000Z",
-    "remarks": "闽江旧部",
-    "created_at": "2026-05-26T11:38:34.000Z"
-  },
-  {
     "id": 6,
     "person_name": "王波",
     "original_position": "山东省委副书记",
@@ -746,5 +845,16 @@
     "date": "2026-01-29T16:00:00.000Z",
     "remarks": "已官宣",
     "created_at": "2026-05-23T04:52:14.000Z"
+  },
+  {
+    "id": 63,
+    "person_name": "Spain VS Argentina",
+    "original_position": "NULL",
+    "new_position": "NULL",
+    "status": "NULL",
+    "credibility": "NULL",
+    "date": "1899-11-29T15:54:17.000Z",
+    "remarks": "NULL",
+    "created_at": "2026-07-19T09:12:37.000Z"
   }
 ]

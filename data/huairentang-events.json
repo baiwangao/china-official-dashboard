@@ -1,29 +1,17 @@
 [
   {
-    "id": 30,
-    "date": "2026-07-19",
-    "title": "管理员测试录入",
+    "id": 29,
+    "date": "2026-10-09",
+    "title": "测试录入事件",
     "summary": "测试摘要",
-    "officials": [],
-    "source": "手动录入",
+    "officials": [
+      "测试人物"
+    ],
+    "source": "手动测试",
     "url": "",
     "type": "人事动向",
     "impact": "中",
-    "createdAt": "2026-07-22T02:01:19.000Z"
-  },
-  {
-    "id": 29,
-    "date": "2026-07-19",
-    "title": "谭权已担任重庆市领导",
-    "summary": "官宣就任",
-    "officials": [
-      "人事动向"
-    ],
-    "source": "中国新闻社",
-    "url": "https://zhongyangdangxiao.com",
-    "type": "人事动向",
-    "impact": "高",
-    "createdAt": "2026-07-19T10:02:00.000Z"
+    "createdAt": "2026-10-09T15:29:52.000Z"
   },
   {
     "id": 28,
@@ -420,22 +408,6 @@
     "source": "怀仁堂日报",
     "url": "https://t.me/huairentang",
     "type": "外事活动",
-    "impact": "中",
-    "createdAt": "2026-05-26T12:20:17.000Z"
-  },
-  {
-    "id": 1,
-    "date": "2026-05-18",
-    "title": "李显龙访华行程落实：访广西会陈刚、访上海会龚正；普京明日访华；柳州连发两次5.2级地震",
-    "summary": "新加坡有意接触中国新一代地方领导人。广西陈刚会见李显龙、上海龚正会见。",
-    "officials": [
-      "陈刚",
-      "龚正",
-      "李显龙"
-    ],
-    "source": "怀仁堂日报",
-    "url": "https://t.me/huairentang",
-    "type": "人事动向",
     "impact": "中",
     "createdAt": "2026-05-26T12:20:17.000Z"
   }

@@ -166,7 +166,7 @@ function addSpark(cx, cy, delay, opts) {
   const dist = rand(opts.minDist || 50, opts.maxDist || 260);
   const dur = rand(0.6, 1.6);
   const colors = ['#d4af37', '#ffd966', '#e23d3d', '#1fa971', '#f0d78c', '#ff9b9b', '#8dffc4', '#ff6b35', '#ffe08a', '#5be0a5'];
-  el = document.createElement('div');
+  let el = document.createElement('div');
   el.className = 'fireworks-spark';
   el.style.cssText = [
     'left:' + cx + 'px', 'top:' + cy + 'px',
